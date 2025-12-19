@@ -206,21 +206,21 @@ app.get('/config', (req, res) => {
   res.json({ GOOGLE_CLIENT_ID: googleClientId, MAIL_PROVIDER: mailProvider, GMAIL_READY: gmailReady });
 });
 
+// Endpoint para inicializar banco de dados (criar tabelas)
+app.post('/api/init-db', async (req, res) => {
+  try {
+    const { initializeDatabase } = require('./init-db');
+    const result = await initializeDatabase();
+    res.json({ success: true, message: 'Banco de dados inicializado' });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
+  }
+});
+
 // Apenas inicia o listener se executado diretamente
 if (require.main === module) {
-  // Inicializar banco de dados antes de escutar
-  const { initializeDatabase } = require('./init-db');
-  
-  initializeDatabase().then(() => {
-    app.listen(PORT, () => {
-      console.log(`Servidor rodando em http://localhost:${PORT}`);
-    });
-  }).catch(err => {
-    console.error('Erro ao inicializar banco:', err);
-    // Continuar mesmo com erro no banco
-    app.listen(PORT, () => {
-      console.log(`Servidor rodando em http://localhost:${PORT} (com aviso de banco)`);
-    });
+  app.listen(PORT, () => {
+    console.log(`Servidor rodando em http://localhost:${PORT}`);
   });
 }
 
