@@ -129,7 +129,6 @@ app.use('/imagens', express.static(path.join(__dirname, '..', 'imagens')));
 const orcamentoRoutes = require('./routes/orcamentos');
 const ordensRoutes = require('./routes/ordens_servico');
 const estoqueRoutes = require('./routes/estoque');
-const schemaAdminRoutes = require('./routes/schema');
 const { errorHandler } = require('./middleware/errorHandler');
 const pool = require('./services/db');
 const emailer = require('./services/email');
@@ -140,7 +139,6 @@ const emailRoutes = require('./routes/email');
 app.use('/orcamentos', orcamentoRoutes);
 app.use('/ordens_servico', ordensRoutes);
 app.use('/estoque', estoqueRoutes);
-app.use('/admin', schemaAdminRoutes);
 // clientes
 const clientesRoutes = require('./routes/clientes');
 app.use('/clientes', clientesRoutes);
