@@ -6,11 +6,10 @@ const fetch = require('node-fetch');
 // Simple admin login using env credentials
 router.post('/login', (req, res) => {
   const { username, password } = req.body;
-  const ADMIN_USER = process.env.ADMIN_USER || 'admin';
-  const ADMIN_PASS = process.env.ADMIN_PASS || 'admin';
+  const ADMIN_USER = process.env.ADMIN_USER || 'marciel';
+  const ADMIN_PASS = process.env.ADMIN_PASS || '142514';
 
-  console.log('[AUTH] Login attempt:', { username, sentPassword: password ? '*'.repeat(password.length) : 'none' });
-  console.log('[AUTH] Expected:', { ADMIN_USER, ADMIN_PASS: ADMIN_PASS ? '*'.repeat(ADMIN_PASS.length) : 'none' });
+  console.log('[AUTH] Login attempt:', { username, hasPassword: Boolean(password) });
 
   if (username === ADMIN_USER && password === ADMIN_PASS) {
     console.log('[AUTH] ✅ Login successful for', username);
@@ -18,7 +17,7 @@ router.post('/login', (req, res) => {
     return res.json({ token });
   }
 
-  console.log('[AUTH] ❌ Login failed - invalid credentials');
+  console.log('[AUTH] ❌ Login failed for', username);
   res.status(401).json({ error: 'Credenciais inválidas' });
 });
 
