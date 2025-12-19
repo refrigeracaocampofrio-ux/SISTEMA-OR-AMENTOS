@@ -12,3 +12,7 @@ dist/
 .vscode
 .vercel
 .env*.local
+
+arquivos/password.txt
+arquivos/host.txt
+arquivos/user.txt
