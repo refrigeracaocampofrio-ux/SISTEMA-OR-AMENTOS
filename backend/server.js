@@ -54,8 +54,8 @@ if (provider === 'resend' || provider === 'sendgrid' || provider === 'console' |
   // Apenas 'from' é crítico para subir; chaves de API avisamos e seguimos
   const fromOk = checkEnvVars([['EMAIL_FROM', 'SMTP_FROM']]);
   if (!fromOk) {
-    console.error('Corrija o arquivo backend/.env (EMAIL_FROM/SMTP_FROM) antes de iniciar o servidor.');
-    process.exit(1);
+    console.warn('EMAIL_FROM/SMTP_FROM ausente. Usando padrão noreply@sistema-orcamento.local');
+    process.env.EMAIL_FROM = process.env.EMAIL_FROM || process.env.SMTP_FROM || 'noreply@sistema-orcamento.local';
   }
   if (provider === 'resend' && (!process.env.RESEND_API_KEY || process.env.RESEND_API_KEY === '')) {
     console.warn('RESEND_API_KEY ausente. Envio de e-mail via Resend falhará até definir a chave.');
@@ -129,6 +129,7 @@ app.use('/imagens', express.static(path.join(__dirname, '..', 'imagens')));
 const orcamentoRoutes = require('./routes/orcamentos');
 const ordensRoutes = require('./routes/ordens_servico');
 const estoqueRoutes = require('./routes/estoque');
+const schemaAdminRoutes = require('./routes/schema');
 const { errorHandler } = require('./middleware/errorHandler');
 const pool = require('./services/db');
 const emailer = require('./services/email');
@@ -139,6 +140,7 @@ const emailRoutes = require('./routes/email');
 app.use('/orcamentos', orcamentoRoutes);
 app.use('/ordens_servico', ordensRoutes);
 app.use('/estoque', estoqueRoutes);
+app.use('/admin', schemaAdminRoutes);
 // clientes
 const clientesRoutes = require('./routes/clientes');
 app.use('/clientes', clientesRoutes);
@@ -204,16 +206,6 @@ app.get('/config', (req, res) => {
     process.env.GMAIL_CLIENT_ID && process.env.GMAIL_CLIENT_SECRET && (process.env.GMAIL_REDIRECT_URI || true),
   );
   res.json({ GOOGLE_CLIENT_ID: googleClientId, MAIL_PROVIDER: mailProvider, GMAIL_READY: gmailReady });
-});
-
-// Endpoint para inicializar banco de dados (criar tabelas)
-app.post('/api/init-db', async (req, res) => {
-  try {
-    const result = await initializeDatabase();
-    res.json({ success: true, message: 'Banco de dados inicializado' });
-  } catch (error) {
-    res.status(500).json({ success: false, error: error.message });
-  }
 });
 
 // Apenas inicia o listener se executado diretamente
