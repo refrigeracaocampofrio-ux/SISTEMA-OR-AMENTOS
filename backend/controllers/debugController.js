@@ -2,6 +2,11 @@ const emailer = require('../services/email');
 
 function envInfo(req, res) {
   const env = process.env;
+  const allDbKeys = Object.keys(env).filter(k => k.startsWith('DB_') || k === 'DB_NAME' || k === 'DB_PASS');
+  const snapshot = {};
+  for (const k of allDbKeys) {
+    snapshot[k] = env[k];
+  }
   res.json({
     DB_HOST: env.DB_HOST || null,
     DB_USER: env.DB_USER || null,
@@ -9,6 +14,7 @@ function envInfo(req, res) {
     DB_PORT: env.DB_PORT || null,
     has_DB_PASSWORD: Boolean(env.DB_PASSWORD || env.DB_PASS),
     NODE_ENV: env.NODE_ENV || null,
+    snapshot,
   });
 }
 
