@@ -10,3 +10,5 @@ coverage/
 dist/
 /.idea
 .vscode
+.vercel
+.env*.local
