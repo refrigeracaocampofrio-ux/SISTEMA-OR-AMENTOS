@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Agendamento – Escolha o Horário</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    :root { --primary:#3498db; --dark-bg:#0f0f1e; --dark-card:#16213e; --dark-sidebar:#1a1a2e; }
+    body { background: var(--dark-bg); color:#e0e0e0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+    .navbar-top{background:#1a1a2e; padding:12px 18px; border-bottom:1px solid rgba(52,152,219,0.3); display:flex; align-items:center; }
+    .navbar-top img{ height:40px; margin-right:12px; }
+    .container-box{ max-width:900px; margin:24px auto; background:var(--dark-card); border:1px solid rgba(52,152,219,0.2); border-radius:8px; }
+    .box-header{ padding:18px; border-bottom:1px solid rgba(52,152,219,0.2); }
+    .box-body{ padding:18px; }
+    .horarios{ display:grid; grid-template-columns:repeat(auto-fit, minmax(150px,1fr)); gap:12px; }
+    .card-h{ border:1px solid rgba(52,152,219,0.3); border-radius:6px; background:var(--dark-bg); color:#e0e0e0; padding:14px; text-align:center; cursor:pointer; }
+    .card-h:hover{ border-color:var(--primary); transform: translateY(-2px); }
+    .card-h.selected{ background:var(--primary); color:#fff; border-color:var(--primary); }
+    .actions{ display:flex; justify-content:space-between; margin-top:16px; }
+  </style>
+</head>
+<body>
+  <nav class="navbar navbar-dark py-2 px-3 border-bottom" style="background: var(--dark-sidebar); border-bottom: 1px solid rgba(52, 152, 219, 0.3) !important;">
+    <div class="container-fluid">
+      <div class="d-flex align-items-center">
+        <img src="/imagens/logo-rcf.png" alt="RCF Logo" style="height: 50px; margin-right: 15px; object-fit: contain;" onerror="this.onerror=null; this.src='/imagens/logo-rcf.svg';">
+        <div>
+          <span class="navbar-brand mb-0 h1 fw-bold" style="color: #ffffff; margin: 0;">Refrigeração Campo Frio</span>
+          <span class="navbar-text d-none d-sm-block ms-3" style="font-size: 11px; color: #ffffff !important;">Created by Marciel</span>
+        </div>
+      </div>
+    </div>
+  </nav>
+  <div class="container-box">
+    <div class="box-header"><h4 class="m-0">Escolha um Horário</h4></div>
+    <div class="box-body">
+      <div id="infoData" class="alert alert-info"></div>
+      <div id="loading" class="text-center" style="display:none;">
+        <div class="spinner-border text-primary"></div>
+        <p class="mt-2">Carregando horários...</p>
+      </div>
+      <div id="horarios" class="horarios"></div>
+      <div class="actions">
+        <a class="btn btn-secondary" href="/agendamento-data.html">Voltar</a>
+        <button id="btnContinuar" class="btn btn-primary" disabled>Continuar</button>
+      </div>
+    </div>
+  </div>
+  <script>
+    const k='agendamentoDraft';
+    function getDraft(){ return JSON.parse(localStorage.getItem(k) || '{}'); }
+    function saveDraft(part){ const cur=getDraft(); localStorage.setItem(k, JSON.stringify(Object.assign(cur, part))); }
+    const draft = getDraft();
+    if(!draft.data_agendamento){ window.location.href='/agendamento-data.html'; }
+    document.getElementById('infoData').innerHTML = `<strong>Data selecionada:</strong> ${new Date(draft.data_agendamento+'T00:00:00').toLocaleDateString('pt-BR')}`;
+
+    async function carregar(){
+      document.getElementById('loading').style.display='block';
+      const cont = document.getElementById('horarios'); cont.innerHTML='';
+      const res = await fetch(`/agendamentos/horarios-disponiveis/${draft.data_agendamento}`);
+      const horarios = await res.json();
+      document.getElementById('loading').style.display='none';
+      if(!Array.isArray(horarios) || horarios.length===0){ cont.innerHTML = '<div class="alert alert-warning">Nenhum horário disponível para esta data.</div>'; return; }
+      horarios.forEach(h=>{
+        const div = document.createElement('div'); div.className='card-h'; div.innerHTML = `<strong>${h.inicio}</strong> - ${h.fim}`;
+        div.onclick = ()=>{ document.querySelectorAll('.card-h.selected').forEach(el=>el.classList.remove('selected')); div.classList.add('selected'); saveDraft({horario_inicio:h.inicio, horario_fim:h.fim}); document.getElementById('btnContinuar').disabled=false; };
+        cont.appendChild(div);
+      });
+    }
+
+    document.getElementById('btnContinuar').onclick = ()=>{ window.location.href='/agendamento-dados.html'; };
+    carregar();
+  </script>
+</body>
+</html>

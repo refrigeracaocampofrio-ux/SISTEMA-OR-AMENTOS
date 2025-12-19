@@ -1,0 +1,49 @@
+{
+  "name": "sistema-orcamento",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node backend/server.js",
+    "start:log": "node scripts/start-and-log.js",
+    "dev": "nodemon backend/server.js",
+    "test": "node backend/scripts/clear_test_data.js && mocha --exit test/**/*.test.js",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier . --write",
+    "format:check": "prettier . --check",
+    "fix:code": "node scripts/code-fix.js",
+    "fix:text": "node scripts/text-review.js",
+    "report:code": "node scripts/analyze-report.js",
+    "report:text": "node scripts/text-review.js --explain --report reports/text-review.md",
+    "report:all": "npm run report:code && npm run report:text"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.3",
+    "express": "^5.2.1",
+    "googleapis": "^118.0.0",
+    "jsonwebtoken": "^9.0.3",
+    "mysql2": "^3.16.0",
+    "node-fetch": "^2.6.7",
+    "nodemailer": "^7.0.11",
+    "pdfkit": "^0.17.2"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.9.0",
+    "chai": "^4.3.7",
+    "chokidar": "^3.6.0",
+    "eslint": "^9.39.2",
+    "eslint-config-prettier": "^9.1.0",
+    "globals": "^15.12.0",
+    "mocha": "^10.2.0",
+    "nodemon": "^3.0.1",
+    "prettier": "^3.3.3",
+    "supertest": "^6.3.3"
+  }
+}

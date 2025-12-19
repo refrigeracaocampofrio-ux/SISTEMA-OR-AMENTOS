@@ -1,0 +1,608 @@
+[
+  {
+    "filePath": "C:\\Users\\marciel\\Desktop\\sistema-orcamento\\backend\\config\\checkEnv.js",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "C:\\Users\\marciel\\Desktop\\sistema-orcamento\\backend\\config\\db.js",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "C:\\Users\\marciel\\Desktop\\sistema-orcamento\\backend\\controllers\\authClientController.js",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "C:\\Users\\marciel\\Desktop\\sistema-orcamento\\backend\\controllers\\clientesController.js",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "C:\\Users\\marciel\\Desktop\\sistema-orcamento\\backend\\controllers\\debugController.js",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "C:\\Users\\marciel\\Desktop\\sistema-orcamento\\backend\\controllers\\estoqueController.js",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "C:\\Users\\marciel\\Desktop\\sistema-orcamento\\backend\\controllers\\orcamentosController.js",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "C:\\Users\\marciel\\Desktop\\sistema-orcamento\\backend\\controllers\\ordensController.js",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "C:\\Users\\marciel\\Desktop\\sistema-orcamento\\backend\\middleware\\auth.js",
+    "messages": [
+      {
+        "ruleId": "no-unused-vars",
+        "severity": 1,
+        "message": "'err' is defined but never used.",
+        "line": 14,
+        "column": 12,
+        "nodeType": "Identifier",
+        "messageId": "unusedVar",
+        "endLine": 14,
+        "endColumn": 15
+      }
+    ],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 1,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "source": "const authService = require('../services/auth');\n\nfunction requireAuth(req, res, next) {\n  const header = req.headers.authorization || req.headers.Authorization;\n  if (!header) {\n    return res.status(401).json({ error: 'Token não fornecido' });\n  }\n  const parts = header.split(' ');\n  const token = parts.length === 2 ? parts[1] : parts[0];\n  try {\n    const payload = authService.verify(token);\n    req.user = payload;\n    next();\n  } catch (err) {\n    return res.status(401).json({ error: 'Token inválido' });\n  }\n}\n\nmodule.exports = { requireAuth };\n",
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "C:\\Users\\marciel\\Desktop\\sistema-orcamento\\backend\\middleware\\errorHandler.js",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "C:\\Users\\marciel\\Desktop\\sistema-orcamento\\backend\\middleware\\validation.js",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "C:\\Users\\marciel\\Desktop\\sistema-orcamento\\backend\\models\\clientes.js",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "C:\\Users\\marciel\\Desktop\\sistema-orcamento\\backend\\models\\estoque.js",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "C:\\Users\\marciel\\Desktop\\sistema-orcamento\\backend\\models\\movimentacaoEstoque.js",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "C:\\Users\\marciel\\Desktop\\sistema-orcamento\\backend\\models\\orcamentoItens.js",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "C:\\Users\\marciel\\Desktop\\sistema-orcamento\\backend\\models\\orcamentos.js",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "C:\\Users\\marciel\\Desktop\\sistema-orcamento\\backend\\models\\ordens.js",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "C:\\Users\\marciel\\Desktop\\sistema-orcamento\\backend\\routes\\auth.js",
+    "messages": [
+      {
+        "ruleId": "no-unused-vars",
+        "severity": 1,
+        "message": "'err' is defined but never used.",
+        "line": 43,
+        "column": 12,
+        "nodeType": "Identifier",
+        "messageId": "unusedVar",
+        "endLine": 43,
+        "endColumn": 15
+      }
+    ],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 1,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "source": "const express = require('express');\nconst router = express.Router();\nconst authService = require('../services/auth');\nconst fetch = require('node-fetch');\n\n// Simple admin login using env credentials\nrouter.post('/login', (req, res) => {\n  const { username, password } = req.body;\n  const ADMIN_USER = process.env.ADMIN_USER || 'admin';\n  const ADMIN_PASS = process.env.ADMIN_PASS || 'admin';\n  if (username === ADMIN_USER && password === ADMIN_PASS) {\n    const token = authService.sign({ username });\n    return res.json({ token });\n  }\n  res.status(401).json({ error: 'Credenciais inválidas' });\n});\n\n// Verify Google ID token endpoint\nrouter.post('/google', async (req, res) => {\n  try {\n    const { id_token } = req.body;\n    if (!id_token) {\n      return res.status(400).json({ error: 'id_token é obrigatório' });\n    }\n    const r = await fetch(\n      `https://oauth2.googleapis.com/tokeninfo?id_token=${encodeURIComponent(id_token)}`,\n    );\n    if (!r.ok) {\n      return res.status(401).json({ error: 'Token inválido' });\n    }\n    const info = await r.json();\n    const expected = process.env.GOOGLE_CLIENT_ID;\n    if (expected && info.aud !== expected) {\n      return res.status(401).json({ error: 'Audience inválido' });\n    }\n    const token = authService.sign({\n      sub: info.sub,\n      email: info.email,\n      name: info.name,\n      provider: 'google',\n    });\n    res.json({ token, user: { email: info.email, name: info.name } });\n  } catch (err) {\n    res.status(500).json({ error: 'Erro ao verificar token Google' });\n  }\n});\n\nmodule.exports = router;\n",
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "C:\\Users\\marciel\\Desktop\\sistema-orcamento\\backend\\routes\\authClient.js",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "C:\\Users\\marciel\\Desktop\\sistema-orcamento\\backend\\routes\\clientes.js",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "C:\\Users\\marciel\\Desktop\\sistema-orcamento\\backend\\routes\\debug.js",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "C:\\Users\\marciel\\Desktop\\sistema-orcamento\\backend\\routes\\estoque.js",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "C:\\Users\\marciel\\Desktop\\sistema-orcamento\\backend\\routes\\orcamentos.js",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "C:\\Users\\marciel\\Desktop\\sistema-orcamento\\backend\\routes\\ordens_servico.js",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "C:\\Users\\marciel\\Desktop\\sistema-orcamento\\backend\\scripts\\add_password_column.js",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "C:\\Users\\marciel\\Desktop\\sistema-orcamento\\backend\\scripts\\clear_test_data.js",
+    "messages": [
+      {
+        "ruleId": "no-unused-vars",
+        "severity": 1,
+        "message": "'e' is defined but never used.",
+        "line": 42,
+        "column": 16,
+        "nodeType": "Identifier",
+        "messageId": "unusedVar",
+        "endLine": 42,
+        "endColumn": 17
+      },
+      {
+        "ruleId": "no-unused-vars",
+        "severity": 1,
+        "message": "'e' is defined but never used.",
+        "line": 45,
+        "column": 16,
+        "nodeType": "Identifier",
+        "messageId": "unusedVar",
+        "endLine": 45,
+        "endColumn": 17
+      }
+    ],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 2,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "source": "const mysql = require('mysql2/promise');\nrequire('dotenv').config();\n\nasync function truncateWithConnection(conn) {\n  console.log(\n    'Limpando tabelas de teste (orcamento_itens, orcamentos, clientes, movimentacao_estoque, ordens_servico)...',\n  );\n  await conn.query('SET FOREIGN_KEY_CHECKS=0');\n  await conn.query('TRUNCATE TABLE orcamento_itens');\n  await conn.query('TRUNCATE TABLE orcamentos');\n  await conn.query('TRUNCATE TABLE ordens_servico');\n  await conn.query('TRUNCATE TABLE movimentacao_estoque');\n  await conn.query('TRUNCATE TABLE estoque');\n  await conn.query('TRUNCATE TABLE clientes');\n  await conn.query('SET FOREIGN_KEY_CHECKS=1');\n  console.log('Tabelas truncadas.');\n}\n\nasync function run() {\n  const dbHost = process.env.DB_HOST || 'localhost';\n  const dbName = process.env.DB_NAME || 'sistema_orcamento';\n  const appUser = process.env.DB_USER || process.env.USER || 'marciel';\n  const appPass = process.env.DB_PASS || process.env.DB_PASSWORD || '142514';\n\n  // Attempt only with application credentials (no root fallback for safety)\n  try {\n    const pool = await mysql.createPool({\n      host: dbHost,\n      user: appUser,\n      password: appPass,\n      database: dbName,\n    });\n    const conn = await pool.getConnection();\n    try {\n      await truncateWithConnection(conn);\n      conn.release();\n      await pool.end();\n      return;\n    } finally {\n      try {\n        conn.release();\n      } catch (e) {}\n      try {\n        await pool.end();\n      } catch (e) {}\n    }\n  } catch (err) {\n    console.error(\n      'Falha ao conectar com usuário da app; atualize `.env` com credenciais válidas:',\n      err.message,\n    );\n    process.exitCode = 1;\n    return;\n  }\n}\n\nif (require.main === module) {\n  run();\n}\n\nmodule.exports = run;\n",
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "C:\\Users\\marciel\\Desktop\\sistema-orcamento\\backend\\scripts\\create_and_init_db.js",
+    "messages": [
+      {
+        "ruleId": "no-unused-vars",
+        "severity": 1,
+        "message": "'createUserSql' is assigned a value but never used. Allowed unused vars must match /^_/u.",
+        "line": 35,
+        "column": 11,
+        "nodeType": "Identifier",
+        "messageId": "unusedVar",
+        "endLine": 35,
+        "endColumn": 24,
+        "suggestions": [
+          {
+            "messageId": "removeVar",
+            "data": {
+              "varName": "createUserSql"
+            },
+            "fix": {
+              "range": [
+                1111,
+                1300
+              ],
+              "text": ""
+            },
+            "desc": "Remove unused variable 'createUserSql'."
+          }
+        ]
+      }
+    ],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 1,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "source": "const fs = require('fs');\nconst path = require('path');\nconst mysql = require('mysql2/promise');\nrequire('dotenv').config();\n\nasync function run() {\n  const rootUser = process.env.ROOT_DB_USER || process.env.DB_ROOT_USER || 'root';\n  const rootPass =\n    process.env.ROOT_DB_PASS || process.env.DB_ROOT_PASS || process.env.MYSQL_ROOT_PASSWORD;\n  if (!rootPass) {\n    console.error(\n      'Root DB password not provided in ROOT_DB_PASS or DB_ROOT_PASS or MYSQL_ROOT_PASSWORD',\n    );\n    process.exit(1);\n  }\n\n  const sqlPath = path.join(__dirname, '..', '..', 'database', 'schema.sql');\n  const sql = fs.readFileSync(sqlPath, 'utf8');\n\n  const conn = await mysql.createConnection({\n    host: process.env.DB_HOST || 'localhost',\n    user: rootUser,\n    password: rootPass,\n    multipleStatements: true,\n  });\n\n  try {\n    console.log('Conectado como root, aplicando schema...');\n    await conn.query(sql);\n    console.log('Schema aplicado com sucesso.');\n\n    // ensure user exists and has privileges\n    const appUser = process.env.DB_USER || 'marciel';\n    const appPass = process.env.DB_PASS || '142514';\n    const createUserSql = `CREATE USER IF NOT EXISTS ?@'localhost' IDENTIFIED BY ?; GRANT ALL PRIVILEGES ON ${process.env.DB_NAME || 'sistema_orcamento'}.* TO ?@'localhost'; FLUSH PRIVILEGES;`;\n    // mysql2 does not allow placeholders for identifiers in CREATE USER; use manual escaping\n    await conn\n      .query(`CREATE USER IF NOT EXISTS '${appUser}'@'localhost' IDENTIFIED BY '${appPass}';`)\n      .catch(() => {});\n    await conn.query(\n      `GRANT ALL PRIVILEGES ON ${process.env.DB_NAME || 'sistema_orcamento'}.* TO '${appUser}'@'localhost';`,\n    );\n    await conn.query('FLUSH PRIVILEGES;');\n    console.log(`Usuário ${appUser}@localhost criado/garantido.`);\n  } catch (err) {\n    console.error('Erro ao aplicar schema/criar usuário:', err.message);\n    process.exitCode = 1;\n  } finally {\n    await conn.end();\n  }\n}\n\nif (require.main === module) {\n  run();\n}\n\nmodule.exports = run;\n",
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "C:\\Users\\marciel\\Desktop\\sistema-orcamento\\backend\\scripts\\get_gmail_oauth.js",
+    "messages": [
+      {
+        "ruleId": "no-unused-vars",
+        "severity": 1,
+        "message": "'e' is defined but never used.",
+        "line": 27,
+        "column": 12,
+        "nodeType": "Identifier",
+        "messageId": "unusedVar",
+        "endLine": 27,
+        "endColumn": 13
+      }
+    ],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 1,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "source": "const fs = require('fs');\nconst path = require('path');\nconst express = require('express');\nconst open = require('child_process').exec;\nconst readline = require('readline');\nconst { google } = require('googleapis');\nrequire('dotenv').config();\n\nconst PORT = 4000;\nconst REDIRECT_URI = `http://localhost:${PORT}/oauth2callback`;\n\nfunction ask(question) {\n  const rl = readline.createInterface({ input: process.stdin, output: process.stdout });\n  return new Promise((resolve) =>\n    rl.question(question, (ans) => {\n      rl.close();\n      resolve(ans.trim());\n    }),\n  );\n}\n\nasync function writeEnv(updates) {\n  const envPath = path.join(process.cwd(), '.env');\n  let content = '';\n  try {\n    content = fs.readFileSync(envPath, 'utf8');\n  } catch (e) {\n    content = '';\n  }\n  const lines = content.split(/\\r?\\n/).filter(Boolean);\n  const map = {};\n  for (const l of lines) {\n    const idx = l.indexOf('=');\n    if (idx === -1) {\n      continue;\n    }\n    map[l.slice(0, idx)] = l.slice(idx + 1);\n  }\n  Object.assign(map, updates);\n  const out = Object.keys(map).map((k) => `${k}=${map[k]}`);\n  fs.writeFileSync(envPath, out.join('\\n') + '\\n', 'utf8');\n  console.log('.env atualizado com as credenciais GMAIL_*.');\n}\n\nasync function openUrl(url) {\n  const platform = process.platform;\n  if (platform === 'win32') {\n    open(`start \"\" \"${url}\"`);\n  } else if (platform === 'darwin') {\n    open(`open \"${url}\"`);\n  } else {\n    open(`xdg-open \"${url}\"`);\n  }\n}\n\nasync function main() {\n  let clientId = process.env.GMAIL_CLIENT_ID || '';\n  let clientSecret = process.env.GMAIL_CLIENT_SECRET || '';\n\n  if (!clientId) {\n    clientId = await ask('GMAIL_CLIENT_ID: ');\n  }\n  if (!clientSecret) {\n    clientSecret = await ask('GMAIL_CLIENT_SECRET: ');\n  }\n\n  const oAuth2Client = new google.auth.OAuth2(clientId, clientSecret, REDIRECT_URI);\n\n  const authUrl = oAuth2Client.generateAuthUrl({\n    access_type: 'offline',\n    scope: [\n      'https://www.googleapis.com/auth/gmail.send',\n      'https://www.googleapis.com/auth/userinfo.email',\n    ],\n    prompt: 'consent',\n  });\n\n  const app = express();\n\n  const server = app.listen(PORT, () => {\n    console.log(`Aguardando callback em ${REDIRECT_URI} ... abrindo navegador...`);\n    openUrl(authUrl);\n  });\n\n  app.get('/oauth2callback', async (req, res) => {\n    const code = req.query.code;\n    if (!code) {\n      res.send('Nenhum código recebido.');\n      return;\n    }\n    try {\n      const { tokens } = await oAuth2Client.getToken(code);\n      oAuth2Client.setCredentials(tokens);\n      // pega e-mail do usuário\n      const oauth2 = google.oauth2({ auth: oAuth2Client, version: 'v2' });\n      const info = await oauth2.userinfo.get();\n      const email = info.data.email;\n\n      await writeEnv({\n        GMAIL_USER_EMAIL: email,\n        GMAIL_CLIENT_ID: clientId,\n        GMAIL_CLIENT_SECRET: clientSecret,\n        GMAIL_REFRESH_TOKEN: tokens.refresh_token || tokens.access_token,\n      });\n\n      res.send('Autorização recebida. Pode fechar esta janela.');\n      console.log('Tokens recebidos e .env atualizado.');\n    } catch (err) {\n      console.error('Erro ao trocar código por token:', err.message);\n      res.status(500).send('Erro ao obter token. Veja o terminal.');\n    } finally {\n      setTimeout(() => server.close(), 1000);\n    }\n  });\n}\n\nif (require.main === module) {\n  main();\n}\n\nmodule.exports = main;\n",
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "C:\\Users\\marciel\\Desktop\\sistema-orcamento\\backend\\scripts\\init_db.js",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "C:\\Users\\marciel\\Desktop\\sistema-orcamento\\backend\\scripts\\list_routes.js",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "C:\\Users\\marciel\\Desktop\\sistema-orcamento\\backend\\scripts\\send_test_email.js",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "C:\\Users\\marciel\\Desktop\\sistema-orcamento\\backend\\server.js",
+    "messages": [
+      {
+        "ruleId": "no-unused-vars",
+        "severity": 1,
+        "message": "'err' is defined but never used.",
+        "line": 68,
+        "column": 12,
+        "nodeType": "Identifier",
+        "messageId": "unusedVar",
+        "endLine": 68,
+        "endColumn": 15
+      }
+    ],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 1,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "source": "const express = require('express');\nconst cors = require('cors');\nrequire('dotenv').config();\nconst path = require('path');\nconst { checkEnvVars } = require('./config/checkEnv');\n\n// Verifica .env e variáveis obrigatórias de e-mail\nconst requiredEmailVars = ['EMAIL_USER', 'EMAIL_PASS', 'EMAIL_FROM'];\nif (!checkEnvVars(requiredEmailVars)) {\n  console.error('Corrija o arquivo backend/.env antes de iniciar o servidor.');\n  process.exit(1);\n}\n\nconst app = express();\nconst PORT = process.env.PORT || 3000;\n\napp.use(cors());\napp.use(express.json());\n\n// Servir frontend estático\napp.use(express.static(path.join(__dirname, '..', 'frontend')));\n\n// Rotas\nconst orcamentoRoutes = require('./routes/orcamentos');\nconst ordensRoutes = require('./routes/ordens_servico');\nconst estoqueRoutes = require('./routes/estoque');\nconst { errorHandler } = require('./middleware/errorHandler');\nconst pool = require('./services/db');\nconst emailer = require('./services/email');\n// debug/test routes\nconst debugRoutes = require('./routes/debug');\n\napp.use('/orcamentos', orcamentoRoutes);\napp.use('/ordens_servico', ordensRoutes);\napp.use('/estoque', estoqueRoutes);\n// clientes\nconst clientesRoutes = require('./routes/clientes');\napp.use('/clientes', clientesRoutes);\n// auth\nconst authRoutes = require('./routes/auth');\napp.use('/auth', authRoutes);\n\n// client auth (register/login)\nconst authClientRoutes = require('./routes/authClient');\napp.use('/auth/client', authClientRoutes);\n\n// debug\napp.use('/debug', debugRoutes);\n\n// middleware de erro (deve vir depois das rotas)\napp.use(errorHandler);\n\n// Startup checks (DB e SMTP)\nasync function startupChecks() {\n  try {\n    const conn = await pool.getConnection();\n    conn.release();\n    console.log('Conexão com o banco OK');\n  } catch (err) {\n    console.error('Erro ao conectar no banco:', err.message);\n  }\n\n  try {\n    if (emailer && emailer.transporter && typeof emailer.transporter.verify === 'function') {\n      await emailer.transporter.verify();\n      console.log('SMTP OK');\n    }\n  } catch (err) {\n    console.warn('Aviso: não foi possível verificar SMTP - verifique as credenciais.');\n  }\n}\n\nstartupChecks();\n\napp.get('/', (req, res) => {\n  res.sendFile(path.join(__dirname, '..', 'frontend', 'index.html'));\n});\n\n// endpoint de configuração para frontend (ex.: GOOGLE_CLIENT_ID)\napp.get('/config', (req, res) => {\n  res.json({ GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID || null });\n});\n\n// Apenas inicia o listener se executado diretamente\nif (require.main === module) {\n  app.listen(PORT, () => {\n    console.log(`Servidor rodando em http://localhost:${PORT}`);\n  });\n}\n\nmodule.exports = app;\n",
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "C:\\Users\\marciel\\Desktop\\sistema-orcamento\\backend\\services\\auth.js",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "C:\\Users\\marciel\\Desktop\\sistema-orcamento\\backend\\services\\db.js",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "C:\\Users\\marciel\\Desktop\\sistema-orcamento\\backend\\services\\email.js",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "C:\\Users\\marciel\\Desktop\\sistema-orcamento\\scripts\\analyze-report.js",
+    "messages": [
+      {
+        "ruleId": "no-unused-vars",
+        "severity": 1,
+        "message": "'e' is defined but never used.",
+        "line": 157,
+        "column": 12,
+        "nodeType": "Identifier",
+        "messageId": "unusedVar",
+        "endLine": 157,
+        "endColumn": 13
+      }
+    ],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 1,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "source": "#!/usr/bin/env node\n// Codebase analysis & report generator\n// - Runs ESLint with JSON formatter, writes reports/code-lint-report.json\n// - Produces a human-readable Markdown summary\n// - Scans for MySQL query risks and Nodemailer transport issues\n\nconst fs = require('fs');\nconst path = require('path');\nconst { spawn } = require('child_process');\n\nconst ROOT = process.cwd();\nconst REPORTS_DIR = path.join(ROOT, 'reports');\nconst CODE_JSON = path.join(REPORTS_DIR, 'code-lint-report.json');\nconst CODE_MD = path.join(REPORTS_DIR, 'code-lint-report.md');\n\nfunction ensureReportsDir() {\n  if (!fs.existsSync(REPORTS_DIR)) {\n    fs.mkdirSync(REPORTS_DIR, { recursive: true });\n  }\n}\n\nfunction run(cmd, args) {\n  return new Promise((resolve, reject) => {\n    const p = spawn(cmd, args, { shell: process.platform === 'win32' });\n    let out = '';\n    let err = '';\n    p.stdout.on('data', (d) => (out += d.toString()));\n    p.stderr.on('data', (d) => (err += d.toString()));\n    p.on('close', (code) => {\n      if (code === 0 || out) {\n        resolve({ code, out, err });\n      } else {\n        reject(new Error(err || `${cmd} exited with ${code}`));\n      }\n    });\n  });\n}\n\nfunction listFiles(dir) {\n  const entries = fs.readdirSync(dir, { withFileTypes: true });\n  const files = [];\n  for (const e of entries) {\n    if (e.name === 'node_modules' || e.name.startsWith('.')) {\n      continue;\n    }\n    const full = path.join(dir, e.name);\n    if (e.isDirectory()) {\n      files.push(...listFiles(full));\n    } else if (e.isFile() && e.name.endsWith('.js')) {\n      files.push(full);\n    }\n  }\n  return files;\n}\n\nfunction scanMysqlRisks(files) {\n  const findings = [];\n  const concatPattern = /(SELECT|INSERT|UPDATE|DELETE)[^;]*\\+\\s*\\w+/is; // naive string concat in SQL\n  const templateUnsafe = /`\\s*SELECT[^`]*\\$\\{[^}]+\\}[^`]*`/is; // template literal interpolation\n  const queryCall = /\\.query\\(/;\n  for (const f of files) {\n    const src = fs.readFileSync(f, 'utf8');\n    if (queryCall.test(src)) {\n      if (concatPattern.test(src)) {\n        findings.push({ file: f, issue: 'SQL string concatenation detected' });\n      }\n      if (templateUnsafe.test(src)) {\n        findings.push({ file: f, issue: 'Template literal interpolation in SQL' });\n      }\n      // Heuristic: encourage prepared statements via placeholders\n      const placeholders = /\\?\\s*[),]/;\n      if (!placeholders.test(src)) {\n        findings.push({ file: f, issue: 'No placeholders detected in SQL queries' });\n      }\n    }\n  }\n  return findings;\n}\n\nfunction scanNodemailer(files) {\n  const findings = [];\n  for (const f of files) {\n    const src = fs.readFileSync(f, 'utf8');\n    if (/nodemailer\\.createTransport\\(/.test(src)) {\n      const secureTrue = /secure:\\s*true/.test(src);\n      const port465 = /port:\\s*465/.test(src);\n      const port587 = /port:\\s*587/.test(src);\n      if (secureTrue && !port465) {\n        findings.push({ file: f, issue: 'secure: true without port 465' });\n      }\n      if (!secureTrue && port465) {\n        findings.push({ file: f, issue: 'port 465 but secure: false' });\n      }\n      if (port587 && secureTrue) {\n        findings.push({ file: f, issue: 'port 587 should typically use secure: false' });\n      }\n    }\n  }\n  return findings;\n}\n\nfunction checkEnv() {\n  const envPath = path.join(ROOT, 'backend', '.env');\n  if (!fs.existsSync(envPath)) {\n    return { exists: false };\n  }\n  const text = fs.readFileSync(envPath, 'utf8');\n  // Heuristic: flag presence of passwords/tokens (do not log values)\n  const keys = ['DB_PASS', 'SMTP_PASS', 'EMAIL_PASS', 'JWT_SECRET', 'OPENAI_API_KEY'];\n  const exposed = keys.filter((k) => new RegExp(`^${k}=.+`, 'm').test(text));\n  return { exists: true, exposedKeys: exposed };\n}\n\nfunction toMarkdown(eslintReport, mysqlFindings, mailFindings, envCheck) {\n  const totalFiles = eslintReport.length;\n  let errors = 0,\n    warnings = 0;\n  const details = [];\n  for (const file of eslintReport) {\n    errors += file.errorCount || 0;\n    warnings += file.warningCount || 0;\n    const msgs = (file.messages || []).map(\n      (m) => `- [${m.ruleId || 'internal'}] ${m.message} (${m.severity === 2 ? 'error' : 'warn'})`,\n    );\n    if (msgs.length) {\n      details.push(`### ${path.relative(ROOT, file.filePath)}\\n${msgs.join('\\n')}`);\n    }\n  }\n\n  const mysqlMd = mysqlFindings.length\n    ? `\\n## MySQL Findings\\n${mysqlFindings.map((f) => `- ${path.relative(ROOT, f.file)}: ${f.issue}`).join('\\n')}`\n    : '\\n## MySQL Findings\\n- No risky patterns detected';\n\n  const mailMd = mailFindings.length\n    ? `\\n## Nodemailer Findings\\n${mailFindings.map((f) => `- ${path.relative(ROOT, f.file)}: ${f.issue}`).join('\\n')}`\n    : '\\n## Nodemailer Findings\\n- No transport issues detected';\n\n  const envMd = envCheck.exists\n    ? `\\n## .env Check\\n- backend/.env present\\n- Potentially sensitive keys set: ${envCheck.exposedKeys.join(', ') || 'none'}`\n    : '\\n## .env Check\\n- backend/.env not found';\n\n  return `# Code Analysis Report\\n\\n**Files scanned:** ${totalFiles}  \n**ESLint errors:** ${errors}  \n**ESLint warnings:** ${warnings}\\n\\n## ESLint Details\\n${details.join('\\n\\n') || '- Clean'}${mysqlMd}${mailMd}${envMd}\\n`;\n}\n\n(async () => {\n  ensureReportsDir();\n\n  // ESLint JSON\n  const patterns = ['backend/**/*.js', 'scripts/**/*.js', 'test/**/*.js'];\n  const eslintArgs = ['eslint', '-f', 'json', '--no-error-on-unmatched-pattern', ...patterns];\n  const { out } = await run('npx', eslintArgs);\n  let report;\n  try {\n    report = JSON.parse(out);\n  } catch (e) {\n    // If ESLint printed non-JSON noise, attempt to extract the JSON segment\n    const start = out.indexOf('[');\n    const end = out.lastIndexOf(']');\n    report = start !== -1 && end !== -1 ? JSON.parse(out.slice(start, end + 1)) : [];\n  }\n  fs.writeFileSync(CODE_JSON, JSON.stringify(report, null, 2));\n\n  // Heuristic scans\n  const files = listFiles(path.join(ROOT, 'backend'));\n  const mysqlFindings = scanMysqlRisks(files);\n  const mailFindings = scanNodemailer(files);\n  const envCheck = checkEnv();\n\n  const md = toMarkdown(report, mysqlFindings, mailFindings, envCheck);\n  fs.writeFileSync(CODE_MD, md, 'utf8');\n\n  console.log(\n    `✅ Reports written:\\n- ${path.relative(ROOT, CODE_JSON)}\\n- ${path.relative(ROOT, CODE_MD)}`,\n  );\n})();\n",
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "C:\\Users\\marciel\\Desktop\\sistema-orcamento\\scripts\\code-fix.js",
+    "messages": [
+      {
+        "ruleId": "no-unused-vars",
+        "severity": 1,
+        "message": "'err' is defined but never used.",
+        "line": 50,
+        "column": 12,
+        "nodeType": "Identifier",
+        "messageId": "unusedVar",
+        "endLine": 50,
+        "endColumn": 15
+      },
+      {
+        "ruleId": "no-unused-vars",
+        "severity": 1,
+        "message": "'err' is defined but never used.",
+        "line": 57,
+        "column": 12,
+        "nodeType": "Identifier",
+        "messageId": "unusedVar",
+        "endLine": 57,
+        "endColumn": 15
+      },
+      {
+        "ruleId": "no-unused-vars",
+        "severity": 1,
+        "message": "'e' is defined but never used.",
+        "line": 75,
+        "column": 12,
+        "nodeType": "Identifier",
+        "messageId": "unusedVar",
+        "endLine": 75,
+        "endColumn": 13
+      }
+    ],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 3,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "source": "#!/usr/bin/env node\n// CLI: Code auto-fix using ESLint + Prettier\n// Usage:\n//   node scripts/code-fix.js --watch\n//   node scripts/code-fix.js --pattern \"backend/*.js\"\nconst { spawn } = require('child_process');\n// no unused imports\n\nconst args = process.argv.slice(2);\nconst hasWatch = args.includes('--watch');\nconst patternArgIndex = args.findIndex((a) => a === '--pattern');\nconst patterns = [];\nif (patternArgIndex !== -1 && args[patternArgIndex + 1]) {\n  patterns.push(args[patternArgIndex + 1]);\n} else {\n  patterns.push('backend/**/*.js', 'frontend/**/*.js', 'scripts/**/*.js', 'test/**/*.js');\n}\n\nfunction run(cmd, cmdArgs, opts = {}) {\n  return new Promise((resolve, reject) => {\n    const p = spawn(cmd, cmdArgs, {\n      stdio: 'inherit',\n      shell: process.platform === 'win32',\n      ...opts,\n    });\n    p.on('close', (code) => {\n      if (code === 0) {\n        resolve();\n      } else {\n        reject(new Error(`${cmd} exited with code ${code}`));\n      }\n    });\n  });\n}\n\nasync function fixOnce() {\n  const eslintArgs = ['--no-error-on-unmatched-pattern', '--fix'];\n  if (patterns.length) {\n    eslintArgs.unshift(...patterns);\n  }\n  const prettierArgs = ['--write', '.'];\n  if (patterns.length) {\n    // Convert glob patterns for Prettier by passing them directly\n    prettierArgs.splice(1, 1, ...patterns);\n  }\n\n  console.log('\\n➡️  Running ESLint --fix...');\n  try {\n    await run('npx', ['eslint', ...eslintArgs]);\n  } catch (err) {\n    console.warn('ESLint reported issues, continuing to Prettier.');\n  }\n\n  console.log('\\n➡️  Running Prettier --write...');\n  try {\n    await run('npx', ['prettier', ...prettierArgs]);\n  } catch (err) {\n    console.warn('Prettier patterns unmatched, falling back to repository root.');\n    await run('npx', ['prettier', '--write', '.']);\n  }\n\n  console.log('\\n✅ Code fix completed.');\n}\n\n(async () => {\n  if (!hasWatch) {\n    await fixOnce();\n    return;\n  }\n\n  // Watch mode using chokidar\n  let chokidar;\n  try {\n    chokidar = require('chokidar');\n  } catch (e) {\n    console.warn('chokidar not installed. Install with: npm i -D chokidar');\n    await fixOnce();\n    return;\n  }\n\n  const watchPatterns = patterns.length ? patterns : ['**/*.js'];\n  console.log('👀 Watch mode enabled for patterns:', watchPatterns.join(', '));\n\n  const watcher = chokidar.watch(watchPatterns, { ignoreInitial: true });\n  let running = false;\n  let queued = false;\n  async function trigger() {\n    if (running) {\n      queued = true;\n      return;\n    }\n    running = true;\n    try {\n      await fixOnce();\n    } catch (err) {\n      console.error(err.message || err);\n    } finally {\n      running = false;\n      if (queued) {\n        queued = false;\n        trigger();\n      }\n    }\n  }\n\n  watcher.on('add', trigger).on('change', trigger).on('unlink', trigger);\n})();\n",
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "C:\\Users\\marciel\\Desktop\\sistema-orcamento\\scripts\\text-review.js",
+    "messages": [
+      {
+        "ruleId": "no-unused-vars",
+        "severity": 1,
+        "message": "'e' is defined but never used.",
+        "line": 48,
+        "column": 12,
+        "nodeType": "Identifier",
+        "messageId": "unusedVar",
+        "endLine": 48,
+        "endColumn": 13
+      }
+    ],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 1,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "source": "#!/usr/bin/env node\n/*\n * CLI: Portuguese text review & auto-correction\n * Providers: LanguageTool (default) or OpenAI (optional)\n *\n * Usage examples:\n *   node scripts/text-review.js --file docs/exemplo.txt --out docs/exemplo_corrigido.txt\n *   node scripts/text-review.js --file docs/contrato.docx --sections --out docs/contrato_corrigido.txt\n *   node scripts/text-review.js --text \"Seu texto aqui\" --explain\n *   node scripts/text-review.js --provider openai --file docs/exemplo.txt --out docs/corrigido.txt\n *\n * Options:\n *   --file <path>      : input file (.txt or .docx)\n *   --text <string>    : raw text input (instead of file)\n *   --out <path>       : write corrected output to path (default: print to stdout)\n *   --lang <pt-BR|pt-PT> : language variant (default: pt-BR)\n *   --sections         : process long text in sections (paragraph-based)\n *   --explain          : print explanations of corrections\n *   --provider <languagetool|openai> : choose provider (default: languagetool)\n */\nconst fs = require('fs');\nconst path = require('path');\n// no unused imports\n\nconst argv = require('node:process').argv.slice(2);\n\nfunction getArg(name) {\n  const idx = argv.findIndex((a) => a === name);\n  if (idx !== -1) {\n    return argv[idx + 1];\n  }\n  return undefined;\n}\n\nconst inputFile = getArg('--file');\nconst inputTextArg = getArg('--text');\nconst outFile = getArg('--out');\nconst reportFile = getArg('--report');\nconst lang = getArg('--lang') || 'pt-BR';\nconst useSections = argv.includes('--sections');\nconst explain = argv.includes('--explain');\nconst provider = getArg('--provider') || 'languagetool';\n\nasync function readDocx(filePath) {\n  let mammoth;\n  try {\n    mammoth = require('mammoth');\n  } catch (e) {\n    throw new Error('Falta dependência mammoth. Instale: npm i mammoth');\n  }\n  const result = await mammoth.extractRawText({ path: filePath });\n  return result.value || '';\n}\n\nasync function getInputText() {\n  if (inputFile) {\n    const ext = path.extname(inputFile).toLowerCase();\n    if (ext === '.docx') {\n      return readDocx(inputFile);\n    }\n    return fs.promises.readFile(inputFile, 'utf8');\n  }\n  if (inputTextArg) {\n    return inputTextArg;\n  }\n  // Read from stdin\n  return new Promise((resolve, reject) => {\n    let data = '';\n    process.stdin.setEncoding('utf8');\n    process.stdin.on('data', (chunk) => (data += chunk));\n    process.stdin.on('end', () => resolve(data));\n    process.stdin.on('error', reject);\n  });\n}\n\nfunction splitIntoSections(text) {\n  const paragraphs = text.split(/\\n\\s*\\n/); // split on blank lines between paragraphs\n  // Group paragraphs into chunks ~ 3000 chars to stay within public LT limits\n  const chunks = [];\n  let current = '';\n  for (const p of paragraphs) {\n    if ((current + '\\n\\n' + p).length > 3000) {\n      if (current.trim()) {\n        chunks.push(current.trim());\n      }\n      current = p;\n    } else {\n      current = current ? current + '\\n\\n' + p : p;\n    }\n  }\n  if (current.trim()) {\n    chunks.push(current.trim());\n  }\n  return chunks.length ? chunks : [text];\n}\n\nasync function ltCheck(text, language) {\n  const endpoint = 'https://api.languagetool.org/v2/check';\n  const params = new URLSearchParams();\n  params.set('text', text);\n  params.set('language', language);\n  params.set('enabledOnly', 'false');\n  const res = await fetch(endpoint, {\n    method: 'POST',\n    headers: {\n      'Content-Type': 'application/x-www-form-urlencoded',\n    },\n    body: params.toString(),\n  });\n  if (!res.ok) {\n    throw new Error(`LanguageTool error: ${res.status} ${res.statusText}`);\n  }\n  return res.json();\n}\n\nasync function openaiReview(text, language) {\n  const apiKey = process.env.OPENAI_API_KEY;\n  if (!apiKey) {\n    throw new Error('OPENAI_API_KEY não definido no ambiente.');\n  }\n  const endpoint = 'https://api.openai.com/v1/chat/completions';\n  const systemPrompt = `Você é um revisor de textos em português (${language}). Corrija gramática, pontuação, concordância e melhore a clareza sem alterar o sentido. Retorne somente o texto corrigido.`;\n  const body = {\n    model: 'gpt-4o-mini',\n    messages: [\n      { role: 'system', content: systemPrompt },\n      { role: 'user', content: text },\n    ],\n    temperature: 0.2,\n  };\n  const res = await fetch(endpoint, {\n    method: 'POST',\n    headers: {\n      'Content-Type': 'application/json',\n      Authorization: `Bearer ${apiKey}`,\n    },\n    body: JSON.stringify(body),\n  });\n  if (!res.ok) {\n    throw new Error(`OpenAI API error: ${res.status} ${res.statusText}`);\n  }\n  const data = await res.json();\n  const out = data.choices?.[0]?.message?.content || '';\n  return { corrected: out, explanations: [] };\n}\n\nfunction applyLtCorrections(text, matches) {\n  // Apply replacements from end to start to keep offsets valid\n  const sorted = matches\n    .filter((m) => Array.isArray(m.replacements) && m.replacements.length)\n    .sort((a, b) => b.offset - a.offset);\n\n  let corrected = text;\n  const explanations = [];\n  for (const m of sorted) {\n    const best = m.replacements[0];\n    const start = m.offset;\n    const end = m.offset + m.length;\n    corrected = corrected.slice(0, start) + best.value + corrected.slice(end);\n    explanations.push({\n      message: m.message,\n      short: m.shortMessage,\n      rule: m.rule?.id || 'unknown',\n      replacement: best.value,\n    });\n  }\n  // Reverse explanations to be chronological\n  explanations.reverse();\n  return { corrected, explanations };\n}\n\nasync function reviewChunk(textChunk) {\n  if (provider === 'openai') {\n    return openaiReview(textChunk, lang);\n  }\n  const lt = await ltCheck(textChunk, lang);\n  return applyLtCorrections(textChunk, lt.matches || []);\n}\n\n(async () => {\n  const text = await getInputText();\n  const chunks = useSections ? splitIntoSections(text) : [text];\n  const results = [];\n  for (const chunk of chunks) {\n    try {\n      const r = await reviewChunk(chunk);\n      results.push(r);\n    } catch (err) {\n      console.error('Erro ao revisar seção:', err.message || err);\n      // Keep original chunk if provider failed\n      results.push({\n        corrected: chunk,\n        explanations: [{ message: String(err), rule: 'provider_error' }],\n      });\n    }\n  }\n\n  const finalText = results.map((r) => r.corrected).join('\\n\\n');\n\n  if (outFile) {\n    await fs.promises.writeFile(outFile, finalText, 'utf8');\n    console.log(`✅ Texto corrigido salvo em: ${outFile}`);\n  } else {\n    process.stdout.write(finalText + '\\n');\n  }\n\n  if (explain) {\n    console.log('\\n📘 Correções:');\n    let i = 1;\n    for (const r of results) {\n      for (const e of r.explanations || []) {\n        console.log(\n          `${i++}. [${e.rule}] ${e.message}${e.replacement ? ` → ${e.replacement}` : ''}`,\n        );\n      }\n    }\n  }\n\n  if (reportFile) {\n    const lines = [];\n    lines.push('# Text Review Report');\n    lines.push('');\n    let section = 1;\n    for (const r of results) {\n      lines.push(`## Section ${section++}`);\n      if (r.explanations && r.explanations.length) {\n        for (const e of r.explanations) {\n          lines.push(`- [${e.rule}] ${e.message}${e.replacement ? ` → ${e.replacement}` : ''}`);\n        }\n      } else {\n        lines.push('- No corrections applied');\n      }\n      lines.push('');\n    }\n    await fs.promises.writeFile(reportFile, lines.join('\\n'), 'utf8');\n    console.log(`📝 Report saved: ${reportFile}`);\n  }\n})();\n",
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "C:\\Users\\marciel\\Desktop\\sistema-orcamento\\test\\auth.test.js",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  },
+  {
+    "filePath": "C:\\Users\\marciel\\Desktop\\sistema-orcamento\\test\\orcamentos.test.js",
+    "messages": [],
+    "suppressedMessages": [],
+    "errorCount": 0,
+    "fatalErrorCount": 0,
+    "warningCount": 0,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "usedDeprecatedRules": []
+  }
+]

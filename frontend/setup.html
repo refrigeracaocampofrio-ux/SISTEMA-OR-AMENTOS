@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Configuração - Sistema de Orçamento</title>
+  <style>:root{--dark-sidebar:#1a1a2e; --dark-bg:#0f0f1e; --dark-card:#16213e; --primary:#3498db;}</style>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      color: inherit;
+    }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, var(--dark-bg) 0%, var(--dark-sidebar) 100%);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+      color: #e0e0e0;
+    }
+    .setup-container {
+      background: var(--dark-card);
+      border-radius: 10px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+      padding: 40px;
+      max-width: 500px;
+      text-align: center;
+      border: 1px solid rgba(52, 152, 219, 0.3);
+      color: #e0e0e0;
+    }
+    h1 {
+      color: #ffffff;
+      margin-bottom: 10px;
+      font-size: 28px;
+      font-weight: 700;
+    }
+    p {
+      color: #b0b0c0;
+      margin-bottom: 30px;
+      line-height: 1.5;
+    }
+    .setup-icon {
+      font-size: 60px;
+      margin-bottom: 20px;
+    }
+    .btn-google {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--primary);
+      color: #ffffff;
+      border: none;
+      padding: 12px 30px;
+      font-size: 16px;
+      border-radius: 5px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      margin-bottom: 15px;
+      width: 100%;
+      font-weight: 600;
+    }
+    .btn-google:hover {
+      background: #2980b9;
+      box-shadow: 0 4px 12px rgba(52, 152, 219, 0.3);
+      transform: translateY(-2px);
+    }
+    .btn-google img {
+      width: 20px;
+      margin-right: 10px;
+    }
+    .skip-link {
+      color: var(--primary);
+      text-decoration: none;
+      font-size: 14px;
+      margin-top: 20px;
+      display: inline-block;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    .skip-link:hover {
+      text-decoration: underline;
+      color: #2980b9;
+    }
+    .loading {
+      display: none;
+      color: var(--primary);
+      font-size: 14px;
+      margin-top: 15px;
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar navbar-dark py-2 px-3 border-bottom" style="background: var(--dark-sidebar); border-bottom: 1px solid rgba(52, 152, 219, 0.3) !important;">
+    <div class="container-fluid" style="display:flex;align-items:center;">
+      <img src="/imagens/logo-rcf.png" alt="RCF Logo" style="height: 50px; margin-right: 15px; object-fit: contain;" onerror="this.onerror=null; this.src='/imagens/logo-rcf.svg';">
+      <div>
+        <span class="navbar-brand mb-0 h1 fw-bold" style="color: #ffffff; margin: 0;">Refrigeração Campo Frio</span>
+        <span class="navbar-text d-none d-sm-block ms-3" style="font-size: 11px; color: #ffffff !important;">Created by Marciel</span>
+      </div>
+    </div>
+  </nav>
+  <div class="setup-container">
+    <div class="setup-icon">📧</div>
+    <h1>Bem-vindo!</h1>
+    <p>Para usar o sistema com envio automático de e-mails, conecte sua conta do Google:</p>
+    <a href="/email/connect/google" class="btn-google">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+        <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+        <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
+        <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+      </svg>
+      Conectar com Google
+    </a>
+    <div class="loading" id="loading">Redirecionando para Google...</div>
+    <a href="/" class="skip-link">Pular por enquanto</a>
+  </div>
+
+  <script>
+    // Verifica status e configuração do servidor
+    async function initSetup() {
+      try {
+        const cfgRes = await fetch('/config');
+        const cfg = await cfgRes.json();
+        if (!cfg.GMAIL_READY) {
+          document.querySelector('.btn-google').style.display = 'none';
+          document.getElementById('loading').style.display = 'none';
+          const msg = document.createElement('div');
+          msg.style.marginTop = '12px';
+          msg.style.color = '#e74c3c';
+          msg.innerText = 'Gmail OAuth não configurado no servidor. Defina GMAIL_CLIENT_ID, GMAIL_CLIENT_SECRET e GMAIL_REDIRECT_URI em backend/.env e reinicie.';
+          document.querySelector('.setup-container').appendChild(msg);
+        }
+
+        const response = await fetch('/email/status');
+        if (!response.ok) throw new Error('Erro ao verificar status');
+        const data = await response.json();
+        if (data.configured) {
+          window.location.href = '/';
+        }
+      } catch (error) {
+        console.error('Erro ao verificar configuração:', error);
+      }
+    }
+
+    window.addEventListener('load', initSetup);
+
+    document.querySelector('.btn-google').addEventListener('click', function() {
+      document.getElementById('loading').style.display = 'block';
+    });
+  </script>
+</body>
+</html>

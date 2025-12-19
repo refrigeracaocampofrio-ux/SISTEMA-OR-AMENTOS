@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Login - Sistema de Orçamento</title>
+    <style>:root{--dark-sidebar:#1a1a2e; --dark-bg:#0f0f1e; --dark-card:#16213e; --primary:#3498db;}</style>
+    <style>
+      * {
+        color: inherit;
+      }
+
+      body {
+        font-family: Arial, Helvetica, sans-serif;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        background: linear-gradient(135deg, var(--dark-bg) 0%, var(--dark-sidebar) 100%);
+        color: #e0e0e0;
+      }
+      form {
+        background: var(--dark-card);
+        color: #e0e0e0;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.3);
+        width: 320px;
+        border: 1px solid rgba(52, 152, 219, 0.3);
+      }
+      form h3 {
+        color: #ffffff;
+        font-weight: 600;
+      }
+      form label {
+        display: block;
+        margin-top: 8px;
+        color: #c0c0c0;
+        font-weight: 500;
+      }
+      form input {
+        background: var(--dark-bg);
+        color: #e0e0e0 !important;
+        border: 1px solid rgba(52, 152, 219, 0.3);
+        border-radius: 4px;
+        padding: 8px 10px;
+        width: 100%;
+        box-sizing: border-box;
+        margin-top: 4px;
+      }
+      form input:focus {
+        outline: none;
+        border-color: var(--primary);
+        box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+      }
+      form input::placeholder {
+        color: #888 !important;
+      }
+      form button {
+        margin-top: 12px;
+        padding: 10px 12px;
+        background: var(--primary);
+        color: #ffffff;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-weight: 600;
+        width: 100%;
+        transition: all 0.3s ease;
+      }
+      form button:hover {
+        background: #2980b9;
+        transform: translateY(-2px);
+      }
+      form p {
+        color: #e74c3c;
+        font-size: 14px;
+        margin-top: 10px;
+      }
+        background: #3498db;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-weight: 600;
+      }
+      form button:hover {
+        background: #2980b9;
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="navbar navbar-dark py-2 px-3 border-bottom" style="background: var(--dark-sidebar); border-bottom: 1px solid rgba(52, 152, 219, 0.3) !important;">
+      <div class="container-fluid" style="display:flex;align-items:center;">
+        <img src="/imagens/logo-rcf.png" alt="RCF Logo" style="height: 50px; margin-right: 15px; object-fit: contain;" onerror="this.onerror=null; this.src='/imagens/logo-rcf.svg';">
+        <div>
+          <span class="navbar-brand mb-0 h1 fw-bold" style="color: #ffffff; margin: 0;">Refrigeração Campo Frio</span>
+          <span class="navbar-text d-none d-sm-block ms-3" style="font-size: 11px; color: #ffffff !important;">Created by Marciel</span>
+        </div>
+      </div>
+    </nav>
+    <form id="loginForm">
+      <h3>Entrar</h3>
+      <label>Usuário: <input id="username" required /></label>
+      <label>Senha: <input id="password" type="password" required /></label>
+      <button type="submit">Login</button>
+      <p id="msg" style="color: red"></p>
+    </form>
+
+    <script>
+      document.getElementById('loginForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const username = document.getElementById('username').value;
+        const password = document.getElementById('password').value;
+        try {
+          const res = await fetch('/auth/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ username, password }),
+          });
+          const j = await res.json();
+          if (!res.ok) {
+            document.getElementById('msg').innerText = j.error || 'Erro ao logar';
+            return;
+          }
+          localStorage.setItem('token', j.token);
+          // redireciona para a interface principal
+          window.location.href = 'index.html';
+        } catch (err) {
+          document.getElementById('msg').innerText = err.message;
+        }
+      });
+    </script>
+  </body>
+</html>

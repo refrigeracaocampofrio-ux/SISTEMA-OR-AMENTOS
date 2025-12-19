@@ -1,0 +1,216 @@
+const express = require('express');
+const cors = require('cors');
+const fs = require('fs');
+const dotenv = require('dotenv');
+const path = require('path');
+const { checkEnvVars } = require('./config/checkEnv');
+
+// Carrega .env do backend se existir; caso contrário, da raiz
+const backendEnvPath = path.join(__dirname, '.env');
+if (fs.existsSync(backendEnvPath)) {
+  dotenv.config({ path: backendEnvPath });
+} else {
+  dotenv.config();
+}
+
+// Verifica .env e variáveis obrigatórias de acordo com o provider
+const provider = (process.env.MAIL_PROVIDER || 'smtp').toLowerCase();
+let requiredEmailVars;
+if (provider === 'smtp') {
+  requiredEmailVars = [
+    ['EMAIL_USER', 'SMTP_USER'],
+    ['EMAIL_PASS', 'SMTP_PASS'],
+    ['EMAIL_FROM', 'SMTP_FROM'],
+  ];
+} else if (provider === 'resend') {
+  requiredEmailVars = [
+    ['EMAIL_FROM', 'SMTP_FROM'],
+    'RESEND_API_KEY',
+  ];
+} else if (provider === 'sendgrid') {
+  requiredEmailVars = [
+    ['EMAIL_FROM', 'SMTP_FROM'],
+    'SENDGRID_API_KEY',
+  ];
+} else if (provider === 'gmail') {
+  // Para Gmail API, apenas o remetente é crítico para subir o servidor;
+  // as credenciais OAuth serão verificadas no momento do envio/na página de setup.
+  requiredEmailVars = [
+    ['EMAIL_FROM', 'SMTP_FROM'],
+  ];
+} else if (provider === 'console') {
+  requiredEmailVars = [
+    ['EMAIL_FROM', 'SMTP_FROM'],
+  ];
+} else {
+  console.warn(`MAIL_PROVIDER desconhecido: ${provider}. Usando SMTP como padrão.`);
+  requiredEmailVars = [
+    ['EMAIL_USER', 'SMTP_USER'],
+    ['EMAIL_PASS', 'SMTP_PASS'],
+    ['EMAIL_FROM', 'SMTP_FROM'],
+  ];
+}
+if (provider === 'resend' || provider === 'sendgrid' || provider === 'console' || provider === 'gmail') {
+  // Apenas 'from' é crítico para subir; chaves de API avisamos e seguimos
+  const fromOk = checkEnvVars([['EMAIL_FROM', 'SMTP_FROM']]);
+  if (!fromOk) {
+    console.error('Corrija o arquivo backend/.env (EMAIL_FROM/SMTP_FROM) antes de iniciar o servidor.');
+    process.exit(1);
+  }
+  if (provider === 'resend' && (!process.env.RESEND_API_KEY || process.env.RESEND_API_KEY === '')) {
+    console.warn('RESEND_API_KEY ausente. Envio de e-mail via Resend falhará até definir a chave.');
+  }
+  if (provider === 'sendgrid' && (!process.env.SENDGRID_API_KEY || process.env.SENDGRID_API_KEY === '')) {
+    console.warn('SENDGRID_API_KEY ausente. Envio de e-mail via SendGrid falhará até definir a chave.');
+  }
+  if (provider === 'gmail') {
+    const ready = Boolean(process.env.GMAIL_CLIENT_ID && process.env.GMAIL_CLIENT_SECRET);
+    if (!ready) {
+      console.warn('GMAIL_CLIENT_ID/GMAIL_CLIENT_SECRET ausentes. Conexão OAuth necessária para envio via Gmail.');
+    }
+  }
+} else {
+  if (!checkEnvVars(requiredEmailVars)) {
+    console.error('Corrija o arquivo backend/.env antes de iniciar o servidor.');
+    process.exit(1);
+  }
+}
+
+const app = express();
+const PORT = process.env.PORT || 3000;
+
+app.use(cors());
+app.use(express.json());
+
+// Debug middleware to log all requests
+app.use((req, res, next) => {
+  if (req.path.includes('/auth')) {
+    console.log(`[REQUEST] ${req.method} ${req.path} - Body:`, req.body);
+  }
+  next();
+});
+
+// Evitar cache agressivo para arquivos HTML (para refletir mudanças rapidamente)
+app.use((req, res, next) => {
+  if (req.path.endsWith('.html') || req.path === '/' ) {
+    res.set('Cache-Control', 'no-store');
+  }
+  next();
+});
+
+// Servir frontend estático
+app.use(express.static(path.join(__dirname, '..', 'frontend')));
+
+// Mapear logo padrão para um arquivo de logo apropriado (prioridade: logo.png > logo-rcf.png > logo-rcf.svg)
+app.get('/imagens/logo-rcf.png', (req, res) => {
+  // Desabilitar cache para garantir que mudanças de logo apareçam imediatamente
+  res.set('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
+  res.set('Pragma', 'no-cache');
+  res.set('Expires', '0');
+  const base = path.join(__dirname, '..', 'imagens');
+  const candidates = [
+    'logo.png',
+    'logo-rcf.png',
+    'logo-rcf.svg',
+  ];
+  for (const name of candidates) {
+    const p = path.join(base, name);
+    if (fs.existsSync(p)) {
+      return res.sendFile(p);
+    }
+  }
+  res.status(404).send('Logo não encontrada');
+});
+
+// Servir pasta de imagens
+app.use('/imagens', express.static(path.join(__dirname, '..', 'imagens')));
+
+// Rotas
+const orcamentoRoutes = require('./routes/orcamentos');
+const ordensRoutes = require('./routes/ordens_servico');
+const estoqueRoutes = require('./routes/estoque');
+const { errorHandler } = require('./middleware/errorHandler');
+const pool = require('./services/db');
+const emailer = require('./services/email');
+// debug/test routes
+const debugRoutes = require('./routes/debug');
+const emailRoutes = require('./routes/email');
+
+app.use('/orcamentos', orcamentoRoutes);
+app.use('/ordens_servico', ordensRoutes);
+app.use('/estoque', estoqueRoutes);
+// clientes
+const clientesRoutes = require('./routes/clientes');
+app.use('/clientes', clientesRoutes);
+// auth
+const authRoutes = require('./routes/auth');
+app.use('/auth', authRoutes);
+
+// client auth (register/login)
+const authClientRoutes = require('./routes/authClient');
+app.use('/auth/client', authClientRoutes);
+
+// agendamentos
+const agendamentosRoutes = require('./routes/agendamentos');
+app.use('/agendamentos', agendamentosRoutes);
+
+// debug
+app.use('/debug', debugRoutes);
+app.use('/email', emailRoutes);
+
+// middleware de erro (deve vir depois das rotas)
+app.use(errorHandler);
+
+// Startup checks (DB e SMTP)
+async function startupChecks() {
+  try {
+    const conn = await pool.getConnection();
+    conn.release();
+    console.log('Conexão com o banco OK');
+  } catch (err) {
+    console.error('Erro ao conectar no banco:', err.message);
+  }
+
+  try {
+    if (!provider || provider === 'smtp') {
+      if (emailer && typeof emailer.createTransporter === 'function') {
+        const transporter = emailer.createTransporter();
+        await transporter.verify();
+        console.log('SMTP OK');
+      }
+    } else {
+      console.log(`Provider de e-mail configurado: ${provider} (sem verificação de SMTP)`);
+    }
+  } catch (err) {
+    if (!provider || provider === 'smtp') {
+      console.warn('Aviso: não foi possível verificar SMTP - verifique as credenciais.');
+    } else {
+      console.log(`Provider de e-mail configurado: ${provider} (sem verificação de SMTP)`);
+    }
+  }
+}
+
+startupChecks();
+
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, '..', 'frontend', 'index.html'));
+});
+
+// endpoint de configuração para frontend (ex.: GOOGLE_CLIENT_ID)
+app.get('/config', (req, res) => {
+  const googleClientId = process.env.GOOGLE_CLIENT_ID || null;
+  const mailProvider = process.env.MAIL_PROVIDER || null;
+  const gmailReady = Boolean(
+    process.env.GMAIL_CLIENT_ID && process.env.GMAIL_CLIENT_SECRET && (process.env.GMAIL_REDIRECT_URI || true),
+  );
+  res.json({ GOOGLE_CLIENT_ID: googleClientId, MAIL_PROVIDER: mailProvider, GMAIL_READY: gmailReady });
+});
+
+// Apenas inicia o listener se executado diretamente
+if (require.main === module) {
+  app.listen(PORT, () => {
+    console.log(`Servidor rodando em http://localhost:${PORT}`);
+  });
+}
+
+module.exports = app;

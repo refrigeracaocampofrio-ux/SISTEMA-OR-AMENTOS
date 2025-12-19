@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Ordens de Serviço</title>
+    <style>
+      body {
+        font-family: Arial, Helvetica, sans-serif;
+        margin: 20px;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+      td,
+      th {
+        border: 1px solid #ddd;
+        padding: 8px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Ordens de Serviço</h1>
+    <div id="lista"></div>
+
+    <script src="./js/fetch-wrapper.js"></script>
+    <script type="module">
+      import { apiFetch } from './js/api.js';
+      async function load() {
+        const res = await apiFetch('/orcamentos');
+        const dados = await res.json().catch(() => []);
+        document.getElementById('lista').innerText =
+          'Use API para listar orçamentos aprovados (endpoint não implementado no frontend).';
+      }
+      load();
+    </script>
+  </body>
+</html>

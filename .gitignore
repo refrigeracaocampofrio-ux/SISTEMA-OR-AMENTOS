@@ -1,0 +1,12 @@
+node_modules/
+.env
+/.env
+.env
+backend/.env
+.env.local
+*.log
+npm-debug.log*
+coverage/
+dist/
+/.idea
+.vscode

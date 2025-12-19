@@ -1,0 +1,75 @@
+✅ SISTEMA DE PDF E LOGOS IMPLEMENTADO
+========================================
+
+O QUE FOI FEITO:
+----------------
+
+1. ✅ PDF COM LOGO NO CABEÇALHO
+   - Logo será exibida no canto superior esquerdo
+   - Nome da empresa ao lado da logo
+   - Cabeçalho verde profissional
+
+2. ✅ PEÇAS E VALORES NO PDF
+   - Tabela completa com todas as peças
+   - Quantidades, valores unitários e subtotais
+   - Mão de obra em seção separada
+   - Total geral destacado
+   - Logs adicionados para debug
+
+3. ✅ EMAIL COM TEMPLATE HTML + PDF ANEXO
+   - Quando enviar PDF por email, vai o template completo (igual ao email normal)
+   - PDF anexado junto
+   - Cliente recebe email bonito + arquivo PDF
+
+4. ✅ MARCA D'ÁGUA "RCF" NOS EMAILS
+   - Logo "RCF" em verde claro no fundo do conteúdo
+   - Muito sutil para não atrapalhar leitura
+   - Profissional
+
+PARA ATIVAR A LOGO NO PDF:
+---------------------------
+
+1. Salve a imagem da logo como:
+   C:\Users\marciel\Desktop\sistema-orcamento\imagens\logo.png
+
+2. Formato: PNG com fundo transparente
+3. Tamanho: 400x400 pixels (ou similar quadrado)
+4. Reinicie o servidor
+
+COMO USAR:
+----------
+
+1. Criar orçamento → Aparecerão 3 botões:
+   - 📄 Baixar PDF
+   - 📧 Enviar PDF por Email
+   - 🔍 Visualizar Detalhes
+
+2. Ao clicar "Enviar PDF por Email":
+   - Cliente recebe email HTML completo
+   - PDF anexado no email
+   - Template profissional com marca d'água
+
+3. Ao clicar "Baixar PDF":
+   - Abre PDF em nova aba
+   - Logo no cabeçalho (se estiver salva)
+   - Todas as peças listadas com valores
+
+VERIFICAR SE FUNCIONOU:
+-----------------------
+
+1. Crie um orçamento de teste com peças
+2. Clique "Baixar PDF"
+3. Verifique se:
+   - ✅ Logo aparece no cabeçalho
+   - ✅ Peças aparecem na tabela
+   - ✅ Valores estão corretos
+   - ✅ Total está correto
+
+4. Clique "Enviar PDF por Email"
+5. Verifique no email:
+   - ✅ Template HTML completo
+   - ✅ PDF anexado
+   - ✅ Marca d'água "RCF" no fundo
+
+Se as peças não aparecerem, verifique o console do servidor - 
+os logs vão mostrar quantos itens foram recebidos.
