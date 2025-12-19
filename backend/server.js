@@ -133,37 +133,6 @@ app.use('/email', emailRoutes);
 // middleware de erro (deve vir depois das rotas)
 app.use(errorHandler);
 
-// Startup checks (DB e SMTP)
-async function startupChecks() {
-  try {
-    const conn = await pool.getConnection();
-    conn.release();
-    console.log('Conexão com o banco OK');
-  } catch (err) {
-    console.error('Erro ao conectar no banco:', err.message);
-  }
-
-  try {
-    if (!provider || provider === 'smtp') {
-      if (emailer && typeof emailer.createTransporter === 'function') {
-        const transporter = emailer.createTransporter();
-        await transporter.verify();
-        console.log('SMTP OK');
-      }
-    } else {
-      console.log(`Provider de e-mail configurado: ${provider} (sem verificação de SMTP)`);
-    }
-  } catch (err) {
-    if (!provider || provider === 'smtp') {
-      console.warn('Aviso: não foi possível verificar SMTP - verifique as credenciais.');
-    } else {
-      console.log(`Provider de e-mail configurado: ${provider} (sem verificação de SMTP)`);
-    }
-  }
-}
-
-startupChecks();
-
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, '..', 'frontend', 'index.html'));
 });
