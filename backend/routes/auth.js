@@ -5,11 +5,14 @@ const fetch = require('node-fetch');
 
 // Debug: mostrar credenciais esperadas
 router.get('/debug-creds', (req, res) => {
-  const ADMIN_USER = process.env.ADMIN_USER || 'marciel';
-  const ADMIN_PASS = process.env.ADMIN_PASS || '142514';
+  // Trim env values to avoid issues with trailing newlines from Vercel UI input
+  const ADMIN_USER = (process.env.ADMIN_USER || 'marciel').trim();
+  const ADMIN_PASS = (process.env.ADMIN_PASS || '142514').trim();
   res.json({
     ADMIN_USER,
     ADMIN_PASS,
+    raw_ADMIN_USER: process.env.ADMIN_USER,
+    raw_ADMIN_PASS: process.env.ADMIN_PASS,
     hasAdminUserEnv: Boolean(process.env.ADMIN_USER),
     hasAdminPassEnv: Boolean(process.env.ADMIN_PASS),
   });
@@ -18,8 +21,9 @@ router.get('/debug-creds', (req, res) => {
 // Simple admin login using env credentials
 router.post('/login', (req, res) => {
   const { username, password } = req.body;
-  const ADMIN_USER = process.env.ADMIN_USER || 'marciel';
-  const ADMIN_PASS = process.env.ADMIN_PASS || '142514';
+  // Trim env values to handle trailing newlines from Vercel UI input
+  const ADMIN_USER = (process.env.ADMIN_USER || 'marciel').trim();
+  const ADMIN_PASS = (process.env.ADMIN_PASS || '142514').trim();
 
   console.log('[AUTH] Login attempt:', { username, hasPassword: Boolean(password) });
   console.log('[AUTH] Comparison:', { 
