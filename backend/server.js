@@ -208,8 +208,19 @@ app.get('/config', (req, res) => {
 
 // Apenas inicia o listener se executado diretamente
 if (require.main === module) {
-  app.listen(PORT, () => {
-    console.log(`Servidor rodando em http://localhost:${PORT}`);
+  // Inicializar banco de dados antes de escutar
+  const { initializeDatabase } = require('./init-db');
+  
+  initializeDatabase().then(() => {
+    app.listen(PORT, () => {
+      console.log(`Servidor rodando em http://localhost:${PORT}`);
+    });
+  }).catch(err => {
+    console.error('Erro ao inicializar banco:', err);
+    // Continuar mesmo com erro no banco
+    app.listen(PORT, () => {
+      console.log(`Servidor rodando em http://localhost:${PORT} (com aviso de banco)`);
+    });
   });
 }
 
