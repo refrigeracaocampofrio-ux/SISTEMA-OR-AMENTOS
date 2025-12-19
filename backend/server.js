@@ -43,37 +43,9 @@ if (provider === 'smtp') {
     ['EMAIL_FROM', 'SMTP_FROM'],
   ];
 } else {
-  console.warn(`MAIL_PROVIDER desconhecido: ${provider}. Usando SMTP como padrão.`);
-  requiredEmailVars = [
-    ['EMAIL_USER', 'SMTP_USER'],
-    ['EMAIL_PASS', 'SMTP_PASS'],
-    ['EMAIL_FROM', 'SMTP_FROM'],
-  ];
-}
-if (provider === 'resend' || provider === 'sendgrid' || provider === 'console' || provider === 'gmail') {
-  // Apenas 'from' é crítico para subir; chaves de API avisamos e seguimos
-  const fromOk = checkEnvVars([['EMAIL_FROM', 'SMTP_FROM']]);
-  if (!fromOk) {
-    console.warn('EMAIL_FROM/SMTP_FROM ausente. Usando padrão noreply@sistema-orcamento.local');
-    process.env.EMAIL_FROM = process.env.EMAIL_FROM || process.env.SMTP_FROM || 'noreply@sistema-orcamento.local';
-  }
-  if (provider === 'resend' && (!process.env.RESEND_API_KEY || process.env.RESEND_API_KEY === '')) {
-    console.warn('RESEND_API_KEY ausente. Envio de e-mail via Resend falhará até definir a chave.');
-  }
-  if (provider === 'sendgrid' && (!process.env.SENDGRID_API_KEY || process.env.SENDGRID_API_KEY === '')) {
-    console.warn('SENDGRID_API_KEY ausente. Envio de e-mail via SendGrid falhará até definir a chave.');
-  }
-  if (provider === 'gmail') {
-    const ready = Boolean(process.env.GMAIL_CLIENT_ID && process.env.GMAIL_CLIENT_SECRET);
-    if (!ready) {
-      console.warn('GMAIL_CLIENT_ID/GMAIL_CLIENT_SECRET ausentes. Conexão OAuth necessária para envio via Gmail.');
-    }
-  }
-} else {
-  if (!checkEnvVars(requiredEmailVars)) {
-    console.error('Corrija o arquivo backend/.env antes de iniciar o servidor.');
-    process.exit(1);
-  }
+  console.warn(`MAIL_PROVIDER desconhecido: ${provider}. Usando console como padrão.`);
+  process.env.MAIL_PROVIDER = 'console';
+  process.env.EMAIL_FROM = process.env.EMAIL_FROM || 'noreply@sistema-orcamento.local';
 }
 
 const app = express();
