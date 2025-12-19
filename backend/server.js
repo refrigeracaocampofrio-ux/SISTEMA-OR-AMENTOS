@@ -209,7 +209,6 @@ app.get('/config', (req, res) => {
 // Endpoint para inicializar banco de dados (criar tabelas)
 app.post('/api/init-db', async (req, res) => {
   try {
-    const { initializeDatabase } = require('./init-db');
     const result = await initializeDatabase();
     res.json({ success: true, message: 'Banco de dados inicializado' });
   } catch (error) {
@@ -225,3 +224,4 @@ if (require.main === module) {
 }
 
 module.exports = app;
+
