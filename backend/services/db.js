@@ -16,9 +16,10 @@ const passRaw = envTrim('DB_PASSWORD', envTrim('DB_PASS', ''));
 const dbRaw = envTrim('DB_DATABASE', envTrim('DB_NAME', ''));
 const portRaw = envTrim('DB_PORT', '');
 
-const host = hostRaw || 'localhost';
 const user = userRaw || 'root';
 const password = passRaw || '';
+const isPlanetScale = password.startsWith('pscale_pw_') || user.startsWith('postgres.');
+const host = hostRaw || (isPlanetScale ? 'aws-sa-east-1-1.pg.psdb.cloud' : 'localhost');
 const database = dbRaw || 'sistema_orcamento';
 const port = Number(portRaw || 3306);
 
