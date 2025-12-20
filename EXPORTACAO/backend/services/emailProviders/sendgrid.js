@@ -1,15 +1,15 @@
 const fetch = require('node-fetch');
 
 async function sendWithSendGrid({ from, to, subject, html, text, apiKey }) {
-  if (!apiKey) throw new Error('SENDGRID_API_KEY não definido.');
+  if (!apiKey) {throw new Error('SENDGRID_API_KEY não definido.');}
   const personalization = {
     to: Array.isArray(to) ? to.map((t) => ({ email: t })) : [{ email: to }],
     subject,
   };
   const content = [];
-  if (html) content.push({ type: 'text/html', value: html });
-  if (text) content.push({ type: 'text/plain', value: text });
-  if (!content.length) content.push({ type: 'text/plain', value: '' });
+  if (html) {content.push({ type: 'text/html', value: html });}
+  if (text) {content.push({ type: 'text/plain', value: text });}
+  if (!content.length) {content.push({ type: 'text/plain', value: '' });}
 
   const body = {
     personalizations: [personalization],

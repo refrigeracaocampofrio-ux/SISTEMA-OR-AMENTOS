@@ -100,7 +100,7 @@ async function atualizar(id, dados) {
     }
   });
   
-  if (fields.length === 0) return false;
+  if (fields.length === 0) {return false;}
   
   values.push(id);
   await pool.query(

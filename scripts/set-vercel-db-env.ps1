@@ -5,7 +5,8 @@ param(
 $ErrorActionPreference = 'Stop'
 
 # Valores do banco: tenta ler arquivos/host.txt e arquivos/user.txt; senão, usa defaults MySQL
-$defaultHost = 'aws-sa-east-1-1.psdb.cloud' # MySQL host (não postgres)
+# PlanetScale MySQL usa subdomínio "connect.psdb.cloud"
+$defaultHost = 'aws-sa-east-1-1.connect.psdb.cloud'
 $defaultUser = ''
 $hostFile = Join-Path (Split-Path $PSScriptRoot -Parent) 'arquivos/host.txt'
 $userFile = Join-Path (Split-Path $PSScriptRoot -Parent) 'arquivos/user.txt'
@@ -58,11 +59,7 @@ function Run-Vercel([string]$args, [string]$inputValue) {
   $psi.RedirectStandardError = $true
   $psi.UseShellExecute = $false
   $proc = [System.Diagnostics.Process]::Start($psi)
-  if ($args -like 'env add *') {
-    # Answer prompts: 1) mark as sensitive? -> yes, 2) value
-    $proc.StandardInput.WriteLine('yes')
-    $proc.StandardInput.WriteLine($inputValue)
-  } elseif ($inputValue) {
+  if ($inputValue) {
     $proc.StandardInput.WriteLine($inputValue)
   }
   $proc.StandardInput.Close()

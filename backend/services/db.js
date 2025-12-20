@@ -4,8 +4,10 @@ const mysql = require('mysql2/promise');
 function envTrim(key, fallback) {
   const val = process.env[key];
   if (typeof val === 'string') {
-    const t = val.trim();
-    return t.length ? t : (fallback ?? '');
+    // Remove "yes\n" or "yes\r\n" prefix from Vercel CLI bug
+    let cleaned = val.replace(/^yes[\r\n]+/i, '');
+    cleaned = cleaned.trim();
+    return cleaned.length ? cleaned : (fallback ?? '');
   }
   return fallback ?? '';
 }
@@ -18,8 +20,10 @@ const portRaw = envTrim('DB_PORT', '');
 
 const user = userRaw || 'root';
 const password = passRaw || '';
-const isPlanetScale = password.startsWith('pscale_pw_') || user.startsWith('postgres.');
-const host = hostRaw || (isPlanetScale ? 'aws-sa-east-1-1.pg.psdb.cloud' : 'localhost');
+// Detect PlanetScale MySQL by password prefix or host domain
+const isPlanetScale = password.startsWith('pscale_pw_') || (hostRaw && hostRaw.includes('psdb.cloud'));
+// Use correct PlanetScale MySQL host fallback
+const host = hostRaw || (isPlanetScale ? 'aws-sa-east-1-1.connect.psdb.cloud' : 'localhost');
 const database = dbRaw || 'sistema_orcamento';
 const port = Number(portRaw || 3306);
 

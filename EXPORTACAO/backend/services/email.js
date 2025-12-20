@@ -7,7 +7,7 @@ const { sendWithGmail } = require('./emailProviders/gmail');
 // Cria o transporter SMTP tradicional
 function createTransporter() {
   try {
-    if (!nodemailer) nodemailer = require('nodemailer');
+    if (!nodemailer) {nodemailer = require('nodemailer');}
   } catch (e) {
     throw new Error('Nodemailer não está instalado. Instale com: npm i nodemailer, ou use MAIL_PROVIDER=sendgrid/resend');
   }
@@ -48,7 +48,7 @@ async function sendMail({ to, subject, text, html, userEmail }) {
   }
   if (provider === 'console') {
     const payload = { from, to, subject, html, text };
-    // eslint-disable-next-line no-console
+     
     console.log('📤 [console provider] Email simulando envio:', payload);
     return { accepted: true, provider: 'console', payload };
   }

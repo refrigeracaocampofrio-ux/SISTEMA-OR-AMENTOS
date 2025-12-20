@@ -51,7 +51,7 @@ async function connectGoogle(req, res) {
 
 async function googleCallback(req, res) {
   const code = req.query.code;
-  if (!code) return res.status(400).send('Faltou código de autorização.');
+  if (!code) {return res.status(400).send('Faltou código de autorização.');}
   try {
     const clientId = process.env.GMAIL_CLIENT_ID;
     const clientSecret = process.env.GMAIL_CLIENT_SECRET;

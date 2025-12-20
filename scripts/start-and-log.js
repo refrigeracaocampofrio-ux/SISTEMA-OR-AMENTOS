@@ -8,7 +8,7 @@ const path = require('path');
 
 const ROOT = process.cwd();
 const reportsDir = path.join(ROOT, 'reports');
-if (!fs.existsSync(reportsDir)) fs.mkdirSync(reportsDir, { recursive: true });
+if (!fs.existsSync(reportsDir)) {fs.mkdirSync(reportsDir, { recursive: true });}
 const stamp = new Date().toISOString().replace(/[:.]/g, '-');
 const logPath = path.join(reportsDir, `server-startup-${stamp}.log`);
 
@@ -17,7 +17,7 @@ let provider = 'smtp';
 try {
   const envText = fs.readFileSync(path.join(ROOT, 'backend', '.env'), 'utf8');
   const match = envText.match(/MAIL_PROVIDER\s*=\s*(\w+)/i);
-  if (match) provider = match[1].toLowerCase();
+  if (match) {provider = match[1].toLowerCase();}
 } catch {}
 
 const criticalPatterns = [
