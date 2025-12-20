@@ -3,11 +3,22 @@ const router = express.Router();
 const authService = require('../services/auth');
 const fetch = require('node-fetch');
 
+// Safely read and trim env values to avoid CRLF/newline issues and CLI bugs
+function envTrim(key, fallback) {
+  const val = process.env[key];
+  if (typeof val === 'string') {
+    // Remove "yes\n" or "yes\r\n" prefix from Vercel CLI bug
+    let cleaned = val.replace(/^yes[\r\n]+/i, '');
+    cleaned = cleaned.trim();
+    return cleaned.length ? cleaned : (fallback ?? '');
+  }
+  return fallback ?? '';
+}
+
 // Debug: mostrar credenciais esperadas
 router.get('/debug-creds', (req, res) => {
-  // Trim env values to avoid issues with trailing newlines from Vercel UI input
-  const ADMIN_USER = (process.env.ADMIN_USER || 'marciel').trim();
-  const ADMIN_PASS = (process.env.ADMIN_PASS || '142514').trim();
+  const ADMIN_USER = envTrim('ADMIN_USER', 'marciel');
+  const ADMIN_PASS = envTrim('ADMIN_PASS', '142514');
   res.json({
     ADMIN_USER,
     ADMIN_PASS,
@@ -21,9 +32,8 @@ router.get('/debug-creds', (req, res) => {
 // Simple admin login using env credentials
 router.post('/login', (req, res) => {
   const { username, password } = req.body;
-  // Trim env values to handle trailing newlines from Vercel UI input
-  const ADMIN_USER = (process.env.ADMIN_USER || 'marciel').trim();
-  const ADMIN_PASS = (process.env.ADMIN_PASS || '142514').trim();
+  const ADMIN_USER = envTrim('ADMIN_USER', 'marciel');
+  const ADMIN_PASS = envTrim('ADMIN_PASS', '142514');
 
   console.log('[AUTH] Login attempt:', { username, hasPassword: Boolean(password) });
   console.log('[AUTH] Comparison:', { 
