@@ -4,7 +4,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Agendamento – Seus Dados</title>
+  <script src="js/notifier.js"></script>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="css/header-styles.css">
+  <link rel="stylesheet" href="css/system-text-colors.css">
   <style>
     :root { --primary:#3498db; --dark-bg:#0f0f1e; --dark-card:#16213e; --dark-sidebar:#1a1a2e; }
     body { background: var(--dark-bg); color:#e0e0e0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
@@ -43,13 +46,23 @@
           <div class="col-md-4"><label class="form-label">Complemento</label><input id="complemento" class="form-control"></div>
         </div>
         <div class="row g-3 mb-3">
-          <div class="col-md-5"><label class="form-label">Cidade *</label><input id="cidade" class="form-control" required></div>
+          <div class="col-md-5">
+            <label class="form-label">Cidade *</label>
+            <select id="cidade" class="form-select" required>
+              <option value="">Selecione</option>
+              <option value="Várzea Paulista - SP">Várzea Paulista - SP</option>
+              <option value="Campo Limpo Paulista - SP">Campo Limpo Paulista - SP</option>
+              <option value="Jundiaí - SP">Jundiaí - SP</option>
+              <option value="São Paulo - SP">São Paulo - SP</option>
+              <option value="Outra cidade (confirmar no WhatsApp)">Outra cidade (confirmar no WhatsApp)</option>
+            </select>
+            <small id="taxaCidadeInfo" class="text-info d-block mt-1"></small>
+          </div>
           <div class="col-md-3"><label class="form-label">Estado *</label>
             <select id="estado" class="form-select" required>
               <option value="">Selecione</option>
               <option>SP</option><option>RJ</option><option>MG</option><option>ES</option>
               <option>PR</option><option>SC</option><option>RS</option><option>BA</option><option>PE</option>
-              <!-- demais estados omitidos para brevidade -->
             </select>
           </div>
           <div class="col-md-4"><label class="form-label">CEP</label><input id="cep" class="form-control" placeholder="00000-000"></div>
@@ -72,12 +85,52 @@
     const k='agendamentoDraft';
     function getDraft(){ return JSON.parse(localStorage.getItem(k) || '{}'); }
     function saveDraft(part){ const cur=getDraft(); localStorage.setItem(k, JSON.stringify(Object.assign(cur, part))); }
+    const cityFees = {
+      'Várzea Paulista - SP': 25,
+      'Campo Limpo Paulista - SP': 20,
+      'Jundiaí - SP': 35,
+      'São Paulo - SP': 50,
+      'Outra cidade (confirmar no WhatsApp)': null
+    };
+
+    function updateTaxaInfo() {
+      const cidadeSelect = document.getElementById('cidade');
+      const info = document.getElementById('taxaCidadeInfo');
+      const selected = cidadeSelect.value;
+      const taxa = cityFees[selected];
+      if (!selected) {
+        info.textContent = '';
+        return null;
+      }
+      if (taxa === null) {
+        info.textContent = 'Taxa sob consulta — vamos confirmar pelo WhatsApp antes de agendar.';
+      } else {
+        info.textContent = `Taxa de deslocamento estimada: R$ ${taxa.toFixed(2)}`;
+      }
+      return taxa;
+    }
     const d=getDraft(); if(!d.data_agendamento || !d.horario_inicio){ window.location.href='/agendamento-data.html'; }
+    // Pré-preenchimento dos dados do cliente
+    if (d.nome) nome.value = d.nome;
+    if (d.email) email.value = d.email;
+    if (d.telefone) telefone.value = d.telefone;
+    if (d.endereco) endereco.value = d.endereco;
+    if (d.complemento) complemento.value = d.complemento;
+    // Pré-selecionar cidade/estado caso já existam no rascunho
+    if (d.cidade) document.getElementById('cidade').value = d.cidade;
+    if (d.estado) document.getElementById('estado').value = d.estado;
+    if (d.cep) cep.value = d.cep;
+    if (d.tipo_servico) tipo_servico.value = d.tipo_servico;
+    if (d.descricao_problema) descricao_problema.value = d.descricao_problema;
+    updateTaxaInfo();
+    document.getElementById('cidade').addEventListener('change', updateTaxaInfo);
     document.getElementById('btnContinuar').onclick = ()=>{
+      const taxa = updateTaxaInfo();
       const part = {
         nome: nome.value.trim(), email: email.value.trim(), telefone: telefone.value.trim(),
-        endereco: endereco.value.trim(), complemento: complemento.value.trim(), cidade: cidade.value.trim(),
-        estado: estado.value, cep: cep.value.trim(), tipo_servico: tipo_servico.value, descricao_problema: descricao_problema.value.trim()
+        endereco: endereco.value.trim(), complemento: complemento.value.trim(), cidade: cidade.value,
+        estado: estado.value, cep: cep.value.trim(), tipo_servico: tipo_servico.value, descricao_problema: descricao_problema.value.trim(),
+        taxa_deslocamento: taxa
       };
       // validação simples
       for(const k2 of ['nome','email','telefone','endereco','cidade','estado']){ if(!part[k2]){ alert('Preencha '+k2); return; } }

@@ -332,7 +332,7 @@
     <div class="welcome-section">
       <div class="welcome-title">🎯 Bem-vindo!</div>
       <p class="welcome-subtitle">
-        A <strong>Refrigeração Campo Frio</strong> está aqui para oferecer os melhores serviços de refrigeração, manutenção e assistência técnica. Agende seu atendimento agora e receba a melhor qualidade em refrigeração!
+        A <strong>Refrigeração Campo Frio</strong> e estamos aqui para oferecer os melhores serviços de refrigeração, manutenção e assistência técnica. Agende seu atendimento agora e receba a melhor qualidade em refrigeração!
       </p>
 
       <div class="company-info">
@@ -394,9 +394,10 @@
           </h6>
           <div id="infosCliente"></div>
           <div id="agendamentosExistentes" style="margin-top: 16px;"></div>
-          <div style="margin-top: 16px; display: flex; gap: 8px;">
-            <button id="btnNovoAgendamento" class="btn-custom btn-primary-custom" style="flex: 1;">Novo Agendamento</button>
-            <button id="btnReassumir" class="btn-custom btn-secondary-custom" style="flex: 1; display: none;">Reagendar</button>
+          <div style="margin-top: 16px; display: flex; gap: 8px; flex-wrap: wrap;">
+            <button id="btnNovoAgendamento" class="btn-custom btn-primary-custom" style="flex: 1; min-width: 150px;">Novo Agendamento</button>
+            <button id="btnReassumir" class="btn-custom btn-secondary-custom" style="flex: 1; min-width: 150px; display: none;">Reagendar</button>
+            <button id="btnCancelar" class="btn-custom" style="flex: 1; min-width: 150px; display: none; background: #e74c3c; color: #fff; border: none;">Cancelar</button>
           </div>
         </div>
       </div>
@@ -516,8 +517,10 @@
           });
           html += `</ul>`;
           document.getElementById('btnReassumir').style.display = 'inline-block';
+          document.getElementById('btnCancelar').style.display = 'inline-block';
         } else {
           document.getElementById('btnReassumir').style.display = 'none';
+          document.getElementById('btnCancelar').style.display = 'none';
         }
 
         document.getElementById('infosCliente').innerHTML = html;
@@ -554,6 +557,16 @@
         localStorage.setItem('agendamentoDraft', JSON.stringify(draft));
         window.location.href = '/agendamento-data.html';
       }
+    });
+
+    document.getElementById('btnCancelar').addEventListener('click', () => {
+      if (!clienteAtual) return;
+      
+      const mensagem = `Cancelar agendamento de ${clienteAtual.nome}?\n\nClique em OK para confirmar ou Cancelar para voltar.`;
+      if (!confirm(mensagem)) return;
+
+      const whatsappMsg = `Olá, gostaria de cancelar meu agendamento. Meu protocolo é ${String(protocoloAtual).padStart(4, '0')} e meu telefone é ${clienteAtual.telefone}`;
+      window.open(`https://wa.me/5511980163597?text=${encodeURIComponent(whatsappMsg)}`, '_blank');
     });
 
     // === ABA NOVO ===
