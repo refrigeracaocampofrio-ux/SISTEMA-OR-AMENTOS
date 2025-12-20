@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Refrigeração Campo Frio – Sistema de Agendamento</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="css/header-styles.css">
+  <link rel="stylesheet" href="css/system-text-colors.css">
+  <style>
+    :root {
+      --primary: #3498db;
+      --accent: #2ecc71;
+      --dark-bg: #0f0f1e;
+      --dark-card: #16213e;
+      --dark-sidebar: #1a1a2e;
+    }
+
+    body {
+      background: linear-gradient(135deg, #0f0f1e 0%, #1a1a2e 100%);
+      color: #e0e0e0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      min-height: 100vh;
+    }
+
+    .navbar-top {
+      background: #1a1a2e;
+      padding: 12px 18px;
+      border-bottom: 1px solid rgba(52, 152, 219, 0.3);
+      display: flex;
+      align-items: center;
+    }
+
+    .navbar-top img {
+      height: 50px;
+      margin-right: 12px;
+    }
+
+    .container-welcome {
+      max-width: 1100px;
+      margin: 40px auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 30px;
+      align-items: center;
+    }
+
+    .welcome-section {
+      background: var(--dark-card);
+      border: 1px solid rgba(52, 152, 219, 0.3);
+      border-radius: 12px;
+      padding: 40px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+    }
+
+    .welcome-title {
+      font-size: 32px;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 16px;
+      background: linear-gradient(135deg, #3498db 0%, #2ecc71 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .welcome-subtitle {
+      font-size: 16px;
+      color: #b0e0c9;
+      margin-bottom: 24px;
+      line-height: 1.6;
+    }
+
+    .company-info {
+      background: rgba(52, 152, 219, 0.08);
+      border-left: 4px solid #2ecc71;
+      border-radius: 8px;
+      padding: 16px;
+      margin-bottom: 24px;
+    }
+
+    .info-item {
+      font-size: 13px;
+      color: #c0d9f0;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .info-item strong {
+      color: #fff;
+      min-width: 90px;
+    }
+
+    .info-item i {
+      color: #2ecc71;
+    }
+
+    .whatsapp-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      background: linear-gradient(135deg, #25d366 0%, #1da851 100%);
+      color: #fff;
+      border: none;
+      padding: 14px 28px;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 16px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      margin-bottom: 24px;
+      width: 100%;
+    }
+
+    .whatsapp-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(37, 211, 102, 0.4);
+      color: #fff;
+      text-decoration: none;
+    }
+
+    .form-section {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .form-group label {
+      font-size: 14px;
+      font-weight: 600;
+      color: #fff;
+      margin-bottom: 8px;
+    }
+
+    .form-control, .form-select {
+      background: var(--dark-bg);
+      color: #e0e0e0;
+      border: 1px solid rgba(52, 152, 219, 0.3);
+      border-radius: 6px;
+      padding: 11px 14px;
+      font-size: 14px;
+      transition: all 0.3s ease;
+    }
+
+    .form-control:focus, .form-select:focus {
+      background: var(--dark-bg);
+      color: #e0e0e0;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.15);
+    }
+
+    .search-option-label {
+      font-size: 13px;
+      color: #9aa4b3;
+      margin-bottom: 12px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .form-divider {
+      text-align: center;
+      margin: 12px 0;
+      font-size: 13px;
+      color: #666;
+    }
+
+    .form-divider::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: rgba(52, 152, 219, 0.15);
+      top: 50%;
+    }
+
+    .form-divider span {
+      position: relative;
+      background: var(--dark-card);
+      padding: 0 8px;
+    }
+
+    .action-buttons {
+      display: flex;
+      gap: 12px;
+    }
+
+    .btn-custom {
+      flex: 1;
+      padding: 12px 20px;
+      border-radius: 6px;
+      font-weight: 600;
+      font-size: 14px;
+      border: none;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .btn-primary-custom {
+      background: var(--primary);
+      color: #fff;
+    }
+
+    .btn-primary-custom:hover:not(:disabled) {
+      background: #2980b9;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(52, 152, 219, 0.3);
+    }
+
+    .btn-secondary-custom {
+      background: transparent;
+      color: #9aa4b3;
+      border: 1px solid #9aa4b3;
+    }
+
+    .btn-secondary-custom:hover {
+      background: rgba(52, 152, 219, 0.1);
+      color: #e0e0e0;
+      border-color: var(--primary);
+    }
+
+    .btn-custom:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .loading-spinner {
+      display: none;
+      text-align: center;
+    }
+
+    .spinner-border-custom {
+      color: var(--primary);
+    }
+
+    .error-message {
+      background: rgba(231, 76, 60, 0.1);
+      border-left: 4px solid #e74c3c;
+      color: #ff6b6b;
+      padding: 12px;
+      border-radius: 6px;
+      font-size: 13px;
+      margin-bottom: 16px;
+      display: none;
+    }
+
+    .success-message {
+      background: rgba(46, 204, 113, 0.1);
+      border-left: 4px solid #2ecc71;
+      color: #2ecc71;
+      padding: 12px;
+      border-radius: 6px;
+      font-size: 13px;
+      margin-bottom: 16px;
+      display: none;
+    }
+
+    .tabs {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 24px;
+      border-bottom: 1px solid rgba(52, 152, 219, 0.15);
+      padding-bottom: 12px;
+    }
+
+    .tab-btn {
+      background: transparent;
+      border: none;
+      color: #9aa4b3;
+      font-weight: 600;
+      font-size: 14px;
+      cursor: pointer;
+      padding-bottom: 12px;
+      border-bottom: 3px solid transparent;
+      transition: all 0.3s ease;
+    }
+
+    .tab-btn.active {
+      color: var(--primary);
+      border-bottom-color: var(--primary);
+    }
+
+    .tab-content {
+      display: none;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    @media (max-width: 768px) {
+      .container-welcome {
+        grid-template-columns: 1fr;
+      }
+
+      .welcome-title {
+        font-size: 24px;
+      }
+
+      .welcome-section {
+        padding: 24px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar navbar-dark py-2 px-3 border-bottom" style="background: var(--dark-sidebar); border-bottom: 1px solid rgba(52, 152, 219, 0.3) !important;">
+    <div class="container-fluid d-flex justify-content-center">
+      <div class="d-flex align-items-center" style="gap: 14px; text-align: center; justify-content: center;">
+        <img src="/imagens/logo-rcf.png" alt="RCF Logo" style="height: 50px; object-fit: contain;" onerror="this.onerror=null; this.src='/imagens/logo-rcf.svg';">
+        <div style="line-height: 1.3;">
+          <span class="navbar-brand mb-0 h1 fw-bold" style="color: #ffffff; margin: 0; font-size: 22px;">Refrigeração Campo Frio</span>
+          <div class="navbar-text text-uppercase" style="font-size: 12px; letter-spacing: 0.8px; color: #ffffff; margin-top: 2px;">
+            SISTEMA DE AGENDAMENTO
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container-welcome">
+    <!-- Seção de Boas-vindas -->
+    <div class="welcome-section">
+      <div class="welcome-title">🎯 Bem-vindo!</div>
+      <p class="welcome-subtitle">
+        A <strong>Refrigeração Campo Frio</strong> está aqui para oferecer os melhores serviços de refrigeração, manutenção e assistência técnica. Agende seu atendimento agora e receba a melhor qualidade em refrigeração!
+      </p>
+
+      <div class="company-info">
+        <div class="info-item">
+          <i class="fas fa-building"></i>
+          <strong>CNPJ:</strong>
+          <span>44.334.358/0001-26</span>
+        </div>
+        <div class="info-item">
+          <i class="fas fa-envelope"></i>
+          <strong>Email:</strong>
+          <span>refrigeracaocampofrio@gmail.com</span>
+        </div>
+        <div class="info-item">
+          <i class="fas fa-map-marker-alt"></i>
+          <strong>Endereço:</strong>
+          <span>Avenida Antonio Di Gioia nº 50<br>Jardim California – Campo Limpo Paulista – SP</span>
+        </div>
+      </div>
+
+      <a href="https://wa.me/5511980163597?text=Olá%20Refrigeração%20Campo%20Frio!%20Gostaria%20de%20agendar%20um%20atendimento." target="_blank" class="whatsapp-btn">
+        <i class="fab fa-whatsapp"></i> Chat no WhatsApp
+      </a>
+
+      <div style="text-align: center; color: #9aa4b3; font-size: 13px;">
+        💡 Prefere conversar direto com a gente?<br>Clique no botão acima para o WhatsApp!
+      </div>
+    </div>
+
+    <!-- Seção de Formulário -->
+    <div class="welcome-section">
+      <div class="tabs">
+        <button class="tab-btn active" onclick="abrirAba('tab-buscar')">
+          <i class="fas fa-search"></i> Buscar
+        </button>
+        <button class="tab-btn" onclick="abrirAba('tab-novo')">
+          <i class="fas fa-user-plus"></i> Novo
+        </button>
+      </div>
+
+      <!-- ABA 1: BUSCAR CLIENTE -->
+      <div id="tab-buscar" class="tab-content active">
+        <div class="error-message" id="errorMsgBuscar"></div>
+        <div class="success-message" id="successMsgBuscar"></div>
+
+        <div class="form-section">
+          <label class="search-option-label">Informe seu protocolo ou telefone</label>
+          <div style="display: flex; gap: 8px;">
+            <input type="text" id="buscaQuery" class="form-control" placeholder="Digite protocolo ou telefone" style="flex: 1;">
+            <button id="btnBuscar" class="btn btn-custom btn-primary-custom" style="flex: 0 0 auto;">
+              <i class="fas fa-search"></i>
+            </button>
+          </div>
+        </div>
+
+        <div id="resultadoBusca" style="display: none; margin-top: 20px; padding: 16px; background: rgba(46, 204, 113, 0.08); border-radius: 8px;">
+          <h6 style="color: #2ecc71; margin-bottom: 12px;">
+            <i class="fas fa-check-circle"></i> Cliente Encontrado!
+          </h6>
+          <div id="infosCliente"></div>
+          <div id="agendamentosExistentes" style="margin-top: 16px;"></div>
+          <div style="margin-top: 16px; display: flex; gap: 8px;">
+            <button id="btnNovoAgendamento" class="btn-custom btn-primary-custom" style="flex: 1;">Novo Agendamento</button>
+            <button id="btnReassumir" class="btn-custom btn-secondary-custom" style="flex: 1; display: none;">Reagendar</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ABA 2: NOVO CLIENTE -->
+      <div id="tab-novo" class="tab-content">
+        <div class="error-message" id="errorMsgNovo"></div>
+        <div class="success-message" id="successMsgNovo"></div>
+
+        <div class="form-section">
+          <div class="form-group">
+            <label>Nome Completo *</label>
+            <input type="text" id="novoNome" class="form-control" placeholder="Seu nome completo" required>
+          </div>
+
+          <div class="form-group">
+            <label>Email *</label>
+            <input type="email" id="novoEmail" class="form-control" placeholder="seu@email.com" required>
+          </div>
+
+          <div class="form-group">
+            <label>Telefone *</label>
+            <input type="tel" id="novoTelefone" class="form-control" placeholder="(11) 98016-3597" required>
+          </div>
+
+          <button id="btnGerarProtocolo" class="btn-custom btn-primary-custom">
+            <i class="fas fa-key"></i> Gerar Protocolo
+          </button>
+
+          <div id="resultadoProtocolo" style="display: none; margin-top: 16px; padding: 16px; background: rgba(46, 204, 113, 0.08); border-radius: 8px;">
+            <h6 style="color: #2ecc71; margin-bottom: 8px;">
+              <i class="fas fa-certificate"></i> Seu Protocolo
+            </h6>
+            <div style="font-size: 32px; font-weight: 700; color: var(--primary); text-align: center; margin: 12px 0;">
+              <span id="protocoloGerado"></span>
+            </div>
+            <p style="font-size: 12px; color: #9aa4b3; text-align: center; margin-bottom: 16px;">
+              Guarde este código para futuras consultas
+            </p>
+            <button id="btnAvancarComNovoProtocolo" class="btn-custom btn-primary-custom">
+              Continuar para Agendamento
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const apiBase = '';
+    let clienteAtual = null;
+    let protocoloAtual = null;
+
+    function abrirAba(abaId) {
+      document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+      document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+      document.getElementById(abaId).classList.add('active');
+      event.target.closest('.tab-btn').classList.add('active');
+    }
+
+    function mostrarErro(elementoId, mensagem) {
+      const el = document.getElementById(elementoId);
+      el.textContent = mensagem;
+      el.style.display = 'block';
+    }
+
+    function limparErro(elementoId) {
+      const el = document.getElementById(elementoId);
+      el.style.display = 'none';
+    }
+
+    // === ABA BUSCAR ===
+    document.getElementById('btnBuscar').addEventListener('click', async () => {
+      const query = document.getElementById('buscaQuery').value.trim();
+      if (!query) {
+        mostrarErro('errorMsgBuscar', 'Informe um protocolo ou telefone');
+        return;
+      }
+
+      limparErro('errorMsgBuscar');
+      document.getElementById('resultadoBusca').style.display = 'none';
+
+      try {
+        const res = await fetch(`${apiBase}/clientes/buscar/${encodeURIComponent(query)}`);
+        const data = await res.json();
+
+        if (!res.ok || !data.success) {
+          mostrarErro('errorMsgBuscar', data.error || 'Cliente não encontrado');
+          return;
+        }
+
+        clienteAtual = data.cliente;
+        protocoloAtual = data.protocolo;
+
+        let html = `
+          <p style="margin-bottom: 12px;">
+            <strong>Protocolo:</strong> #${data.protocolo}<br>
+            <strong>Nome:</strong> ${data.cliente.nome}<br>
+            <strong>Telefone:</strong> ${data.cliente.telefone}<br>
+            <strong>Email:</strong> ${data.cliente.email}
+          </p>
+        `;
+
+        if (data.agendamentos && data.agendamentos.length > 0) {
+          html += `
+            <hr style="border-color: rgba(255,255,255,0.1);">
+            <h6 style="color: #fff; margin-bottom: 8px;">Seus Agendamentos:</h6>
+            <ul style="list-style: none; padding: 0; margin: 0;">
+          `;
+          data.agendamentos.forEach(a => {
+            const dataBR = new Date(a.data + 'T00:00:00').toLocaleDateString('pt-BR');
+            html += `
+              <li style="font-size: 12px; padding: 8px; background: rgba(0,0,0,0.2); margin-bottom: 4px; border-radius: 4px;">
+                📅 ${dataBR} | 🕐 ${a.horario_inicio} | Status: <strong>${a.status}</strong>
+              </li>
+            `;
+          });
+          html += `</ul>`;
+          document.getElementById('btnReassumir').style.display = 'inline-block';
+        } else {
+          document.getElementById('btnReassumir').style.display = 'none';
+        }
+
+        document.getElementById('infosCliente').innerHTML = html;
+        document.getElementById('resultadoBusca').style.display = 'block';
+      } catch (err) {
+        mostrarErro('errorMsgBuscar', 'Erro ao buscar cliente: ' + err.message);
+      }
+    });
+
+    document.getElementById('btnNovoAgendamento').addEventListener('click', () => {
+      if (clienteAtual) {
+        const draft = {
+          protocolo: protocoloAtual,
+          cliente_id: clienteAtual.id,
+          nome: clienteAtual.nome,
+          email: clienteAtual.email,
+          telefone: clienteAtual.telefone
+        };
+        localStorage.setItem('agendamentoDraft', JSON.stringify(draft));
+        window.location.href = '/agendamento-data.html';
+      }
+    });
+
+    document.getElementById('btnReassumir').addEventListener('click', () => {
+      if (clienteAtual) {
+        const draft = {
+          protocolo: protocoloAtual,
+          cliente_id: clienteAtual.id,
+          nome: clienteAtual.nome,
+          email: clienteAtual.email,
+          telefone: clienteAtual.telefone,
+          modo: 'reagendar'
+        };
+        localStorage.setItem('agendamentoDraft', JSON.stringify(draft));
+        window.location.href = '/agendamento-data.html';
+      }
+    });
+
+    // === ABA NOVO ===
+    document.getElementById('btnGerarProtocolo').addEventListener('click', async () => {
+      const nome = document.getElementById('novoNome').value.trim();
+      const email = document.getElementById('novoEmail').value.trim();
+      const telefone = document.getElementById('novoTelefone').value.trim();
+
+      if (!nome || !email || !telefone) {
+        mostrarErro('errorMsgNovo', 'Preencha todos os campos');
+        return;
+      }
+
+      limparErro('errorMsgNovo');
+
+      try {
+        const res = await fetch(`${apiBase}/clientes/novo-protocolo`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ nome, email, telefone })
+        });
+
+        const data = await res.json();
+
+        if (!res.ok || !data.success) {
+          mostrarErro('errorMsgNovo', data.error || 'Erro ao gerar protocolo');
+          return;
+        }
+
+        clienteAtual = data.cliente;
+        protocoloAtual = data.protocolo;
+
+        document.getElementById('protocoloGerado').textContent = String(data.protocolo).padStart(4, '0');
+        document.getElementById('resultadoProtocolo').style.display = 'block';
+      } catch (err) {
+        mostrarErro('errorMsgNovo', 'Erro: ' + err.message);
+      }
+    });
+
+    document.getElementById('btnAvancarComNovoProtocolo').addEventListener('click', () => {
+      if (clienteAtual && protocoloAtual) {
+        const draft = {
+          protocolo: protocoloAtual,
+          cliente_id: clienteAtual.id,
+          nome: clienteAtual.nome,
+          email: clienteAtual.email,
+          telefone: clienteAtual.telefone
+        };
+        localStorage.setItem('agendamentoDraft', JSON.stringify(draft));
+        window.location.href = '/agendamento-data.html';
+      }
+    });
+
+    // Enter no input de busca
+    document.getElementById('buscaQuery').addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') {
+        document.getElementById('btnBuscar').click();
+      }
+    });
+  </script>
+</body>
+</html>

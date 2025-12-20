@@ -1,4 +1,4 @@
-<<!doctype html>
+<!doctype html>
 <html lang="pt-BR">
   <head>
     <base target="_top" />
@@ -16,6 +16,9 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
     />
+    <link rel="stylesheet" href="css/header-styles.css?v=blue3" />
+    <link rel="stylesheet" href="css/system-text-colors.css?v=blue3" />
+    <link rel="stylesheet" href="css/agendamentos-override.css?v=blue3" />
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css"
@@ -32,6 +35,24 @@
         --dark-bg: #0f0f1e;
         --dark-card: #16213e;
         --dark-sidebar: #1a1a2e;
+      }
+
+      /* Reforço final: fundo azul escuro na tabela de agendamentos */
+      #tabelaAgendamentos,
+      #tabelaAgendamentos tr,
+      #tabelaAgendamentos td,
+      #tabelaAgendamentos th,
+      #tabelaAgendamentos tbody {
+        background-color: #1e3a5f !important;
+        color: #ffffff !important;
+      }
+      #tabelaAgendamentos small,
+      #tabelaAgendamentos .text-muted {
+        color: #b8c9db !important;
+      }
+      #tabelaAgendamentos tr:hover td,
+      #tabelaAgendamentos tr:hover th {
+        background-color: #2a4a70 !important;
       }
 
       /* Contraste inteligente: fundos escuros = texto branco, fundos claros = texto preto */
@@ -112,7 +133,7 @@
       }
 
       thead, .table-dark {
-        color: #ffffff;
+        color: #000000;
       }
 
       tbody tr {
@@ -124,9 +145,8 @@
         color: #e0e0e0;
       }
 
-      .card-header {
-        color: #ffffff;
-      }
+      /* Card header color control moved to external stylesheet (css/contrast.css) */
+      /* .card-header { color: #ffffff; } */
 
       .card-light {
         background: #ffffff;
@@ -196,24 +216,7 @@
         color: #6c757d !important;
       }
 
-      /* REGRAS DE CONTRASTE PARA CARDS */
-      
-      /* Card headers com bg-light = texto preto */
-      .card-header.bg-light,
-      .card-header.bg-light *,
-      .card-header.bg-light h6,
-      .card-header.bg-light i {
-        color: #1a1a2e !important;
-      }
-
-      /* Card headers SEM bg-light = texto branco */
-      .card-header:not(.bg-light),
-      .card-header:not(.bg-light) *,
-      .card-header:not(.bg-light) h6,
-      .card-header:not(.bg-light) i,
-      .card-header:not(.bg-light) h5 {
-        color: #ffffff !important;
-      }
+      /* REGRAS DE CONTRASTE PARA CARDS - removidas para usar contrast.css */
 
       /* Card body padrão (escuro) = labels brancos */
       .card-body label,
@@ -418,13 +421,14 @@
         transform: translateY(-2px);
       }
 
-      .card-header {
+      /* Card header styling handled by external stylesheet for consistency */
+      /* .card-header {
         background: #1e2a3a !important;
         border-bottom: 1px solid rgba(52, 152, 219, 0.3);
         font-weight: 600;
         padding: 15px 20px;
         color: #ffffff !important;
-      }
+      } */
 
       .dashboard-card {
         padding: 20px;
@@ -487,6 +491,23 @@
         background-color: rgba(52, 152, 219, 0.15);
       }
 
+      /* TABELA DE AGENDAMENTOS - FUNDO AZUL ESCURO */
+      #tabelaAgendamentos tr,
+      #tabelaAgendamentos td,
+      #tabelaAgendamentos th {
+        background-color: #1e3a5f !important;
+        color: #ffffff !important;
+      }
+
+      #tabelaAgendamentos .text-muted,
+      #tabelaAgendamentos small {
+        color: #b8c9db !important;
+      }
+
+      #tabelaAgendamentos tr:hover td {
+        background-color: #2a4a70 !important;
+      }
+
       .form-control,
       .form-select {
         background-color: #1e2a3a;
@@ -509,21 +530,31 @@
       /* CONTRASTE: tabelas padrão (fundo claro) devem usar texto escuro */
       .table {
         color: #1a1a2e;
+        --bs-table-bg: transparent !important;
+        --bs-table-striped-bg: transparent !important;
+        --bs-table-hover-bg: transparent !important;
+      }
+
+      /* Forçar fundo azul escuro nas linhas da tabela para alto contraste */
+      .table tbody tr,
+      .table tbody td {
+        background-color: #1e3a5f !important;
+        border-color: #2a4a70 !important;
       }
 
       .table-striped > tbody > tr:nth-of-type(odd) > * {
         background-color: rgba(255, 255, 255, 0.02);
       }
 
-      /* Forçar texto escuro nas células de corpo da tabela (fundo branco/claro) */
+      /* Forçar texto branco nas células de corpo da tabela (fundo azul escuro) */
       .table tbody td,
       .table tbody th {
-        color: #1a1a2e;
+        color: #ffffff;
       }
 
-      /* Texto "muted" mais legível sobre fundo claro */
+      /* Texto "muted" mais legível sobre fundo azul escuro */
       .table .text-muted {
-        color: #495057 !important;
+        color: #b8c9db !important;
       }
 
       .modal-content {
@@ -846,6 +877,17 @@
             </div>
           </div>
           <div class="d-flex align-items-center">
+            <a
+              class="btn btn-success btn-sm me-3 fw-bold"
+              href="/agendamento-welcome.html"
+              target="_blank"
+              rel="noopener"
+              title="Link de Agendamento"
+              style="box-shadow: 0 2px 8px rgba(39, 174, 96, 0.3);"
+            >
+              <i class="fas fa-calendar-check me-1"></i> Link de Agendamento
+            </a>
+
             <span class="badge bg-success me-3" id="statusConexao">
               <i class="fas fa-wifi"></i> Online
             </span>
@@ -920,7 +962,7 @@
               <li class="nav-item">
                 <a class="nav-link" href="#" onclick="abrirAba('agendamentos')">
                   <i class="fas fa-calendar-check me-2"></i> Agendamentos
-                  <span class="badge bg-warning float-end" id="badgeAgendamentos">0</span>
+                  <span class="badge bg-primary float-end" id="badgeAgendamentos">0</span>
                 </a>
               </li>
               <li class="nav-item">
@@ -1041,7 +1083,7 @@
                       <i class="fas fa-file-invoice-dollar me-2"></i> Novo Orçamento
                     </h5>
                     <button
-                      class="btn btn-sm btn-outline-primary"
+                      class="btn btn-sm btn-black"
                       onclick="abrirModalCriarOrcamentoExistente()"
                     >
                       <i class="fas fa-copy me-1"></i> Criar a partir de Orçamento Existente
@@ -1343,7 +1385,7 @@
                           <div class="col-md-7">
                             <div class="table-responsive">
                               <table class="table table-sm table-hover">
-                                <thead class="table-success">
+                                <thead style="background-color: #ffffff !important; color: #000000 !important;">
                                   <tr>
                                     <th>Peça</th>
                                     <th width="80">Qtd</th>
@@ -1418,7 +1460,7 @@
                       <i class="fas fa-plus-circle me-2"></i> Nova Ordem de Serviço (Direta)
                     </h5>
                     <button
-                      class="btn btn-sm btn-outline-primary"
+                      class="btn btn-sm btn-black"
                       onclick="abrirModalCriarOSExistente()"
                     >
                       <i class="fas fa-copy me-1"></i> Criar a partir de OS Existente
@@ -1659,7 +1701,7 @@
                     <h5 class="mb-0"><i class="fas fa-file-invoice me-2"></i> Orçamentos</h5>
                     <div>
                       <button
-                        class="btn btn-sm btn-outline-secondary me-2"
+                        class="btn btn-sm btn-black me-2"
                         onclick="exportarOrcamentos()"
                       >
                         <i class="fas fa-download"></i> Exportar
@@ -1730,7 +1772,7 @@
                     <!-- TABELA -->
                     <div class="table-responsive">
                       <table class="table table-hover table-sm">
-                        <thead class="table-success">
+                        <thead style="background-color: #ffffff !important; color: #000000 !important;">
                           <tr>
                             <th width="120">Protocolo</th>
                             <th width="100">Data</th>
@@ -1778,7 +1820,7 @@
                     <h5 class="mb-0"><i class="fas fa-list me-2"></i> Ordens de Serviço</h5>
                     <div>
                       <button
-                        class="btn btn-sm btn-outline-secondary me-2"
+                        class="btn btn-sm btn-black me-2"
                         onclick="exportarOrdens()"
                       >
                         <i class="fas fa-download"></i> Exportar
@@ -1848,7 +1890,7 @@
                     <!-- TABELA -->
                     <div class="table-responsive">
                       <table class="table table-hover table-sm">
-                        <thead class="table-dark">
+                        <thead style="background-color: #ffffff !important; color: #000000 !important;">
                           <tr>
                             <th width="120">Protocolo</th>
                             <th width="100">Data</th>
@@ -1892,7 +1934,7 @@
             <div class="row">
               <div class="col-12">
                 <div class="card">
-                  <div class="card-header d-flex justify-content-between align-items-center">
+                  <div class="card-header bg-light d-flex justify-content-between align-items-center">
                     <h5 class="mb-0"><i class="fas fa-boxes me-2"></i> Estoque</h5>
                     <div>
                       <button class="btn btn-sm btn-primary" onclick="carregarEstoque(true)">
@@ -1957,7 +1999,7 @@
                       <div class="col-md-8">
                         <div class="table-responsive">
                           <table class="table table-hover table-sm">
-                            <thead class="table-dark">
+                            <thead style="background-color: #ffffff !important; color: #000000 !important;">
                               <tr>
                                 <th>Peça</th>
                                 <th width="120">Em estoque</th>
@@ -2022,7 +2064,7 @@
                       <div class="col-md-3">
                         <div class="search-box">
                           <i class="fas fa-search"></i>
-                          <input type="text" class="form-control ps-5" id="buscaAgendamento" placeholder="Buscar por nome, email..." onkeyup="filtrarAgendamentosTabela()">
+                          <input type="text" class="form-control ps-5" id="buscaAgendamento" placeholder="Buscar por nome, email..." onkeyup="filtrarAgendamentosTabela()">,
                         </div>
                       </div>
                     </div>
@@ -2030,7 +2072,7 @@
                     <!-- TABELA AGENDAMENTOS -->
                     <div class="table-responsive">
                       <table class="table table-hover">
-                        <thead class="table-dark">
+                        <thead>
                           <tr>
                             <th>Data</th>
                             <th>Horário</th>
@@ -2103,7 +2145,7 @@
                     <!-- TABELA CLIENTES -->
                     <div class="table-responsive">
                       <table class="table table-hover">
-                        <thead class="table-primary">
+                        <thead style="background-color: #ffffff !important; color: #000000 !important;">
                           <tr>
                             <th>Nome</th>
                             <th>Telefone</th>
@@ -3675,7 +3717,7 @@
             frontendCache.set('orcamentos', orcamentos);
 
             if (orcamentos.length === 0) {
-              tbody.innerHTML = '<tr><td colspan="7" class="text-center py-5 text-muted"><i class="fas fa-file-invoice fa-3x mb-3 opacity-25"></i><h5>Nenhum orçamento encontrado</h5><p class="mb-0">Comece criando um novo orçamento</p></td></tr>';
+              tbody.innerHTML = '<tr><td colspan="7" class="text-center py-5" style="background-color: #16213e !important; color: #e0e0e0 !important;"><i class="fas fa-file-invoice fa-3x mb-3 opacity-50" style="color: #e0e0e0 !important;"></i><h5 style="color: #ffffff !important;">Nenhum orçamento encontrado</h5><p class="mb-0" style="color: #c0c0c0 !important;">Comece criando um novo orçamento</p></td></tr>';
               document.getElementById('paginacaoOrcamentos').innerHTML = '';
               return;
             }
@@ -3742,7 +3784,7 @@
         const tbody = document.getElementById('tabelaOrcamentos');
 
         if (todosOrcamentosFiltrados.length === 0) {
-          tbody.innerHTML = '<tr><td colspan="7" class="text-center py-5 text-muted"><i class="fas fa-search fa-2x mb-3 opacity-25"></i><h5>Nenhum orçamento encontrado</h5><p class="mb-0">Tente ajustar os filtros de busca</p></td></tr>';
+          tbody.innerHTML = '<tr><td colspan="7" class="text-center py-5" style="background-color: #16213e !important; color: #e0e0e0 !important;"><i class="fas fa-search fa-2x mb-3 opacity-50" style="color: #e0e0e0 !important;"></i><h5 style="color: #ffffff !important;">Nenhum orçamento encontrado</h5><p class="mb-0" style="color: #c0c0c0 !important;">Tente ajustar os filtros de busca</p></td></tr>';
           document.getElementById('paginacaoOrcamentos').innerHTML = '';
           return;
         }
@@ -4380,7 +4422,7 @@
           todasOrdensCache = cachedData;
           todasOrdensFiltradas = [...cachedData];
           if (cachedData.length === 0) {
-            tbody.innerHTML = '<tr><td colspan="7" class="text-center py-5 text-muted"><i class="fas fa-inbox fa-3x mb-3 opacity-25"></i><h5>Nenhuma ordem encontrada</h5><p class="mb-0">Comece criando uma nova ordem de serviço</p></td></tr>';
+            tbody.innerHTML = '<tr><td colspan="7" class="text-center py-5" style="background-color: #16213e !important; color: #e0e0e0 !important;"><i class="fas fa-inbox fa-3x mb-3 opacity-50" style="color: #e0e0e0 !important;"></i><h5 style="color: #ffffff !important;">Nenhuma ordem encontrada</h5><p class="mb-0" style="color: #c0c0c0 !important;">Comece criando uma nova ordem de serviço</p></td></tr>';
             document.getElementById('paginacaoOrdens').innerHTML = '';
           } else {
             aplicarFiltrosOSLocais();
@@ -4401,7 +4443,7 @@
             frontendCache.set('ordens', ordens);
 
             if (ordens.length === 0) {
-              tbody.innerHTML = '<tr><td colspan="7" class="text-center py-5 text-muted"><i class="fas fa-inbox fa-3x mb-3 opacity-25"></i><h5>Nenhuma ordem encontrada</h5><p class="mb-0">Comece criando uma nova ordem de serviço</p></td></tr>';
+              tbody.innerHTML = '<tr><td colspan="7" class="text-center py-5" style="background-color: #16213e !important; color: #e0e0e0 !important;"><i class="fas fa-inbox fa-3x mb-3 opacity-50" style="color: #e0e0e0 !important;"></i><h5 style="color: #ffffff !important;">Nenhuma ordem encontrada</h5><p class="mb-0" style="color: #c0c0c0 !important;">Comece criando uma nova ordem de serviço</p></td></tr>';
               document.getElementById('paginacaoOrdens').innerHTML = '';
               return;
             }
@@ -4468,7 +4510,7 @@
         const tbody = document.getElementById('tabelaOrdens');
 
         if (todasOrdensFiltradas.length === 0) {
-          tbody.innerHTML = '<tr><td colspan="7" class="text-center py-5 text-muted"><i class="fas fa-search fa-2x mb-3 opacity-25"></i><h5>Nenhuma ordem encontrada</h5><p class="mb-0">Tente ajustar os filtros de busca</p></td></tr>';
+          tbody.innerHTML = '<tr><td colspan="7" class="text-center py-5" style="background-color: #16213e !important; color: #e0e0e0 !important;"><i class="fas fa-search fa-2x mb-3 opacity-50" style="color: #e0e0e0 !important;"></i><h5 style="color: #ffffff !important;">Nenhuma ordem encontrada</h5><p class="mb-0" style="color: #c0c0c0 !important;">Tente ajustar os filtros de busca</p></td></tr>';
           document.getElementById('paginacaoOrdens').innerHTML = '';
           return;
         }
@@ -4725,7 +4767,7 @@
         const tbody = document.getElementById('tabelaClientes');
 
         if (!clientes || clientes.length === 0) {
-          tbody.innerHTML = '<tr><td colspan="6" class="text-center py-5 text-muted"><i class="fas fa-users fa-3x mb-3 opacity-25"></i><h5>Nenhum cliente encontrado</h5></td></tr>';
+          tbody.innerHTML = '<tr><td colspan="6" class="text-center py-5" style="background-color: #16213e !important; color: #e0e0e0 !important;"><i class="fas fa-users fa-3x mb-3 opacity-50" style="color: #e0e0e0 !important;"></i><h5 style="color: #ffffff !important;">Nenhum cliente encontrado</h5></td></tr>';
           return;
         }
 
@@ -4942,7 +4984,7 @@
         }
 
         if (!agendamentosFiltrados || agendamentosFiltrados.length === 0) {
-          tbody.innerHTML = '<tr><td colspan="8" class="text-center py-5 text-muted"><i class="fas fa-calendar-times fa-3x mb-3 opacity-25"></i><h5>Nenhum agendamento encontrado</h5></td></tr>';
+          tbody.innerHTML = '<tr><td colspan="8" class="text-center py-5" style="background-color: #16213e !important; color: #e0e0e0 !important;"><i class="fas fa-calendar-times fa-3x mb-3 opacity-50" style="color: #e0e0e0 !important;"></i><h5 style="color: #ffffff !important;">Nenhum agendamento encontrado</h5></td></tr>';
           return;
         }
 
@@ -4958,21 +5000,21 @@
           const statusBadge = getStatusBadgeAgendamento(agendamento.status);
           const dataFormatada = new Date(agendamento.data_agendamento + 'T00:00:00').toLocaleDateString('pt-BR');
           
-          html += `<tr>
-                    <td><strong>${dataFormatada}</strong></td>
-                    <td>${agendamento.horario_inicio} - ${agendamento.horario_fim}</td>
-                    <td>
+          html += `<tr style="background-color: #1e3a5f !important; color: #ffffff !important;">
+                    <td style="background-color: #1e3a5f !important; color: #ffffff !important;"><strong>${dataFormatada}</strong></td>
+                    <td style="background-color: #1e3a5f !important; color: #ffffff !important;">${agendamento.horario_inicio} - ${agendamento.horario_fim}</td>
+                    <td style="background-color: #1e3a5f !important; color: #ffffff !important;">
                       <strong>${agendamento.nome}</strong><br>
-                      <small class="text-muted">${agendamento.email}</small>
+                      <small style="color: #b8c9db !important;">${agendamento.email}</small>
                     </td>
-                    <td>${formatarTelefoneString(agendamento.telefone)}</td>
-                    <td>
-                      <small>${agendamento.endereco}<br>
+                    <td style="background-color: #1e3a5f !important; color: #ffffff !important;">${formatarTelefoneString(agendamento.telefone)}</td>
+                    <td style="background-color: #1e3a5f !important; color: #ffffff !important;">
+                      <small style="color: #b8c9db !important;">${agendamento.endereco}<br>
                       ${agendamento.cidade} - ${agendamento.estado}</small>
                     </td>
-                    <td>${agendamento.tipo_servico || '<small class="text-muted">Não especificado</small>'}</td>
-                    <td>${statusBadge}</td>
-                    <td>
+                    <td style="background-color: #1e3a5f !important; color: #ffffff !important;">${agendamento.tipo_servico || '<small style="color: #b8c9db !important;">Não especificado</small>'}</td>
+                    <td style="background-color: #1e3a5f !important;">${statusBadge}</td>
+                    <td style="background-color: #1e3a5f !important;">
                       <div class="btn-group btn-group-sm">
                         <button class="btn btn-outline-primary" onclick="visualizarAgendamento(${agendamento.id})" title="Ver detalhes">
                           <i class="fas fa-eye"></i>
@@ -4989,11 +5031,15 @@
         });
 
         tbody.innerHTML = html;
+        // FORCE COLORS IMEDIATAMENTE APÓS RENDERIZAR
+        if (typeof forceAgendamentosTableColor === 'function') {
+          forceAgendamentosTableColor();
+        }
       }
 
       function getStatusBadgeAgendamento(status) {
         const badges = {
-          'pendente': '<span class="badge bg-warning">Pendente</span>',
+          'pendente': '<span class="badge bg-primary">Pendente</span>',
           'confirmado': '<span class="badge bg-success">Confirmado</span>',
           'em_atendimento': '<span class="badge bg-info">Em Atendimento</span>',
           'concluido': '<span class="badge bg-secondary">Concluído</span>',
@@ -5204,12 +5250,12 @@
         const badge = document.getElementById('badgeAgendamentos');
         if (badge) {
           badge.textContent = pendentes;
-          badge.className = pendentes > 0 ? 'badge bg-warning float-end' : 'badge bg-secondary float-end';
+          badge.className = pendentes > 0 ? 'badge bg-primary float-end' : 'badge bg-secondary float-end';
         }
       }
 
       // ========== FUNÇÕES PARA RELATÓRIOS ==========
-      function gerarRelatorioMensal() {
+      async function gerarRelatorioMensal() {
         const mes = document.getElementById('relatorioMes').value;
         const ano = document.getElementById('relatorioAno').value;
 
@@ -5218,10 +5264,23 @@
           return;
         }
 
-        mostrarToast('⚠️ Funcionalidade em desenvolvimento', 'info');
+        try {
+          const res = await fetch(`/relatorios/mensal?mes=${mes}&ano=${ano}`);
+          if (!res.ok) throw new Error(`HTTP ${res.status}`);
+          const data = await res.json();
+          atualizarGraficoRelatorio({ porStatus: data.resumoStatus.ordens });
+          document.getElementById('resultadoRelatorios').innerHTML = `
+            <div class="alert alert-info mb-2">Orçamentos: ${data.totalOrcamentos} (R$ ${Number(data.valorOrcamentos || 0).toFixed(2)})</div>
+            <div class="alert alert-success">Ordens: ${data.totalOrdens}</div>
+          `;
+          mostrarToast('Relatório mensal atualizado', 'success');
+        } catch (err) {
+          console.error(err);
+          mostrarToast('Erro ao gerar relatório', 'danger');
+        }
       }
 
-      function gerarRelatorioFinanceiro() {
+      async function gerarRelatorioFinanceiro() {
         const periodoInicio = document.getElementById('periodoInicio').value;
         const periodoFim = document.getElementById('periodoFim').value;
 
@@ -5230,7 +5289,21 @@
           return;
         }
 
-        mostrarToast('⚠️ Funcionalidade em desenvolvimento', 'info');
+        try {
+          const res = await fetch(`/relatorios/financeiro?data_inicio=${periodoInicio}&data_fim=${periodoFim}`);
+          if (!res.ok) throw new Error(`HTTP ${res.status}`);
+          const data = await res.json();
+          atualizarGraficoRelatorio({ porStatus: data.resumoStatus.ordens });
+          document.getElementById('resultadoRelatorios').innerHTML = `
+            <div class="alert alert-info mb-2">Período: ${data.inicio} a ${data.fim}</div>
+            <div class="alert alert-success">Orçamentos: ${data.totalOrcamentos} (R$ ${Number(data.valorOrcamentos || 0).toFixed(2)})</div>
+            <div class="alert alert-primary">Ordens: ${data.totalOrdens}</div>
+          `;
+          mostrarToast('Relatório financeiro atualizado', 'success');
+        } catch (err) {
+          console.error(err);
+          mostrarToast('Erro ao gerar relatório financeiro', 'danger');
+        }
       }
 
       function atualizarGraficoRelatorio(dados) {
@@ -5275,16 +5348,36 @@
         });
       }
 
-      function exportarParaPDF() {
-        mostrarToast('⚠️ Funcionalidade em desenvolvimento', 'info');
+      function baixarBlob(res, nome) {
+        res.blob().then(blob => {
+          const url = window.URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = nome;
+          a.click();
+          window.URL.revokeObjectURL(url);
+        });
       }
 
-      function exportarParaCSV() {
-        mostrarToast('⚠️ Funcionalidade em desenvolvimento', 'info');
+      async function exportarParaPDF() {
+        const res = await fetch('/export/pdf');
+        if (!res.ok) return mostrarToast('Erro ao gerar PDF', 'danger');
+        const data = await res.json();
+        mostrarToast(data.error || 'PDF não implementado', 'warning');
       }
 
-      function exportarParaExcel() {
-        mostrarToast('Funcionalidade em desenvolvimento', 'info');
+      async function exportarParaCSV() {
+        const res = await fetch('/export/csv');
+        if (!res.ok) return mostrarToast('Erro ao exportar CSV', 'danger');
+        baixarBlob(res, 'dados-sistema.csv');
+        mostrarToast('CSV gerado', 'success');
+      }
+
+      async function exportarParaExcel() {
+        const res = await fetch('/export/excel');
+        if (!res.ok) return mostrarToast('Erro ao exportar Excel', 'danger');
+        baixarBlob(res, 'dados-sistema.csv');
+        mostrarToast('Excel gerado (CSV)', 'success');
       }
 
       function exportarOrcamentos() {
@@ -5538,6 +5631,20 @@
           }
         }, 5000);
       }
+
+      // Compat: algumas partes usam showNotification; faz ponte para mostrarToast
+      function showNotification(mensagem, tipo = 'info') {
+        if (typeof mostrarToast === 'function') {
+          return mostrarToast(mensagem, tipo);
+        }
+        try { console.log('[notify]', tipo, mensagem); } catch {}
+      }
+
+      // FORCE AGENDAMENTOS TABLE COLOR VIA JAVASCRIPT - DESABILITADO
+      // function forceAgendamentosTableColor() {
+      //   Função desabilitada - tabela em fundo branco
+      // }
+    </script>
     </script>
   </body>
 </html>

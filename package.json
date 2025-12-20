@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node backend/server.js",
+    "start": "node backend/scripts/migration-add-protocolo.js && node backend/server.js",
     "start:log": "node scripts/start-and-log.js",
     "dev": "nodemon backend/server.js",
     "test": "node backend/scripts/clear_test_data.js && mocha --exit test/**/*.test.js",
@@ -16,7 +16,10 @@
     "fix:text": "node scripts/text-review.js",
     "report:code": "node scripts/analyze-report.js",
     "report:text": "node scripts/text-review.js --explain --report reports/text-review.md",
-    "report:all": "npm run report:code && npm run report:text"
+    "report:all": "npm run report:code && npm run report:text",
+    "import:csv": "node scripts/import-csv.js",
+    "sheets:setup": "node scripts/setup-google-sheets.js",
+    "migrate": "node backend/scripts/migration-add-protocolo.js"
   },
   "keywords": [],
   "author": "",

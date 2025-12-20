@@ -35,6 +35,25 @@ async function buscarPorEmail(email) {
   return rows;
 }
 
+// Buscar agendamentos por protocolo (4 dígitos)
+async function buscarPorProtocolo(protocolo) {
+  const [rows] = await pool.query(
+    'SELECT * FROM agendamentos WHERE protocolo = ? ORDER BY data_agendamento DESC',
+    [protocolo]
+  );
+  return rows;
+}
+
+// Buscar agendamentos por telefone
+async function buscarPorTelefone(telefone) {
+  const telefoneLimpo = String(telefone).replace(/\D/g, '');
+  const [rows] = await pool.query(
+    'SELECT * FROM agendamentos WHERE REPLACE(REPLACE(REPLACE(telefone, "(", ""), ")", ""), "-", "") = ? ORDER BY data_agendamento DESC',
+    [telefoneLimpo]
+  );
+  return rows;
+}
+
 // Verificar disponibilidade de horário - APENAS 1 PESSOA POR HORÁRIO
 async function verificarDisponibilidade(data, horarioInicio, horarioFim, idExcluir = null) {
   // Verifica se já existe algum agendamento que conflita com o horário solicitado
@@ -134,6 +153,8 @@ module.exports = {
   buscarPorId,
   buscarPorData,
   buscarPorEmail,
+  buscarPorProtocolo,
+  buscarPorTelefone,
   verificarDisponibilidade,
   criar,
   atualizar,
