@@ -562,11 +562,11 @@
     document.getElementById('btnCancelar').addEventListener('click', () => {
       if (!clienteAtual) return;
       
-      const mensagem = `Cancelar agendamento de ${clienteAtual.nome}?\n\nClique em OK para confirmar ou Cancelar para voltar.`;
+      const mensagem = 'Cancelar agendamento de ' + clienteAtual.nome + '?\n\nClique em OK para confirmar ou Cancelar para voltar.';
       if (!confirm(mensagem)) return;
 
-      const whatsappMsg = `Olá, gostaria de cancelar meu agendamento. Meu protocolo é ${String(protocoloAtual).padStart(4, '0')} e meu telefone é ${clienteAtual.telefone}`;
-      window.open(`https://wa.me/5511980163597?text=${encodeURIComponent(whatsappMsg)}`, '_blank');
+      const whatsappMsg = 'Olá, gostaria de cancelar meu agendamento. Meu protocolo é ' + String(protocoloAtual).padStart(4, '0') + ' e meu telefone é ' + clienteAtual.telefone;
+      window.open('https://wa.me/5511980163597?text=' + encodeURIComponent(whatsappMsg), '_blank');
     });
 
     // === ABA NOVO ===
