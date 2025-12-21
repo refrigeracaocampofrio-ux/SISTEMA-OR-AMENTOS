@@ -971,22 +971,20 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link text-danger" href="#" onclick="abrirAba('clientes')">
-                  <i class="fas fa-trash me-2"></i> Apagar Clientes
-                </a>
+                <button id="sidebarToggleBtn" class="nav-link border-0 bg-transparent text-white w-100 text-start" onclick="toggleSidebar()" title="Menu">
+                  <div class="d-flex align-items-center">
+                    <div class="toggle-dots me-2">
+                      <div class="dot"></div>
+                      <div class="dot"></div>
+                      <div class="dot"></div>
+                    </div>
+                    <span>Ocultar Menu</span>
+                  </div>
+                </button>
               </li>
             </ul>
           </div>
         </div>
-
-        <!-- SIDEBAR TOGGLE BUTTON -->
-        <button id="sidebarToggleBtn" class="sidebar-toggle-btn" onclick="toggleSidebar()" title="Menu">
-          <div class="toggle-dots">
-            <div class="dot"></div>
-            <div class="dot"></div>
-            <div class="dot"></div>
-          </div>
-        </button>
 
         <!-- CONTEÚDO PRINCIPAL -->
         <main class="main-content">
