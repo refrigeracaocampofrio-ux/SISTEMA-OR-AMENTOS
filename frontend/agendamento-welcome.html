@@ -492,30 +492,15 @@
         clienteAtual = data.cliente;
         protocoloAtual = data.protocolo;
 
-        let html = `
-          <p style="margin-bottom: 12px;">
-            <strong>Protocolo:</strong> #${data.protocolo}<br>
-            <strong>Nome:</strong> ${data.cliente.nome}<br>
-            <strong>Telefone:</strong> ${data.cliente.telefone}<br>
-            <strong>Email:</strong> ${data.cliente.email}
-          </p>
-        `;
+        let html = '<p style="margin-bottom: 12px;"><strong>Protocolo:</strong> #' + data.protocolo + '<br><strong>Nome:</strong> ' + data.cliente.nome + '<br><strong>Telefone:</strong> ' + data.cliente.telefone + '<br><strong>Email:</strong> ' + data.cliente.email + '</p>';
 
         if (data.agendamentos && data.agendamentos.length > 0) {
-          html += `
-            <hr style="border-color: rgba(255,255,255,0.1);">
-            <h6 style="color: #fff; margin-bottom: 8px;">Seus Agendamentos:</h6>
-            <ul style="list-style: none; padding: 0; margin: 0;">
-          `;
+          html += '<hr style="border-color: rgba(255,255,255,0.1);"><h6 style="color: #fff; margin-bottom: 8px;">Seus Agendamentos:</h6><ul style="list-style: none; padding: 0; margin: 0;">';
           data.agendamentos.forEach(a => {
             const dataBR = new Date(a.data + 'T00:00:00').toLocaleDateString('pt-BR');
-            html += `
-              <li style="font-size: 12px; padding: 8px; background: rgba(0,0,0,0.2); margin-bottom: 4px; border-radius: 4px;">
-                📅 ${dataBR} | 🕐 ${a.horario_inicio} | Status: <strong>${a.status}</strong>
-              </li>
-            `;
+            html += '<li style="font-size: 12px; padding: 8px; background: rgba(0,0,0,0.2); margin-bottom: 4px; border-radius: 4px;">📅 ' + dataBR + ' | 🕐 ' + a.horario_inicio + ' | Status: <strong>' + a.status + '</strong></li>';
           });
-          html += `</ul>`;
+          html += '</ul>';
           document.getElementById('btnReassumir').style.display = 'inline-block';
           document.getElementById('btnCancelar').style.display = 'inline-block';
         } else {
