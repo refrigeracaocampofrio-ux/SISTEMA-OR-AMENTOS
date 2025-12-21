@@ -805,6 +805,36 @@
   </head>
   <body>
     <script>
+      // Torna a função de navegação global antes de qualquer uso no HTML
+      window.abrirAba = function(aba, event) {
+        if (event) {
+          event.preventDefault();
+          event.stopPropagation();
+        }
+        document.querySelectorAll('.nav-link').forEach(el => el.classList.remove('active'));
+        document.querySelectorAll('.aba-conteudo').forEach(el => el.classList.add('d-none'));
+        const linkAtivo = document.querySelector(`a[onclick*="${aba}"]`);
+        if (linkAtivo) linkAtivo.classList.add('active');
+        const abaElement = document.getElementById(aba);
+        if (abaElement) {
+          abaElement.classList.remove('d-none');
+          window.scrollTo({top: 0, behavior: 'smooth'});
+        }
+        // Carregar dados específicos da aba
+        if (aba === 'orcamentos') {
+          if (typeof carregarOrcamentos === 'function') carregarOrcamentos();
+        } else if (aba === 'ordens') {
+          if (typeof carregarOrdens === 'function') carregarOrdens();
+        } else if (aba === 'clientes') {
+          if (typeof carregarClientes === 'function') carregarClientes();
+        } else if (aba === 'estoque' || aba === 'novoOrcamento') {
+          if (typeof carregarEstoque === 'function') carregarEstoque();
+          if (aba === 'novoOrcamento' && typeof atualizarTotalOrcamento === 'function') {
+            atualizarTotalOrcamento();
+          }
+        }
+        return false;
+      }
       // Patch global fetch to include Authorization header automatically
       (function(){
         if (window._authWrapped) return;
