@@ -3959,8 +3959,7 @@
           fetch(`/orcamentos/${id}/status`, {
             method: 'PUT',
             headers: {
-              'Content-Type': 'application/json',
-              'Authorization': 'Bearer ' + (localStorage.getItem('token') || '')
+              'Content-Type': 'application/json'
             },
             body: JSON.stringify({ status: 'APROVADO', motivo: observacoes })
           })
@@ -3996,8 +3995,7 @@
           fetch(`/orcamentos/${id}/status`, {
             method: 'PUT',
             headers: {
-              'Content-Type': 'application/json',
-              'Authorization': 'Bearer ' + (localStorage.getItem('token') || '')
+              'Content-Type': 'application/json'
             },
             body: JSON.stringify({ status: 'CANCELADO', motivo: observacoes })
           })
@@ -4383,10 +4381,9 @@
 
         fetch('/ordens_servico', {
           method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + (localStorage.getItem('token') || '')
-          },
+            headers: {
+              'Content-Type': 'application/json'
+            },
           body: JSON.stringify(dados)
         })
         .then(res => res.json())
@@ -5189,12 +5186,7 @@
       }
 
       function visualizarAgendamento(id) {
-        const token = localStorage.getItem('token');
-        fetch(`/agendamentos/${id}`, {
-          headers: {
-            'Authorization': token ? 'Bearer ' + token : ''
-          }
-        })
+        fetch(`/agendamentos/${id}`)
           .then(res => res.json())
           .then(agendamento => {
             if (!agendamento || agendamento.error) {
@@ -5294,13 +5286,10 @@
 
       function atualizarStatusAgendamento(id) {
         const novoStatus = document.getElementById('novoStatusAgendamento').value;
-
-        const token = localStorage.getItem('token');
         fetch(`/agendamentos/${id}/status`, {
           method: 'PUT',
           headers: { 
-            'Content-Type': 'application/json',
-            'Authorization': token ? 'Bearer ' + token : ''
+            'Content-Type': 'application/json'
           },
           body: JSON.stringify({ status: novoStatus })
         })
@@ -5321,12 +5310,7 @@
       }
 
       function criarOrcamentoDeAgendamento(id) {
-        const token = localStorage.getItem('token');
-        fetch(`/agendamentos/${id}`, {
-          headers: {
-            'Authorization': token ? 'Bearer ' + token : ''
-          }
-        })
+        fetch(`/agendamentos/${id}`)
           .then(res => res.json())
           .then(agendamento => {
             if (!agendamento || agendamento.error) {
