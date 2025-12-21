@@ -2926,7 +2926,7 @@
       }
 
       // ========== NAVEGAÇÃO ==========
-      function abrirAba(aba, event) {
+      window.abrirAba = function(aba, event) {
         if (event) {
           event.preventDefault();
           event.stopPropagation();
