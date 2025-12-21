@@ -4126,7 +4126,7 @@
         
         mostrarToast('⏳ Excluindo orçamento...', 'info');
         
-        fetch(`/orcamentos/${id}`, {
+        fetch(`/ordens_servico/${id}`, {
           method: 'DELETE',
           headers: { 'Content-Type': 'application/json' }
         })
@@ -4143,12 +4143,24 @@
               carregarOrcamentos(true);
             }, 500);
           } else {
-            mostrarToast('❌ Erro: ' + (data.error || 'Falha ao excluir'), 'danger');
+          if (data.success) {
+              mostrarToast('❌ Token inválido. Faça login novamente.', 'danger');
+              localStorage.removeItem('token');
+              document.getElementById('loginModal').style.display = 'flex';
+            } else {
+              mostrarToast('❌ Erro: ' + (data.error || 'Falha ao excluir'), 'danger');
+            }
           }
         })
         .catch(error => {
-          console.error('Erro ao deletar orçamento:', error);
-          mostrarToast('❌ Erro ao excluir: ' + error.message, 'danger');
+          } else {
+            if (data.error && data.error.toLowerCase().includes('token')) {
+              mostrarToast('❌ Token inválido. Faça login novamente.', 'danger');
+              localStorage.removeItem('token');
+              document.getElementById('loginModal').style.display = 'flex';
+            } else {
+              mostrarToast('❌ Erro: ' + (data.error || 'Falha ao excluir'), 'danger');
+            }
         });
       }
 
@@ -4849,12 +4861,10 @@
 
         mostrarToast('⏳ Excluindo cliente...', 'info');
 
-        const token = localStorage.getItem('token');
         fetch(`/clientes/${id}`, {
           method: 'DELETE',
           headers: {
-            'Content-Type': 'application/json',
-            'Authorization': token ? 'Bearer ' + token : ''
+            'Content-Type': 'application/json'
           }
         })
         .then(res => res.json())
@@ -4867,7 +4877,13 @@
             }
             renderizarClientes(todosClientesCache);
           } else {
-            mostrarToast('❌ ' + (data.error || 'Falha ao excluir cliente'), 'danger');
+            if (data.error && data.error.toLowerCase().includes('token')) {
+              mostrarToast('❌ Token inválido. Faça login novamente.', 'danger');
+              localStorage.removeItem('token');
+              document.getElementById('loginModal').style.display = 'flex';
+            } else {
+              mostrarToast('❌ ' + (data.error || 'Falha ao excluir cliente'), 'danger');
+            }
           }
         })
         .catch(error => {
@@ -5138,12 +5154,10 @@
 
         mostrarToast('⏳ Excluindo agendamento...', 'info');
 
-        const token = localStorage.getItem('token');
         fetch(`/agendamentos/${id}`, {
           method: 'DELETE',
           headers: { 
-            'Content-Type': 'application/json',
-            'Authorization': token ? 'Bearer ' + token : ''
+            'Content-Type': 'application/json'
           }
         })
         .then(res => res.json())
@@ -5159,7 +5173,13 @@
             const modal = bootstrap.Modal.getInstance(document.getElementById('modalGeral'));
             if (modal) modal.hide();
           } else {
-            mostrarToast('❌ ' + (data.error || 'Falha ao excluir'), 'danger');
+            if (data.error && data.error.toLowerCase().includes('token')) {
+              mostrarToast('❌ Token inválido. Faça login novamente.', 'danger');
+              localStorage.removeItem('token');
+              document.getElementById('loginModal').style.display = 'flex';
+            } else {
+              mostrarToast('❌ ' + (data.error || 'Falha ao excluir'), 'danger');
+            }
           }
         })
         .catch(error => {
