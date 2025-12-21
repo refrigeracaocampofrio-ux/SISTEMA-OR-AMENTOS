@@ -481,7 +481,7 @@
       document.getElementById('resultadoBusca').style.display = 'none';
 
       try {
-        const res = await fetch(`${apiBase}/clientes/buscar/${encodeURIComponent(query)}`);
+        const res = await fetch(apiBase + '/clientes/buscar/' + encodeURIComponent(query));
         const data = await res.json();
 
         if (!res.ok || !data.success) {
@@ -583,7 +583,7 @@
       limparErro('errorMsgNovo');
 
       try {
-        const res = await fetch(`${apiBase}/clientes/novo-protocolo`, {
+        const res = await fetch(apiBase + '/clientes/novo-protocolo', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ nome, email, telefone })
