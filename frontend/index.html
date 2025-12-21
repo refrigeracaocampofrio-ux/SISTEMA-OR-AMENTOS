@@ -815,7 +815,8 @@
           try {
             const token = localStorage.getItem('token');
             const isSameOrigin = (typeof resource === 'string') ? resource.startsWith('/') || resource.startsWith(location.origin) : true;
-            if (token && isSameOrigin && !init.headers['Authorization'] && !init.headers['authorization']){
+            const isAuthLogin = (typeof resource === 'string') ? resource.includes('/auth/login') : false;
+            if (token && isSameOrigin && !isAuthLogin && !init.headers['Authorization'] && !init.headers['authorization']){
               init.headers['Authorization'] = 'Bearer ' + token;
             }
           } catch (e) {}
