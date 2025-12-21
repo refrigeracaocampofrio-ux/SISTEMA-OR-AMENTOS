@@ -4,7 +4,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Agendamento – Confirmação</title>
+  <script src="js/notifier.js"></script>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="css/header-styles.css">
+  <link rel="stylesheet" href="css/system-text-colors.css">
   <style>
     :root { --primary:#3498db; --dark-bg:#0f0f1e; --dark-card:#16213e; --dark-sidebar:#1a1a2e; }
     body { background: var(--dark-bg); color:#e0e0e0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
@@ -14,6 +17,11 @@
     .box-header{ padding:18px; border-bottom:1px solid rgba(52,152,219,0.2); }
     .box-body{ padding:18px; }
     .success{ text-align:center; padding:24px; display:none; }
+    .fee-modal-backdrop{ position:fixed; inset:0; background:rgba(0,0,0,0.65); display:none; align-items:center; justify-content:center; z-index:1050; }
+    .fee-modal{ background:#16213e; border:1px solid rgba(52,152,219,0.35); border-radius:10px; max-width:520px; width:100%; padding:22px; box-shadow:0 12px 30px rgba(0,0,0,0.4); color:#e0e0e0; }
+    .fee-modal h5{ color:#fff; margin-bottom:12px; }
+    .fee-modal .fee-text{ background:rgba(52,152,219,0.08); border:1px solid rgba(52,152,219,0.25); border-radius:8px; padding:12px; margin-bottom:16px; }
+    .fee-actions{ display:flex; gap:10px; justify-content:flex-end; }
   </style>
 </head>
 <body>
@@ -32,6 +40,17 @@
     <div class="box-header"><h4 class="m-0">Confirmação</h4></div>
     <div class="box-body">
       <div id="resumo" class="alert alert-primary"></div>
+      <div class="fee-modal-backdrop" id="feeModal">
+        <div class="fee-modal">
+          <h5>Taxa de deslocamento</h5>
+          <div class="fee-text" id="feeText"></div>
+          <p class="mb-3">Cobramos essa taxa para cobrir combustível e custos de deslocamento. Você confirma a taxa para seguir com o agendamento?</p>
+          <div class="fee-actions">
+            <button id="btnRecusarTaxa" class="btn btn-outline-light">Falar no WhatsApp</button>
+            <button id="btnAceitarTaxa" class="btn btn-success">Confirmar taxa e agendar</button>
+          </div>
+        </div>
+      </div>
       <div class="d-flex justify-content-between">
         <a class="btn btn-secondary" href="/agendamento-dados.html">Voltar</a>
         <button id="btnConfirmar" class="btn btn-success">Confirmar Agendamento</button>
@@ -56,7 +75,8 @@
     function getDraft(){ return JSON.parse(localStorage.getItem(k) || '{}'); }
     function clearDraft(){ localStorage.removeItem(k); }
     const d=getDraft(); if(!d.data_agendamento || !d.horario_inicio || !d.nome){ window.location.href='/agendamento-data.html'; }
-    const dataBR = new Date(d.data_agendamento+'T00:00:00').toLocaleDateString('pt-BR', { weekday:'long', year:'numeric', month:'long', day:'numeric' });
+    const dataBR = new Date(d.data_agendamento+'T00:00:00').toLocaleDateString('pt-BR');
+    const taxa = typeof d.taxa_deslocamento === 'number' ? d.taxa_deslocamento : null;
     document.getElementById('resumo').innerHTML = `
       <p><strong>📅 Data:</strong> ${dataBR}</p>
       <p><strong>🕐 Horário:</strong> ${d.horario_inicio} às ${d.horario_fim}</p>
@@ -67,7 +87,20 @@
       <p><strong>🏙️ Cidade/Estado:</strong> ${d.cidade} - ${d.estado}</p>
       ${d.tipo_servico?`<p><strong>🔧 Serviço:</strong> ${d.tipo_servico}</p>`:''}
       ${d.descricao_problema?`<p><strong>📝 Descrição:</strong> ${d.descricao_problema}</p>`:''}
+      ${taxa!==null?`<p><strong>🚗 Taxa de deslocamento estimada:</strong> R$ ${taxa.toFixed(2)}</p>`:`<p><strong>🚗 Taxa de deslocamento:</strong> a confirmar pelo WhatsApp</p>`}
     `;
+
+    function openFeeModal(){
+      const feeText = document.getElementById('feeText');
+      if(taxa!==null){
+        feeText.textContent = `Cidade selecionada: ${d.cidade}. Taxa estimada: R$ ${taxa.toFixed(2)}.`;
+      }else{
+        feeText.textContent = `Cidade selecionada: ${d.cidade}. Taxa sob consulta — vamos alinhar pelo WhatsApp.`;
+      }
+      document.getElementById('feeModal').style.display='flex';
+    }
+
+    function closeFeeModal(){ document.getElementById('feeModal').style.display='none'; }
 
     async function confirmar(){
       document.getElementById('btnConfirmar').disabled=true; document.getElementById('loading').style.display='block';
@@ -97,8 +130,15 @@
         document.getElementById('btnConfirmar').disabled=false;
       }
     }
+    const whatsappNumber = '5511980163597';
+    function redirectWhatsAppTaxa(){
+      const msg = encodeURIComponent('quero falar com o humano sobre a taxa de deslocamento');
+      window.location.href = `https://wa.me/${whatsappNumber}?text=${msg}`;
+    }
 
-    document.getElementById('btnConfirmar').onclick = confirmar;
+    document.getElementById('btnConfirmar').onclick = openFeeModal;
+    document.getElementById('btnRecusarTaxa').onclick = ()=>{ closeFeeModal(); redirectWhatsAppTaxa(); };
+    document.getElementById('btnAceitarTaxa').onclick = ()=>{ closeFeeModal(); confirmar(); };
   </script>
 </body>
 </html>

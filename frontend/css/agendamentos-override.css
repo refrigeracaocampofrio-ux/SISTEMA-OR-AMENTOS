@@ -1,0 +1,136 @@
+/* ========== TABELA AGENDAMENTOS - MÁXIMA PRIORIDADE ========== */
+/* Força ABSOLUTA com seletores universais */
+
+/* Aplicar a TUDO dentro da tabela */
+#tabelaAgendamentos {
+  background-color: #1e3a5f !important;
+  color: #ffffff !important;
+}
+
+/* Remover TODOS os bg-* do Bootstrap */
+#tabelaAgendamentos .bg-white,
+#tabelaAgendamentos .bg-light,
+#tabelaAgendamentos .bg-secondary,
+#tabelaAgendamentos .bg-light-subtle,
+#tabelaAgendamentos [class*="bg-"] {
+  background-color: #1e3a5f !important;
+  color: #ffffff !important;
+}
+
+/* TODAS as linhas */
+#tabelaAgendamentos tr {
+  background-color: #1e3a5f !important;
+  color: #ffffff !important;
+  border-top-color: #2a4a70 !important;
+}
+
+/* Hover das linhas */
+#tabelaAgendamentos tbody tr:hover {
+  background-color: #2a4a70 !important;
+}
+
+/* TODAS as células */
+#tabelaAgendamentos td,
+#tabelaAgendamentos th {
+  background-color: #1e3a5f !important;
+  color: #ffffff !important;
+  border-color: #2a4a70 !important;
+}
+
+/* Texto pequeno e muted */
+#tabelaAgendamentos small {
+  color: #b8c9db !important;
+}
+
+#tabelaAgendamentos .text-muted {
+  color: #b8c9db !important;
+}
+
+/* Remove opacity que puder afetar */
+#tabelaAgendamentos .opacity-50 {
+  opacity: 1 !important;
+  color: #b8c9db !important;
+}
+
+/* Badges dentro da tabela */
+#tabelaAgendamentos .badge {
+  background-color: #0d6efd !important;
+  color: #ffffff !important;
+}
+
+/* Botões dentro da tabela */
+#tabelaAgendamentos .btn {
+  border-color: #0d6efd !important;
+}
+
+/* Absolutamente TUDO dentro */
+#tabelaAgendamentos * {
+  background-color: inherit !important;
+}
+
+/* Exceto: forçar cor em elementos específicos */
+#tabelaAgendamentos tr td,
+#tabelaAgendamentos tr th {
+  background-color: #1e3a5f !important;
+  color: #ffffff !important;
+}
+
+
+
+#tabelaAgendamentos tr {
+  background-color: #1e3a5f !important;
+  color: #ffffff !important;
+}
+
+#tabelaAgendamentos tbody tr {
+  background-color: #1e3a5f !important;
+  color: #ffffff !important;
+}
+
+#tabelaAgendamentos td,
+#tabelaAgendamentos th {
+  background-color: #1e3a5f !important;
+  color: #ffffff !important;
+  border-color: #2a4a70 !important;
+}
+
+#tabelaAgendamentos tbody td,
+#tabelaAgendamentos tbody th {
+  background-color: #1e3a5f !important;
+  color: #ffffff !important;
+}
+
+#tabelaAgendamentos small,
+#tabelaAgendamentos .text-muted {
+  color: #b8c9db !important;
+}
+
+#tabelaAgendamentos tr:hover,
+#tabelaAgendamentos tbody tr:hover {
+  background-color: #2a4a70 !important;
+}
+
+#tabelaAgendamentos tbody tr:hover td {
+  background-color: #2a4a70 !important;
+  color: #ffffff !important;
+}
+
+/* Bootstrap override */
+.table #tabelaAgendamentos tbody tr {
+  background-color: #1e3a5f !important;
+  color: #ffffff !important;
+}
+
+.table tbody #tabelaAgendamentos tr {
+  background-color: #1e3a5f !important;
+  color: #ffffff !important;
+}
+
+/* Force em qualquer tr dentro de tabelaAgendamentos */
+#tabelaAgendamentos tr td strong {
+  color: #ffffff !important;
+}
+
+#tabelaAgendamentos tr td small {
+  color: #b8c9db !important;
+}

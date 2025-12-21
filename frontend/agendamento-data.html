@@ -4,7 +4,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Agendamento – Escolha a Data</title>
+  <script src="js/notifier.js"></script>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="css/header-styles.css">
+  <link rel="stylesheet" href="css/system-text-colors.css">
   <style>
     :root { --primary:#3498db; --accent:#2ecc71; --dark-bg:#0f0f1e; --dark-card:#16213e; --dark-sidebar:#1a1a2e; }
     body { background: linear-gradient(135deg, #0f0f1e 0%, #1a1a2e 100%); color:#e0e0e0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; min-height:100vh; }
@@ -58,9 +61,12 @@
     </div>
   </nav>
   <div class="container-box">
-    <div class="box-header"><h4 class="m-0">Escolha uma Data</h4></div>
+    <div class="box-header"><h4 class="m-0">Bem-vindo ao sistema de agendamento de visitas da Refrigeração Campo Frio.</h4></div>
     <div class="box-body">
-      <div class="alert-info-custom"><strong>ℹ️ Informação:</strong> Apenas 1 atendimento por horário. Domingos não atendemos.</div>
+      <div class="alert alert-primary" style="background: rgba(52,152,219,0.12); border-color: rgba(52,152,219,0.35); color: #d8e9ff;">
+        <strong>Escolha uma data disponível.</strong>
+      </div>
+      <div class="alert-info-custom"><strong>ℹ️ Informação:</strong> Domingos não atendemos.</div>
       <div class="month-selector">
         <button id="btnPrev">Anterior</button>
         <h5 id="mesAno" class="m-0"></h5>

@@ -1,0 +1,129 @@
+/* Standardize all card headers to white with black text */
+.card-header {
+  background-color: #ffffff !important;
+  color: #000000 !important;
+  border-bottom: 1px solid #ddd !important;
+}
+
+.card-header * {
+  color: #000000 !important;
+}
+
+/* Override all card-header.bg-light to have white background */
+.card-header.bg-light {
+  background-color: #ffffff !important;
+  color: #000000 !important;
+  border-bottom: 1px solid #ddd !important;
+}
+
+.card-header.bg-light h5,
+.card-header.bg-light h6,
+.card-header.bg-light i,
+.card-header.bg-light button,
+.card-header.bg-light * {
+  color: #000000 !important;
+}
+
+/* Ensure bg-light class has white background */
+.bg-light {
+  background-color: #ffffff !important;
+  color: #000000 !important;
+}
+
+.bg-light * {
+  color: #000000 !important;
+}
+
+/* Table styling */
+table thead {
+  background-color: #ffffff !important;
+}
+
+table thead th,
+table thead tr {
+  background-color: #ffffff !important;
+  color: #000000 !important;
+  border-color: #000000 !important;
+}
+
+table tbody tr {
+  background-color: #1e2a3a !important;
+  color: #e0e0e0 !important;
+}
+
+table tbody td {
+  background-color: #1e2a3a !important;
+  color: #e0e0e0 !important;
+}
+
+.table tbody tr:hover {
+  background-color: #253448 !important;
+}
+
+/* Estoque table rows: dark blue background with white text */
+#tabelaEstoque tr,
+#tabelaEstoque td,
+#tabelaEstoque td strong {
+  background-color: #122042 !important;
+  color: #ffffff !important;
+}
+
+#tabelaEstoque tr:hover td {
+  background-color: #1a2b55 !important;
+}
+
+/* Global text white inside card bodies (headers stay black) */
+.card-body,
+.card-body *,
+.modal-body,
+.modal-body * {
+  color: #ffffff !important;
+}
+
+/* Form controls: white text and placeholders on dark backgrounds */
+.form-control,
+.form-select {
+  color: #ffffff !important;
+}
+
+.form-control::placeholder,
+.form-select::placeholder {
+  color: #dfe6f7 !important;
+}
+
+/* Dark action button (black background, white text) */
+.btn-black {
+  background-color: #000000 !important;
+  border-color: #000000 !important;
+  color: #ffffff !important;
+}
+
+.btn-black:hover,
+.btn-black:focus {
+  background-color: #111111 !important;
+  border-color: #111111 !important;
+  color: #ffffff !important;
+}
+
+/* Ensure buttons inside card headers keep white text when dark */
+.card-header .btn-black,
+.card-header .btn-black * {
+  color: #ffffff !important;
+}
+
+/* Dashboard last-updated text: force black */
+#dashboardTime {
+  color: #000000 !important;
+}
+
+.card-header #dashboardTime {
+  color: #000000 !important;
+}
+
+/* Ensure dashboard header stays white with black text */
+#dashboard .card-header,
+#dashboard .card-header * {
+  background-color: #ffffff !important;
+  color: #000000 !important;
+}
+

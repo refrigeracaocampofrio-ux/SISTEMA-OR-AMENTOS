@@ -2053,7 +2053,7 @@
                       <div class="col-md-3">
                         <div class="search-box">
                           <i class="fas fa-search"></i>
-                          <input type="text" class="form-control ps-5" id="buscaAgendamento" placeholder="Buscar por nome, email..." onkeyup="filtrarAgendamentosTabela()">,
+                          <input type="text" class="form-control ps-5" id="buscaAgendamento" placeholder="Buscar por nome, email..." onkeyup="filtrarAgendamentosTabela()">
                         </div>
                       </div>
                     </div>
@@ -4987,7 +4987,17 @@
         let html = '';
         agendamentosFiltrados.forEach(agendamento => {
           const statusBadge = getStatusBadgeAgendamento(agendamento.status);
-          const dataFormatada = new Date(agendamento.data_agendamento + 'T00:00:00').toLocaleDateString('pt-BR');
+          let dataFormatada = 'Data inválida';
+          try {
+            if (agendamento.data_agendamento) {
+              const dataObj = new Date(agendamento.data_agendamento + 'T00:00:00');
+              if (!isNaN(dataObj.getTime())) {
+                dataFormatada = dataObj.toLocaleDateString('pt-BR');
+              }
+            }
+          } catch (e) {
+            console.error('Erro ao formatar data:', e);
+          }
           
           html += `<tr style="background-color: #1e3a5f !important; color: #ffffff !important;">
                     <td style="background-color: #1e3a5f !important; color: #ffffff !important;"><strong>${dataFormatada}</strong></td>
@@ -5050,9 +5060,17 @@
 
       function deletarAgendamento(id) {
         const agendamento = todosAgendamentosCache.find(a => a.id === id);
-        const dataLabel = agendamento?.data_agendamento
-          ? new Date(agendamento.data_agendamento + 'T00:00:00').toLocaleDateString('pt-BR')
-          : '';
+        let dataLabel = '';
+        try {
+          if (agendamento?.data_agendamento) {
+            const dataObj = new Date(agendamento.data_agendamento + 'T00:00:00');
+            if (!isNaN(dataObj.getTime())) {
+              dataLabel = dataObj.toLocaleDateString('pt-BR');
+            }
+          }
+        } catch (e) {
+          console.error('Erro ao formatar data:', e);
+        }
         const horarioLabel = agendamento?.horario_inicio ? ` às ${agendamento.horario_inicio}` : '';
         const nomeLabel = agendamento?.nome ? ` de ${agendamento.nome}` : '';
         const resumo = `${nomeLabel}${dataLabel ? ` em ${dataLabel}${horarioLabel}` : ''}`.trim();
@@ -5064,9 +5082,13 @@
 
         mostrarToast('⏳ Excluindo agendamento...', 'info');
 
+        const token = localStorage.getItem('token');
         fetch(`/agendamentos/${id}`, {
           method: 'DELETE',
-          headers: { 'Content-Type': 'application/json' }
+          headers: { 
+            'Content-Type': 'application/json',
+            'Authorization': token ? 'Bearer ' + token : ''
+          }
         })
         .then(res => res.json())
         .then(data => {
@@ -5091,7 +5113,12 @@
       }
 
       function visualizarAgendamento(id) {
-        fetch(`/agendamentos/${id}`)
+        const token = localStorage.getItem('token');
+        fetch(`/agendamentos/${id}`, {
+          headers: {
+            'Authorization': token ? 'Bearer ' + token : ''
+          }
+        })
           .then(res => res.json())
           .then(agendamento => {
             if (!agendamento || agendamento.error) {
@@ -5099,9 +5126,19 @@
               return;
             }
 
-            const dataFormatada = new Date(agendamento.data_agendamento + 'T00:00:00').toLocaleDateString('pt-BR', {
-              weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
-            });
+            let dataFormatada = 'Data inválida';
+            try {
+              if (agendamento.data_agendamento) {
+                const dataObj = new Date(agendamento.data_agendamento + 'T00:00:00');
+                if (!isNaN(dataObj.getTime())) {
+                  dataFormatada = dataObj.toLocaleDateString('pt-BR', {
+                    weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
+                  });
+                }
+              }
+            } catch (e) {
+              console.error('Erro ao formatar data:', e);
+            }
 
             const conteudo = `
               <div class="row">
@@ -5182,9 +5219,13 @@
       function atualizarStatusAgendamento(id) {
         const novoStatus = document.getElementById('novoStatusAgendamento').value;
 
+        const token = localStorage.getItem('token');
         fetch(`/agendamentos/${id}/status`, {
           method: 'PUT',
-          headers: { 'Content-Type': 'application/json' },
+          headers: { 
+            'Content-Type': 'application/json',
+            'Authorization': token ? 'Bearer ' + token : ''
+          },
           body: JSON.stringify({ status: novoStatus })
         })
         .then(res => res.json())
@@ -5204,7 +5245,12 @@
       }
 
       function criarOrcamentoDeAgendamento(id) {
-        fetch(`/agendamentos/${id}`)
+        const token = localStorage.getItem('token');
+        fetch(`/agendamentos/${id}`, {
+          headers: {
+            'Authorization': token ? 'Bearer ' + token : ''
+          }
+        })
           .then(res => res.json())
           .then(agendamento => {
             if (!agendamento || agendamento.error) {
@@ -5217,7 +5263,20 @@
             document.getElementById('clienteTelefone').value = agendamento.telefone;
             document.getElementById('clienteEmail').value = agendamento.email || '';
             document.getElementById('equipamento').value = agendamento.tipo_servico || '';
-            document.getElementById('defeito').value = agendamento.descricao_problema || `Visita agendada para ${new Date(agendamento.data_agendamento + 'T00:00:00').toLocaleDateString('pt-BR')} às ${agendamento.horario_inicio}`;
+            
+            let dataFormatada = '';
+            try {
+              if (agendamento.data_agendamento) {
+                const dataObj = new Date(agendamento.data_agendamento + 'T00:00:00');
+                if (!isNaN(dataObj.getTime())) {
+                  dataFormatada = dataObj.toLocaleDateString('pt-BR');
+                }
+              }
+            } catch (e) {
+              console.error('Erro ao formatar data:', e);
+            }
+            
+            document.getElementById('defeito').value = agendamento.descricao_problema || `Visita agendada para ${dataFormatada} às ${agendamento.horario_inicio}`;
 
             // Fechar modal se estiver aberto
             const modal = bootstrap.Modal.getInstance(document.getElementById('modalGeral'));

@@ -1,0 +1,176 @@
+/* ========== SYSTEM TEXT COLORS & CONTRAST ========== */
+/* Table styling */
+table thead {
+  background-color: #ffffff !important;
+}
+
+table thead th,
+table thead tr {
+  background-color: #ffffff !important;
+  color: #000000 !important;
+  border-color: #000000 !important;
+}
+
+.table thead th {
+  background-color: #ffffff !important;
+  color: #000000 !important;
+  border-color: #000000 !important;
+}
+
+.table thead th * {
+  color: #000000 !important;
+}
+
+/* ===== FORÇA ABSOLUTA PARA AGENDAMENTOS ===== */
+/* Remover tudo do Bootstrap para a tabela de agendamentos */
+#tabelaAgendamentos,
+#tabelaAgendamentos tr,
+#tabelaAgendamentos td,
+#tabelaAgendamentos th,
+#tabelaAgendamentos tbody,
+.table#tabelaAgendamentos tbody tr,
+.table tbody #tabelaAgendamentos tr {
+  background-color: #1e3a5f !important;
+  color: #ffffff !important;
+}
+
+table tbody tr {
+  background-color: #1e3a5f !important;
+  color: #ffffff !important;
+}
+
+table tbody td {
+  background-color: #1e3a5f !important;
+  color: #ffffff !important;
+}
+
+.table tbody tr:hover {
+  background-color: #2a4a70 !important;
+}
+
+/* Agendamentos: garantir wrapper e tabela com fundo azul escuro */
+#tabelaAgendamentos tr,
+#tabelaAgendamentos td,
+#tabelaAgendamentos th {
+  background-color: #1e3a5f !important;
+  color: #ffffff !important;
+  border-color: #2a4a70 !important;
+}
+
+#tabelaAgendamentos tr:hover,
+#tabelaAgendamentos tr:hover td,
+#tabelaAgendamentos tr:hover th {
+  background-color: #2a4a70 !important;
+  color: #ffffff !important;
+}
+
+#tabelaAgendamentos small,
+#tabelaAgendamentos .text-muted {
+  color: #b8c9db !important;
+}
+
+/* Wrapper da tabela de agendamentos */
+.table-responsive,
+.table,
+.table tbody {
+  background-color: #1e3a5f !important;
+}
+
+/* Estoque table rows: dark blue background with white text */
+#tabelaEstoque tr,
+#tabelaEstoque td,
+#tabelaEstoque td strong {
+  background-color: #122042 !important;
+  color: #ffffff !important;
+}
+
+#tabelaEstoque tr:hover td {
+  background-color: #1a2b55 !important;
+}
+
+/* Card bodies: white text */
+.card-body,
+.card-body * {
+  color: #ffffff !important;
+}
+
+/* Modal bodies: white text */
+.modal-body,
+.modal-body * {
+  color: #ffffff !important;
+}
+
+/* Form controls: white text */
+.form-control,
+.form-select {
+  color: #ffffff !important;
+  background-color: #1e2a3a !important;
+  border: 1px solid #2d3e50 !important;
+}
+
+.form-control::placeholder,
+.form-select::placeholder {
+  color: #dfe6f7 !important;
+}
+
+/* Dark action button */
+.btn-black {
+  background-color: #000000 !important;
+  border-color: #000000 !important;
+  color: #ffffff !important;
+}
+
+.btn-black:hover,
+.btn-black:focus {
+  background-color: #111111 !important;
+  border-color: #111111 !important;
+  color: #ffffff !important;
+}
+
+/* Vivid alert backgrounds for stronger white text contrast */
+.alert {
+  color: #ffffff !important;
+  border-width: 1px !important;
+}
+.alert-info {
+  background-color: #1f5aa6 !important; /* vivid blue */
+  border-color: #174a8a !important;
+}
+.alert-primary {
+  background-color: #1565c0 !important; /* deeper primary blue */
+  border-color: #0d47a1 !important;
+}
+.alert-success {
+  background-color: #2e7d32 !important; /* vivid green */
+  border-color: #246628 !important;
+}
+.alert-warning {
+  background-color: #b9770e !important; /* darker amber for white text */
+  border-color: #9c650b !important;
+}
+.alert-secondary {
+  background-color: #455a64 !important; /* slate */
+  border-color: #37474f !important;
+}
+
+/* Error messages: dark blue background with white text */
+.text-danger {
+  color: #ffffff !important;
+}
+
+tr.text-danger,
+tr.text-danger td {
+  background-color: #1a2b55 !important;
+  color: #ffffff !important;
+}
+
+tr.text-danger h5,
+tr.text-danger p,
+tr.text-danger i {
+  color: #ffffff !important;
+}
+
+td.text-center.py-5.text-danger {
+  background-color: #1a2b55 !important;
+  color: #ffffff !important;
+}

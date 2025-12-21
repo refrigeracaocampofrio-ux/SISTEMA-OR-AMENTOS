@@ -126,6 +126,14 @@ app.use('/auth/client', authClientRoutes);
 const agendamentosRoutes = require('./routes/agendamentos');
 app.use('/agendamentos', agendamentosRoutes);
 
+// relatorios
+const relatoriosRoutes = require('./routes/relatorios');
+app.use('/relatorios', relatoriosRoutes);
+
+// export
+const exportRoutes = require('./routes/export');
+app.use('/export', exportRoutes);
+
 // debug
 app.use('/debug', debugRoutes);
 app.use('/email', emailRoutes);

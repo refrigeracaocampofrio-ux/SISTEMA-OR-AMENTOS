@@ -4,8 +4,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Agendar Visita - RCF Assistência Técnica</title>
+  <script src="js/notifier.js"></script>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+  <link rel="stylesheet" href="css/header-styles.css">
+  <link rel="stylesheet" href="css/system-text-colors.css">
   <style>
     :root {
       --primary: #3498db;
@@ -622,25 +625,26 @@
           
           <div class="row mb-3">
             <div class="col-md-5">
-              <label class="form-label">Cidade *</label>
-              <input type="text" class="form-control" id="cidade" required>
-            </div>
-            <div class="col-md-3">
-              <label class="form-label">Estado *</label>
-              <select class="form-control" id="estado" required>
+              <label class="form-label">Cidades atendidas *</label>
+              <select class="form-control" id="cidadeAtendida" required onchange="atualizarTaxaCidade()">
                 <option value="">Selecione</option>
-                <option value="AC">AC</option><option value="AL">AL</option><option value="AP">AP</option>
-                <option value="AM">AM</option><option value="BA">BA</option><option value="CE">CE</option>
-                <option value="DF">DF</option><option value="ES">ES</option><option value="GO">GO</option>
-                <option value="MA">MA</option><option value="MT">MT</option><option value="MS">MS</option>
-                <option value="MG">MG</option><option value="PA">PA</option><option value="PB">PB</option>
-                <option value="PR">PR</option><option value="PE">PE</option><option value="PI">PI</option>
-                <option value="RJ">RJ</option><option value="RN">RN</option><option value="RS">RS</option>
-                <option value="RO">RO</option><option value="RR">RR</option><option value="SC">SC</option>
-                <option value="SP">SP</option><option value="SE">SE</option><option value="TO">TO</option>
               </select>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-3 d-flex align-items-end">
+              <div>
+                <label class="form-label">Taxa</label>
+                <div class="form-control bg-dark text-white" id="taxaCidadeDisplay">--</div>
+              </div>
+            </div>
+            <div class="col-md-2">
+              <label class="form-label">Estado *</label>
+              <select class="form-control" id="estado" required>
+                <option value="SP">SP</option>
+                <option value="RJ">RJ</option>
+                <option value="MG">MG</option>
+              </select>
+            </div>
+            <div class="col-md-2">
               <label class="form-label">CEP</label>
               <input type="text" class="form-control" id="cep" placeholder="00000-000">
             </div>
@@ -731,8 +735,53 @@
     document.addEventListener('DOMContentLoaded', function() {
       gerarCalendario();
       aplicarMascaras();
+      popularCidades(); // Initialize cities
+      atualizarTaxaCidade(); // Update city fee display
     });
     
+    // Taxas por cidade
+    const taxasCidade = {
+      'campo limpo paulista': 25,
+      'botujuru': 35,
+      'jarinu': 50,
+      'varzea': 50,
+      'jundiai': 50,
+      'louveira': 50,
+      'santana de parnaiba': 80,
+      'itupeva': 70,
+      'itatiba': 70,
+      'cajamar': 60,
+    };
+
+    function popularCidades() {
+      const select = document.getElementById('cidadeAtendida');
+      Object.keys(taxasCidade).forEach(cidade => {
+        const opt = document.createElement('option');
+        opt.value = cidade;
+        opt.textContent = cidade.toUpperCase();
+        select.appendChild(opt);
+      });
+    }
+
+    function atualizarTaxaCidade() {
+      const select = document.getElementById('cidadeAtendida');
+      const taxaEl = document.getElementById('taxaCidadeDisplay');
+      const cidade = (select.value || '').toLowerCase();
+      const taxa = taxasCidade[cidade];
+      if (taxa !== undefined) {
+        taxaEl.textContent = `R$ ${Number(taxa).toFixed(2)}`;
+        taxaEl.dataset.valor = Number(taxa).toFixed(2);
+      } else {
+        taxaEl.textContent = '--';
+        taxaEl.dataset.valor = '';
+      }
+    }
+
+    // Inicializar cidades ao carregar
+    document.addEventListener('DOMContentLoaded', () => {
+      popularCidades();
+      atualizarTaxaCidade();
+    });
     // Gerar calendário
     function gerarCalendario() {
       const cal = document.getElementById('calendario');
@@ -912,7 +961,7 @@
     }
     
     function validarFormulario() {
-      const campos = ['nome', 'email', 'telefone', 'endereco', 'cidade', 'estado'];
+      const campos = ['nome', 'email', 'telefone', 'endereco', 'cidadeAtendida', 'estado'];
       for (const campo of campos) {
         const valor = document.getElementById(campo).value.trim();
         if (!valor) {
@@ -928,6 +977,8 @@
       const dataFormatada = dataSelecionada.toLocaleDateString('pt-BR', { 
         weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' 
       });
+      const cidadeSel = document.getElementById('cidadeAtendida').value;
+      const taxaCidade = document.getElementById('taxaCidadeDisplay').textContent;
       
       resumo.innerHTML = `
         <p><strong>📅 Data:</strong> ${dataFormatada}</p>
@@ -936,7 +987,7 @@
         <p><strong>📧 Email:</strong> ${document.getElementById('email').value}</p>
         <p><strong>📱 Telefone:</strong> ${document.getElementById('telefone').value}</p>
         <p><strong>📍 Endereço:</strong> ${document.getElementById('endereco').value}${document.getElementById('complemento').value ? ', ' + document.getElementById('complemento').value : ''}</p>
-        <p><strong>🏙️ Cidade/Estado:</strong> ${document.getElementById('cidade').value} - ${document.getElementById('estado').value}</p>
+        <p><strong>🏙️ Cidade/Estado:</strong> ${cidadeSel} - ${document.getElementById('estado').value} (${taxaCidade})</p>
         ${document.getElementById('tipoServico').value ? `<p><strong>🔧 Serviço:</strong> ${document.getElementById('tipoServico').value}</p>` : ''}
         ${document.getElementById('descricaoProblema').value ? `<p><strong>📝 Descrição:</strong> ${document.getElementById('descricaoProblema').value}</p>` : ''}
       `;
@@ -954,14 +1005,14 @@
           telefone: document.getElementById('telefone').value,
           endereco: document.getElementById('endereco').value,
           complemento: document.getElementById('complemento').value,
-          cidade: document.getElementById('cidade').value,
+          cidade: document.getElementById('cidadeAtendida').value,
           estado: document.getElementById('estado').value,
           cep: document.getElementById('cep').value,
           data_agendamento: dataSelecionada.toISOString().split('T')[0],
           horario_inicio: horarioSelecionado.inicio,
           horario_fim: horarioSelecionado.fim,
           tipo_servico: document.getElementById('tipoServico').value,
-          descricao_problema: document.getElementById('descricaoProblema').value
+          descricao_problema: `${document.getElementById('descricaoProblema').value}\nTaxa cidade (${document.getElementById('cidadeAtendida').value}): R$ ${document.getElementById('taxaCidadeDisplay').dataset.valor || '0'}`
         };
         
         const response = await fetch('/agendamentos', {

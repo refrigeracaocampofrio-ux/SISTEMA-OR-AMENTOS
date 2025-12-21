@@ -16,6 +16,11 @@ async function atualizarStatus(req, res, next) {
       return res.status(404).json({ error: 'Ordem não encontrada' });
     }
     await ordensModel.updateStatus(id, status);
+    try {
+      await require('../services/googleSheets').logOrdemStatus(id, status);
+    } catch (e) {
+      console.warn('Sheets logOrdemStatus:', e.message);
+    }
     if (status === 'CONCLUIDO' || status === 'CONCLUIDO') {
       const orc = await orcamentosModel.findById(ordem.orcamento_id);
       const cliente = await clientesModel.findById(orc.cliente_id);

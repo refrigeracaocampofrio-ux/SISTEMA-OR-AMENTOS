@@ -33,8 +33,8 @@ $Value
 }
 
 # Remover todas as variáveis DB_*
-Write-Host "Removendo variáveis DB_* existentes..." -ForegroundColor Yellow
-$varsToRemove = @('DB_HOST', 'DB_USER', 'DB_PASSWORD', 'DB_DATABASE', 'DB_NAME', 'DB_PORT')
+Write-Host "Removendo variáveis DB_* e ADMIN_* existentes..." -ForegroundColor Yellow
+$varsToRemove = @('DB_HOST', 'DB_USER', 'DB_PASSWORD', 'DB_DATABASE', 'DB_NAME', 'DB_PORT', 'ADMIN_USER', 'ADMIN_PASS', 'GMAIL_REDIRECT_URI', 'JWT_SECRET', 'GOOGLE_CLIENT_ID', 'GMAIL_CLIENT_ID', 'GMAIL_CLIENT_SECRET')
 foreach ($var in $varsToRemove) {
     Write-Host "[RM] $var" -ForegroundColor DarkGray
     vercel env rm $var production --yes 2>&1 | Out-Null
@@ -51,7 +51,7 @@ Get-Content $envFile | ForEach-Object {
     if ($_ -match '^([^=]+)=(.*)$') {
         $key = $matches[1].Trim()
         $val = $matches[2].Trim()
-        if ($key -match '^(DB_|ADMIN_)') {
+        if ($key -match '^(DB_|ADMIN_|GMAIL_|GOOGLE_|JWT_)') {
             $envVars[$key] = $val
         }
     }

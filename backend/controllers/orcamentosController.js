@@ -99,6 +99,20 @@ async function criarOrcamento(req, res, next) {
     } catch (e) {
       console.warn('⚠️ Erro ao enviar e-mail:', e.message);
     }
+    try {
+      await require('../services/googleSheets').logOrcamentoCreate({
+        id: orc.id,
+        protocolo: orc.protocolo,
+        cliente_id: clienteId,
+        valor_total: total,
+        status: 'PENDENTE',
+        equipamento,
+        tecnico,
+        data_criacao: orcamentoCompleto.data_criacao
+      });
+    } catch (e) {
+      console.warn('Sheets logOrcamentoCreate:', e.message);
+    }
     res
       .status(201)
       .json({ id: orc.id, protocolo: orc.protocolo, cliente_id: clienteId, valor_total: total, mao_obra: maoObraCalculada, status: 'PENDENTE', emailEnviado });
@@ -198,10 +212,26 @@ async function atualizarStatus(req, res, next) {
       } catch (e) {
         console.warn(e.message);
       }
+      try {
+        await require('../services/googleSheets').logOrdemCreate({
+          id: ord.id,
+          protocolo: ord.protocolo,
+          orcamento_id: id,
+          status: 'EM ANDAMENTO',
+          data_criacao: ord.data_criacao
+        });
+      } catch (e) {
+        console.warn('Sheets logOrdemCreate:', e.message);
+      }
       await conn.commit();
       return res.json({ id, status: 'APROVADO', ordem_id: ord.id });
     }
     await orcamentosModel.updateStatus(id, status);
+    try {
+      await require('../services/googleSheets').logOrcamentoStatus(id, status);
+    } catch (e) {
+      console.warn('Sheets logOrcamentoStatus:', e.message);
+    }
     await conn.commit();
     res.json({ id, status });
   } catch (err) {

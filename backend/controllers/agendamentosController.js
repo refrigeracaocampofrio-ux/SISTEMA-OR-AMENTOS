@@ -34,6 +34,16 @@ async function horariosDisponiveis(req, res, next) {
     const { data } = req.params;
     const dataObj = new Date(data + 'T00:00:00');
     const diaSemana = dataObj.getDay(); // 0 = Domingo, 6 = Sábado
+
+    // Hora atual em America/Sao_Paulo para validar horários passados no mesmo dia
+    const agoraSp = new Date(new Date().toLocaleString('en-US', { timeZone: 'America/Sao_Paulo' }));
+    const hojeSpIso = agoraSp.toISOString().split('T')[0];
+    const isHoje = data === hojeSpIso;
+    const minutosAgora = agoraSp.getHours() * 60 + agoraSp.getMinutes();
+    const toMinutes = (hhmm) => {
+      const [h, m] = hhmm.split(':').map(Number);
+      return h * 60 + m;
+    };
     
     // Definir horários base
     let horarios = [];
@@ -69,6 +79,15 @@ async function horariosDisponiveis(req, res, next) {
     // Filtrar horários disponíveis
     const horariosDisponiveis = [];
     for (const horario of horarios) {
+      // Se for hoje, não mostrar horários que já passaram ou estão em andamento
+      if (isHoje) {
+        const inicioMin = toMinutes(horario.inicio);
+        const fimMin = toMinutes(horario.fim);
+        if (fimMin <= minutosAgora) {
+          continue;
+        }
+      }
+
       const disponivel = await agendamentosModel.verificarDisponibilidade(
         data, 
         horario.inicio, 
@@ -144,6 +163,14 @@ async function criar(req, res, next) {
     } catch (emailErr) {
       console.warn('Erro ao enviar email de confirmação:', emailErr.message);
     }
+
+    // Registrar no Google Sheets
+    try {
+      const agendamentoCriado = await agendamentosModel.buscarPorId(agendamentoId);
+      await require('../services/googleSheets').logAgendamentoCreate(agendamentoCriado);
+    } catch (e) {
+      console.warn('Sheets logAgendamentoCreate:', e.message);
+    }
     
     res.status(201).json({ 
       success: true, 
@@ -199,6 +226,11 @@ async function atualizarStatus(req, res, next) {
     }
     
     await agendamentosModel.atualizarStatus(id, status);
+    try {
+      await require('../services/googleSheets').logAgendamentoStatus(id, status);
+    } catch (e) {
+      console.warn('Sheets logAgendamentoStatus:', e.message);
+    }
     res.json({ success: true, message: 'Status atualizado com sucesso' });
   } catch (err) {
     next(err);

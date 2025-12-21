@@ -1,0 +1,82 @@
+/* ========== HEADER STYLES ONLY ========== */
+/* All card headers: white background with black text */
+.card-header {
+  background-color: #ffffff !important;
+  color: #000000 !important;
+  border-bottom: 1px solid #ddd !important;
+}
+
+.card-header * {
+  color: #000000 !important;
+}
+
+.card-header.bg-light {
+  background-color: #ffffff !important;
+  color: #000000 !important;
+  border-bottom: 1px solid #ddd !important;
+}
+
+.card-header.bg-light h5,
+.card-header.bg-light h6,
+.card-header.bg-light i,
+.card-header.bg-light button,
+.card-header.bg-light * {
+  color: #000000 !important;
+}
+
+/* Card header headings: black text */
+.card-header h1,
+.card-header h2,
+.card-header h3,
+.card-header h4,
+.card-header h5,
+.card-header h6 {
+  color: #000000 !important;
+}
+
+/* Dashboard header specific */
+#dashboard .card-header,
+#dashboard .card-header * {
+  background-color: #ffffff !important;
+  color: #000000 !important;
+}
+
+/* Dashboard time text in header: black */
+#dashboardTime {
+  color: #000000 !important;
+}
+
+.card-header #dashboardTime {
+  color: #000000 !important;
+}
+
+/* Buttons inside card headers */
+.card-header .btn-black,
+.card-header .btn-black * {
+  color: #ffffff !important;
+}
+
+/* bg-light class headers */
+.bg-light {
+  background-color: #ffffff !important;
+  color: #000000 !important;
+}
+
+.bg-light * {
+  color: #000000 !important;
+}
+
+/* Table headers: black text */
+table thead {
+  background-color: #ffffff !important;
+}
+
+table thead th {
+  background-color: #ffffff !important;
+  color: #000000 !important;
+  border-color: #000000 !important;
+}
+
+table thead th * {
+  color: #000000 !important;
+}

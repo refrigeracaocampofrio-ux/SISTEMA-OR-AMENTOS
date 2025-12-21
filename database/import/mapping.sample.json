@@ -1,0 +1,59 @@
+{
+  "clientes": {
+    "file": "clientes.csv",
+    "columns": {
+      "Nome": "nome",
+      "Email": "email",
+      "Telefone": "telefone"
+    },
+    "dedupe": { "by": ["email"] }
+  },
+  "agendamentos": {
+    "file": "agendamentos.csv",
+    "columns": {
+      "Nome": "nome",
+      "Email": "email",
+      "Telefone": "telefone",
+      "Endereco": "endereco",
+      "Complemento": "complemento",
+      "Cidade": "cidade",
+      "Estado": "estado",
+      "CEP": "cep",
+      "Data": "data_agendamento",
+      "Inicio": "horario_inicio",
+      "Fim": "horario_fim",
+      "Tipo": "tipo_servico",
+      "Descricao": "descricao_problema"
+    },
+    "defaults": { "status": "pendente" }
+  },
+  "orcamentos": {
+    "file": "orcamentos.csv",
+    "columns": {
+      "ClienteId": "cliente_id",
+      "Valor": "valor_total",
+      "Status": "status",
+      "Equipamento": "equipamento",
+      "Defeito": "defeito",
+      "Validade": "validade",
+      "Garantia": "garantia",
+      "Tecnico": "tecnico",
+      "Observacoes": "observacoes"
+    }
+  },
+  "ordens_servico": {
+    "file": "ordens.csv",
+    "columns": {
+      "OrcamentoId": "orcamento_id",
+      "Status": "status"
+    }
+  },
+  "estoque": {
+    "file": "estoque.csv",
+    "columns": {
+      "Peca": "nome_peca",
+      "Quantidade": "quantidade"
+    },
+    "dedupe": { "by": ["nome_peca"] }
+  }
+}

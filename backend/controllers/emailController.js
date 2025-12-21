@@ -1,6 +1,13 @@
 const { google } = require('googleapis');
 const pool = require('../services/db');
 
+function envTrim(key, fallback) {
+  const raw = process.env[key];
+  if (typeof raw !== 'string') return fallback ?? '';
+  const val = raw.replace(/^yes[\r\n]+/i, '').replace(/[\r\n]+$/g, '').trim();
+  return val === '' ? (fallback ?? '') : val;
+}
+
 async function getStatus(req, res) {
   try {
     const [rows] = await pool.query(
@@ -19,13 +26,13 @@ async function getStatus(req, res) {
 
 async function connectGoogle(req, res) {
   try {
-    const clientId = process.env.GMAIL_CLIENT_ID;
-    const clientSecret = process.env.GMAIL_CLIENT_SECRET;
-    const redirectUri = process.env.GMAIL_REDIRECT_URI || 'http://localhost:3000/email/google/callback';
+    const clientId = envTrim('GMAIL_CLIENT_ID', '');
+    const clientSecret = envTrim('GMAIL_CLIENT_SECRET', '');
+    const redirectUri = envTrim('GMAIL_REDIRECT_URI', 'http://localhost:3000/email/google/callback');
     const hasId = Boolean(clientId && clientId.trim() !== '');
     const hasSecret = Boolean(clientSecret && clientSecret.trim() !== '');
     const hasRedirect = Boolean(redirectUri && redirectUri.trim() !== '');
-    console.log(`[Gmail OAuth] Config check -> ID:${hasId} SECRET:${hasSecret} REDIRECT:${hasRedirect}`);
+    console.log(`[Gmail OAuth] Config check -> ID:${hasId} SECRET:${hasSecret} REDIRECT:${hasRedirect} URI:${redirectUri}`);
     if (!hasId || !hasSecret) {
       return res.status(400).json({
         error: 'Gmail OAuth não configurado no servidor. Defina GMAIL_CLIENT_ID e GMAIL_CLIENT_SECRET em backend/.env e reinicie.',
@@ -43,6 +50,7 @@ async function connectGoogle(req, res) {
       'profile',
     ];
     const url = oAuth2Client.generateAuthUrl({ access_type: 'offline', scope, prompt: 'consent' });
+    console.log('[Gmail OAuth] Redirecting to Google URL:', url);
     res.redirect(url);
   } catch (e) {
     res.status(500).json({ error: e.message });
@@ -53,9 +61,9 @@ async function googleCallback(req, res) {
   const code = req.query.code;
   if (!code) {return res.status(400).send('Faltou código de autorização.');}
   try {
-    const clientId = process.env.GMAIL_CLIENT_ID;
-    const clientSecret = process.env.GMAIL_CLIENT_SECRET;
-    const redirectUri = process.env.GMAIL_REDIRECT_URI || 'http://localhost:3000/email/google/callback';
+    const clientId = envTrim('GMAIL_CLIENT_ID', '');
+    const clientSecret = envTrim('GMAIL_CLIENT_SECRET', '');
+    const redirectUri = envTrim('GMAIL_REDIRECT_URI', 'http://localhost:3000/email/google/callback');
     if (!clientId || !clientSecret) {
       return res.status(400).send('GMAIL_CLIENT_ID/GMAIL_CLIENT_SECRET não configurados.');
     }

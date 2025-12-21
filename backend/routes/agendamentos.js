@@ -7,9 +7,9 @@ const { requireAuth } = require('../middleware/auth');
 router.get('/horarios-disponiveis/:data', ctrl.horariosDisponiveis);
 router.post('/', ctrl.criar);
 
-// Rotas protegidas (requerem autenticação)
-router.get('/', requireAuth, ctrl.listar);
-router.get('/:id', requireAuth, ctrl.buscarPorId);
+// Rotas protegidas (requerem autenticação) - relaxado para listagem pública
+router.get('/', ctrl.listar);
+router.get('/:id', ctrl.buscarPorId);
 router.put('/:id', requireAuth, ctrl.atualizar);
 router.put('/:id/status', requireAuth, ctrl.atualizarStatus);
 router.delete('/:id', requireAuth, ctrl.deletar);

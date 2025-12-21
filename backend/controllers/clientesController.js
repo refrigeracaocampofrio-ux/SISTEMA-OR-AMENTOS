@@ -108,7 +108,7 @@ async function buscarClientePorTelefoneOuProtocolo(req, res, next) {
         cliente = await require('../models/clientes').findByPhone(telefoneLimpo);
         if (cliente) {
           agendamentos = await require('../models/agendamentos').buscarPorTelefone(telefoneLimpo);
-          protocolo = cliente.protocolo || gerarProtocolo();
+          protocolo = cliente.protocolo || await gerarProtocolo();
         }
       }
     }
@@ -149,6 +149,7 @@ async function buscarClientePorTelefoneOuProtocolo(req, res, next) {
 // Gerar novo protocolo para novo cliente
 async function gerarNovoProtocolo(req, res, next) {
   try {
+    console.log('[novo-protocolo] body:', req.body);
     const { telefone, nome, email } = req.body;
 
     if (!telefone || !nome || !email) {
@@ -166,7 +167,7 @@ async function gerarNovoProtocolo(req, res, next) {
 
     if (cliente) {
       // Cliente já existe, retornar dados com protocolo existente ou gerar novo
-      const protocolo = cliente.protocolo || gerarProtocolo();
+      const protocolo = cliente.protocolo || await gerarProtocolo();
       return res.json({
         success: true,
         protocolo: String(protocolo).padStart(4, '0'),
@@ -181,7 +182,7 @@ async function gerarNovoProtocolo(req, res, next) {
     }
 
     // Criar novo cliente com protocolo
-    const novoProtocolo = gerarProtocolo();
+    const novoProtocolo = await gerarProtocolo();
     cliente = await require('../models/clientes').create({
       nome,
       email,
@@ -201,6 +202,7 @@ async function gerarNovoProtocolo(req, res, next) {
       message: 'Novo cliente criado com sucesso'
     });
   } catch (err) {
+    console.error('[novo-protocolo] error:', err);
     next(err);
   }
 }

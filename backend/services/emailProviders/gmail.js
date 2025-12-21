@@ -1,10 +1,17 @@
 const { google } = require('googleapis');
 const pool = require('../db');
 
+function envTrim(key, fallback) {
+  const raw = process.env[key];
+  if (typeof raw !== 'string') return fallback ?? '';
+  const val = raw.replace(/^yes[\r\n]+/i, '').replace(/[\r\n]+$/g, '').trim();
+  return val === '' ? (fallback ?? '') : val;
+}
+
 function getOAuthClient() {
-  const clientId = process.env.GMAIL_CLIENT_ID;
-  const clientSecret = process.env.GMAIL_CLIENT_SECRET;
-  const redirectUri = process.env.GMAIL_REDIRECT_URI || 'http://localhost:3000/email/google/callback';
+  const clientId = envTrim('GMAIL_CLIENT_ID', '');
+  const clientSecret = envTrim('GMAIL_CLIENT_SECRET', '');
+  const redirectUri = envTrim('GMAIL_REDIRECT_URI', 'http://localhost:3000/email/google/callback');
   if (!clientId || !clientSecret) {
     throw new Error('GMAIL_CLIENT_ID/GMAIL_CLIENT_SECRET não configurados.');
   }
