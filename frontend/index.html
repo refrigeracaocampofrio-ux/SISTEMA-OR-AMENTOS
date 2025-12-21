@@ -359,6 +359,18 @@
         animation-delay: 0.4s;
       }
 
+      /* Inline version of the toggle inside the sidebar menu */
+      .sidebar-toggle-inline {
+        position: static;
+        width: 40px;
+        height: 40px;
+        margin: 8px 20px;
+        box-shadow: none;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+      }
+
       @keyframes bounce {
         0%, 80%, 100% {
           transform: scale(1);
@@ -970,19 +982,18 @@
                   <i class="fas fa-save me-2"></i> Backup
                 </a>
               </li>
+              <li class="nav-item">
+                <button id="sidebarToggleBtnInline" class="sidebar-toggle-btn sidebar-toggle-inline" onclick="toggleSidebar()" title="Menu">
+                  <div class="toggle-dots">
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                  </div>
+                </button>
+              </li>
             </ul>
           </div>
         </div>
-
-        <!-- SIDEBAR TOGGLE BUTTON -->
-        <button id="sidebarToggleBtn" class="sidebar-toggle-btn" onclick="toggleSidebar()" title="Menu">
-          <div class="toggle-dots">
-            <div class="dot"></div>
-            <div class="dot"></div>
-            <div class="dot"></div>
-          </div>
-        </button>
-
         <!-- CONTEÚDO PRINCIPAL -->
         <main class="main-content">
           <!-- DASHBOARD -->
