@@ -4768,7 +4768,12 @@
                   '<td>' + (cliente.cidade || 'Não informada') + '</td>' +
                   '<td><span class="badge bg-primary rounded-pill">' + (cliente.totalOS || 0) + '</span></td>' +
                   '<td>' + (cliente.dataCadastro || '---') + '</td>' +
-                  '<td><button class="btn btn-sm btn-outline-primary" onclick="visualizarCliente(\'' + (cliente.telefone || '') + '\')"><i class="fas fa-eye"></i></button></td>' +
+                  '<td>' +
+                  '<div class="btn-group btn-group-sm">' +
+                  '<button class="btn btn-outline-primary" onclick="visualizarCliente(\'' + (cliente.telefone || '') + '\')"><i class="fas fa-eye"></i></button>' +
+                  '<button class="btn btn-outline-danger" onclick="deletarCliente(' + (cliente.id || 0) + ', \'' + (cliente.nome || 'Cliente') + '\')"><i class="fas fa-trash"></i></button>' +
+                  '</div>' +
+                  '</td>' +
                   '</tr>';
         });
 
@@ -4818,6 +4823,47 @@
         document.querySelector('#modalDetalhes .modal-title').textContent = 'Detalhes do Cliente';
         const modal = new bootstrap.Modal(document.getElementById('modalDetalhes'));
         modal.show();
+      }
+
+      function deletarCliente(id, nome) {
+        if (!id) {
+          mostrarToast('ID do cliente inválido', 'danger');
+          return;
+        }
+
+        const confirmMsg = `⚠️ ATENÇÃO: Deseja realmente EXCLUIR o cliente "${nome}"?\n\nEsta ação irá remover:\n• Todos os dados do cliente\n• Orçamentos associados\n• Ordens de serviço associadas\n• Agendamentos associados\n\nEsta ação não pode ser desfeita!`;
+
+        if (!confirm(confirmMsg)) {
+          return;
+        }
+
+        mostrarToast('⏳ Excluindo cliente...', 'info');
+
+        const token = localStorage.getItem('token');
+        fetch(`/clientes/${id}`, {
+          method: 'DELETE',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': token ? 'Bearer ' + token : ''
+          }
+        })
+        .then(res => res.json())
+        .then(data => {
+          if (data.ok || data.success) {
+            mostrarToast('✅ Cliente excluído com sucesso', 'success');
+            todosClientesCache = todosClientesCache.filter(c => c.id !== id);
+            if (window.frontendCache?.set) {
+              frontendCache.set('clientes', todosClientesCache);
+            }
+            renderizarClientes(todosClientesCache);
+          } else {
+            mostrarToast('❌ ' + (data.error || 'Falha ao excluir cliente'), 'danger');
+          }
+        })
+        .catch(error => {
+          console.error('Erro ao deletar cliente:', error);
+          mostrarToast('❌ Erro ao excluir: ' + error.message, 'danger');
+        });
       }
 
       // ========== FUNÇÕES PARA MODAIS DE CÓPIA ==========
