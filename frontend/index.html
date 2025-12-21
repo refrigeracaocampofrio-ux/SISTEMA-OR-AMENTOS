@@ -2733,19 +2733,25 @@
 
       // ========== INICIALIZAÇÃO ==========
       document.addEventListener('DOMContentLoaded', function() {
-        console.log('🚀 Sistema OS iniciado - v${CONFIG.version}');
+        console.log('🚀 Sistema OS iniciado - v${CONFIG?.version || ''}');
+
+        // Forçar login se não houver token
+        const token = localStorage.getItem('token');
+        if (!token) {
+          const modal = document.getElementById('loginModal');
+          if (modal) modal.style.display = 'flex';
+          return;
+        }
 
         // Exibir nome do usuário logado
         try {
-          const token = localStorage.getItem('token');
-          if (token) {
-            const payload = JSON.parse(atob(token.split('.')[1]));
-            const displayName = payload.name || payload.email || payload.username || 'Administrador';
-            document.getElementById('userNameDisplay').textContent = displayName;
-            const avatar = document.getElementById('userAvatar');
-            if (avatar && displayName) {
-              avatar.textContent = displayName.trim().charAt(0).toUpperCase();
-            }
+          const payload = JSON.parse(atob(token.split('.')[1]));
+          const displayName = payload.name || payload.email || payload.username || 'Administrador';
+          const userNameDisplay = document.getElementById('userNameDisplay');
+          if (userNameDisplay) userNameDisplay.textContent = displayName;
+          const avatar = document.getElementById('userAvatar');
+          if (avatar && displayName) {
+            avatar.textContent = displayName.trim().charAt(0).toUpperCase();
           }
         } catch(e) {
           console.error('Erro ao decodificar token:', e);
@@ -2756,16 +2762,30 @@
 
         window.onbeforeunload = null;
 
-        configurarDataHora();
-
-        carregarDashboard();
-        carregarOrcamentos();
-        carregarOrdens();
-        carregarClientes();
-        carregarEstoque();
-        carregarAgendamentos();
-
-        configurarEventos();
+        if (typeof configurarDataHora === 'function') {
+          try { configurarDataHora(); } catch(e) { console.error('Erro configurarDataHora', e); }
+        }
+        if (typeof carregarDashboard === 'function') {
+          try { carregarDashboard(); } catch(e) { console.error('Erro carregarDashboard', e); }
+        }
+        if (typeof carregarOrcamentos === 'function') {
+          try { carregarOrcamentos(); } catch(e) { console.error('Erro carregarOrcamentos', e); }
+        }
+        if (typeof carregarOrdens === 'function') {
+          try { carregarOrdens(); } catch(e) { console.error('Erro carregarOrdens', e); }
+        }
+        if (typeof carregarClientes === 'function') {
+          try { carregarClientes(); } catch(e) { console.error('Erro carregarClientes', e); }
+        }
+        if (typeof carregarEstoque === 'function') {
+          try { carregarEstoque(); } catch(e) { console.error('Erro carregarEstoque', e); }
+        }
+        if (typeof carregarAgendamentos === 'function') {
+          try { carregarAgendamentos(); } catch(e) { console.error('Erro carregarAgendamentos', e); }
+        }
+        if (typeof configurarEventos === 'function') {
+          try { configurarEventos(); } catch(e) { console.error('Erro configurarEventos', e); }
+        }
 
         // Event listeners para autocomplete de peças
         const nomePecaInput = document.getElementById('nomePecaRapida');
@@ -2776,21 +2796,25 @@
           nomePecaInput.addEventListener('change', preencherValorPecaSelecionada);
         }
 
-        iniciarAtualizacaoAutomatica();
+        if (typeof iniciarAtualizacaoAutomatica === 'function') {
+          try { iniciarAtualizacaoAutomatica(); } catch(e) { console.error('Erro iniciarAtualizacaoAutomatica', e); }
+        }
 
         // INICIALIZAR SISTEMAS AVANÇADOS
-        favoritosManager = setupFavoritos();
-        setupAtalhosTeclado();
-        setupScrollSuave();
-        requestNotificationPermission();
+        try { favoritosManager = setupFavoritos(); } catch(e) { console.error('Erro setupFavoritos', e); }
+        try { setupAtalhosTeclado(); } catch(e) { console.error('Erro setupAtalhosTeclado', e); }
+        try { setupScrollSuave(); } catch(e) { console.error('Erro setupScrollSuave', e); }
+        try { requestNotificationPermission(); } catch(e) { console.error('Erro requestNotificationPermission', e); }
 
         // CHAMADA ADICIONADA AQUI 👇
-        popularAnosRelatorio(); // <- ADICIONE ESTA LINHA
+        try { popularAnosRelatorio(); } catch(e) { console.error('Erro popularAnosRelatorio', e); }
 
         // Inicia sincronização automática após 30 segundos
         setTimeout(() => {
-          const autoSync = setupAutoSync();
-          autoSync.start(120000);
+          try {
+            const autoSync = setupAutoSync();
+            autoSync.start(120000);
+          } catch(e) { console.error('Erro setupAutoSync', e); }
         }, 30000);
 
         mostrarToast('Sistema carregado com sucesso!', 'success');
